@@ -1,3 +1,9 @@
+const aiCoachHome = new URL("../assets/home_screen.png", import.meta.url).href;
+const aiCoachBehavioral = new URL("../assets/interview_q1.png", import.meta.url).href;
+const aiCoachTechnical = new URL("../assets/interview_q2.png", import.meta.url).href;
+const aiCoachRecap = new URL("../assets/interview_recap.png", import.meta.url).href;
+const aiCoachSummary = new URL("../assets/session_summary.png", import.meta.url).href;
+
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
   title: "Jason Conklin — Software Developer",
@@ -101,12 +107,34 @@ export const projects = [
     statusNote: "Deploying to Render",
     gallery: [
       {
-        title: "Session dashboard",
-        description: "Mock interview analytics preview coming soon.",
+        title: "Personalized landing screen",
+        description:
+          "Select interview level, role, and focus areas before starting a new mock session.",
+        image: aiCoachHome,
       },
       {
-        title: "Coaching insights",
-        description: "Detailed scoring walkthrough placeholder.",
+        title: "Behavioral question walkthrough",
+        description:
+          "Sample behavioral answer graded with rubric-aligned scoring and targeted feedback.",
+        image: aiCoachBehavioral,
+      },
+      {
+        title: "Technical prompt deep-dive",
+        description:
+          "Technical interview response with structured evaluation and coaching tips.",
+        image: aiCoachTechnical,
+      },
+      {
+        title: "Interview recap modal",
+        description:
+          "End-of-interview recap with aggregate scores and recommendations for next steps.",
+        image: aiCoachRecap,
+      },
+      {
+        title: "Session analytics dashboard",
+        description:
+          "Running summary of all mock interviews in the current session, highlighting trends.",
+        image: aiCoachSummary,
       },
     ],
   },
