@@ -1,5 +1,12 @@
-import { useMemo, useRef, useState } from "react";
-import { ExternalLink, Github, ArrowUpRight, Sparkles } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ExternalLink,
+  Github,
+  ArrowUpRight,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 
 import { Badge } from "@/components/ui/badge";
@@ -50,9 +57,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   } = project;
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
-  const [activeMedia, setActiveMedia] = useState<
-    { title: string; description: string; image: string } | null
-  >(null);
+  const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -70,7 +75,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   });
   const ZOOM_SCALE = 2;
 
-  const resetZoomState = () => {
+  const resetZoomState = useCallback(() => {
     if (dragRef.current.pointerId !== undefined && containerRef.current) {
       try {
         containerRef.current.releasePointerCapture(dragRef.current.pointerId);
@@ -87,7 +92,47 @@ export function ProjectCard({ project }: ProjectCardProps) {
     state.moved = false;
     state.activatedZoom = false;
     state.pointerId = undefined;
-  };
+  }, []);
+
+  const activeMedia =
+    gallery && activeMediaIndex !== null ? gallery[activeMediaIndex] : null;
+  const totalMedia = gallery?.length ?? 0;
+
+  const goToMedia = useCallback(
+    (direction: number) => {
+      if (!totalMedia) return;
+      resetZoomState();
+      setActiveMediaIndex((prev) => {
+        if (prev === null) return prev;
+        return (prev + direction + totalMedia) % totalMedia;
+      });
+    },
+    [resetZoomState, totalMedia],
+  );
+
+  const openMediaAt = useCallback(
+    (index: number) => {
+      if (!gallery || !gallery.length) return;
+      resetZoomState();
+      setActiveMediaIndex(index);
+    },
+    [gallery, resetZoomState],
+  );
+
+  useEffect(() => {
+    if (activeMediaIndex === null) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goToMedia(1);
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goToMedia(-1);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeMediaIndex, goToMedia]);
 
   const animation = useMemo<MotionProps>(
     () =>
@@ -201,14 +246,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     {item.image ? (
                       <button
                         type="button"
-                        onClick={() => {
-                          resetZoomState();
-                          setActiveMedia({
-                            title: item.title,
-                            description: item.description,
-                            image: item.image!,
-                          });
-                        }}
+                        onClick={() => openMediaAt(index)}
                         className="group relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-border/70 bg-muted/40 transition shadow-sm hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                         aria-label={`View ${item.title} in fullscreen`}
                       >
@@ -294,7 +332,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         onOpenChange={(value) => {
           if (!value) {
             resetZoomState();
-            setActiveMedia(null);
+            setActiveMediaIndex(null);
           }
         }}
       >
@@ -308,7 +346,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <div
                 ref={containerRef}
                 className={cn(
-                  "max-h-[90vh] overflow-hidden rounded-2xl border border-border bg-muted/40",
+                  "relative max-h-[90vh] overflow-hidden rounded-2xl border border-border bg-muted/40",
                   isZoomed
                     ? isDragging
                       ? "cursor-grabbing"
@@ -398,6 +436,34 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   }
                 }}
               >
+                {totalMedia > 1 ? (
+                  <>
+                    <button
+                      type="button"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-lg backdrop-blur transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        goToMedia(-1);
+                      }}
+                      onPointerDown={(event) => event.stopPropagation()}
+                      aria-label="View previous screenshot"
+                    >
+                      <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                    <button
+                      type="button"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-lg backdrop-blur transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        goToMedia(1);
+                      }}
+                      onPointerDown={(event) => event.stopPropagation()}
+                      aria-label="View next screenshot"
+                    >
+                      <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  </>
+                ) : null}
                 <div className="flex h-full w-full items-center justify-center">
                   <img
                     src={activeMedia.image}

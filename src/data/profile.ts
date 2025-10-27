@@ -3,6 +3,8 @@ const aiCoachBehavioral = new URL("../assets/interview_q1.png", import.meta.url)
 const aiCoachTechnical = new URL("../assets/interview_q2.png", import.meta.url).href;
 const aiCoachRecap = new URL("../assets/interview_recap.png", import.meta.url).href;
 const aiCoachSummary = new URL("../assets/session_summary.png", import.meta.url).href;
+const coveyTownLobby = new URL("../assets/covey_newtown.png", import.meta.url).href;
+const coveyTownPoker = new URL("../assets/covey_poker.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -135,6 +137,38 @@ export const projects = [
         description:
           "Running summary of all mock interviews in the current session, highlighting trends.",
         image: aiCoachSummary,
+      },
+    ],
+  },
+  {
+    title: "CoveyTown Poker",
+    slug: "coveytown-poker",
+    summary:
+      "Led a team integrating a Texas Hold'em experience into the Covey.Town virtual meeting platform.",
+    highlights: [
+      "Extended Covey.Town with an event-driven poker subsystem supporting 3–6 simultaneous players",
+      "Coordinated frontend PhaserJS tilemaps with Twilio video chat to deliver shared gameplay moments",
+      "Introduced shared socket types for real-time poker state syncing between client and town service",
+      "Mentored a four-person team across architecture, gameplay mechanics, and integration workflows",
+    ],
+    tech: ["TypeScript", "React", "Phaser", "Node", "WebSockets", "Twilio"],
+    githubUrl: "https://github.com/jason-conklin/CoveyTown-Poker",
+    liveUrl: "",
+    featured: true,
+    category: ["Web", "Tools"],
+    statusNote: "Open-source contribution · Covey.Town community edition",
+    gallery: [
+      {
+        title: "Town lobby with poker table",
+        description:
+          "Players assemble in Covey.Town, ready to join the Group 18 poker table and start dealing.",
+        image: coveyTownLobby,
+      },
+      {
+        title: "Active poker round",
+        description:
+          "In-game view showing player cards, bets, chip counts, and pot updates synchronized in real time.",
+        image: coveyTownPoker,
       },
     ],
   },
