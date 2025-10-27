@@ -46,6 +46,7 @@ export const about = {
       school: "New Jersey Institute of Technology",
       degree: "B.S. in Computer Science",
       graduation: "Spring 2025",
+      url: "https://www.njit.edu",
       coursework: [
         "Probability and Statistics",
         "Programming Language Concepts",
@@ -98,6 +99,16 @@ export const projects = [
     featured: true,
     category: ["AI", "Tools", "Web"],
     statusNote: "Deploying to Render",
+    gallery: [
+      {
+        title: "Session dashboard",
+        description: "Mock interview analytics preview coming soon.",
+      },
+      {
+        title: "Coaching insights",
+        description: "Detailed scoring walkthrough placeholder.",
+      },
+    ],
   },
   {
     title: "LyricSmith",
@@ -114,6 +125,16 @@ export const projects = [
     featured: true,
     category: ["AI", "Web"],
     statusNote: "Coming soon · Deploying to Render",
+    gallery: [
+      {
+        title: "Prompt builder",
+        description: "Interface mock coming soon.",
+      },
+      {
+        title: "Lyric output view",
+        description: "Song generation preview placeholder.",
+      },
+    ],
   },
   {
     title: "New Project",
@@ -126,6 +147,16 @@ export const projects = [
     featured: false,
     category: ["Web"],
     statusNote: "Coming soon",
+    gallery: [
+      {
+        title: "Concept preview",
+        description: "Screenshot to be added soon.",
+      },
+      {
+        title: "Workflow glimpse",
+        description: "Second placeholder image area.",
+      },
+    ],
   },
 ] as const;
 

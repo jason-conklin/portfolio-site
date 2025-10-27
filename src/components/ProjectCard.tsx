@@ -25,6 +25,11 @@ interface Project {
   liveUrl?: string;
   featured?: boolean;
   statusNote?: string;
+  gallery?: readonly {
+    title: string;
+    description: string;
+    image?: string;
+  }[];
 }
 
 interface ProjectCardProps {
@@ -41,6 +46,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     liveUrl,
     featured,
     statusNote,
+    gallery,
   } = project;
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
@@ -145,6 +151,39 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <DialogDescription>{summary}</DialogDescription>
         </DialogHeader>
         <div className="space-y-6">
+          {gallery && gallery.length ? (
+            <div>
+              <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                Screenshots
+              </h4>
+              <div className="mt-4 grid gap-6 md:grid-cols-2">
+                {gallery.map((item, index) => (
+                  <div key={`${item.title}-${index}`} className="space-y-3">
+                    <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/70 bg-muted/40">
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                          Image coming soon
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">
+                        {item.title}
+                      </p>
+                      <p className="text-sm text-muted-foreground">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
               Highlights

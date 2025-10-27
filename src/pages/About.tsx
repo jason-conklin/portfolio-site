@@ -1,10 +1,11 @@
-import { GraduationCap } from "lucide-react";
+﻿import { GraduationCap } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
 import { about } from "@/data/profile";
+import profileImage from "@/assets/profile.png";
 
 function AboutPage() {
   const prefersReducedMotion = useReducedMotion();
@@ -19,6 +20,20 @@ function AboutPage() {
       >
         <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr]">
           <div className="space-y-6 text-lg text-muted-foreground">
+            <div className="flex flex-col gap-6 rounded-3xl border border-border/60 bg-card/80 p-6 shadow-soft sm:flex-row sm:items-center">
+              <img
+                src={profileImage}
+                alt="Portrait of Jason Conklin"
+                loading="lazy"
+                className="h-32 w-32 rounded-3xl object-cover shadow-lg ring-1 ring-border sm:h-40 sm:w-40"
+              />
+              <div className="space-y-2 text-base text-foreground">
+                <p className="text-xl font-semibold text-foreground">Jason Conklin</p>
+                <p className="text-sm text-muted-foreground">
+                  Software Developer building AI-enabled, production-ready experiences.
+                </p>
+              </div>
+            </div>
             <p>{about.bio}</p>
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
@@ -38,7 +53,7 @@ function AboutPage() {
                 rel={about.resumeUrl === "#" ? undefined : "noopener noreferrer"}
                 aria-disabled={about.resumeUrl === "#"}
               >
-                Download résumé
+                Download resume
               </a>
             </Button>
           </div>
@@ -46,7 +61,7 @@ function AboutPage() {
             <h3 className="text-lg font-semibold tracking-tight text-foreground">
               Education
             </h3>
-            <ol className="relative border-l border-border/70 pl-6">
+            <ol className="space-y-6">
               {about.education.map((item) => (
                 <motion.li
                   key={item.school}
@@ -58,15 +73,28 @@ function AboutPage() {
                   }
                   viewport={{ once: true, amount: 0.4 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="mb-10 ml-6"
+                  className="rounded-2xl border border-border/70 bg-card/80 p-6 shadow-sm"
                 >
-                  <span className="absolute -left-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-soft">
-                    <GraduationCap className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <h4 className="text-lg font-semibold text-foreground">
-                    {item.school}
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-soft">
+                      <GraduationCap className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <h4 className="text-lg font-semibold text-foreground">
+                      {item.url ? (
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                        >
+                          {item.school}
+                        </a>
+                      ) : (
+                        item.school
+                      )}
+                    </h4>
+                  </div>
+                  <p className="mt-2 pl-[52px] text-sm text-muted-foreground">
                     {item.degree} — {item.graduation}
                   </p>
                   <h5 className="mt-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
