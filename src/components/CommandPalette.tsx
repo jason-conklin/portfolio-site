@@ -80,7 +80,7 @@ export function CommandPalette() {
         onClick={() => setOpen(true)}
         aria-label="Open command palette"
       >
-        <Search className="h-4 w-4" aria-hidden="true" />
+        <Search className="h-5 w-5" aria-hidden="true" />
         <span>Quick search</span>
         <kbd className="ml-auto hidden rounded border border-border bg-muted px-2 py-0.5 text-[10px] uppercase text-muted-foreground sm:flex">
           Ctrl K
@@ -89,11 +89,11 @@ export function CommandPalette() {
       <Button
         type="button"
         variant="ghost"
-        className="flex h-10 w-10 items-center justify-center sm:hidden"
+        className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 transition hover:text-foreground sm:hidden"
         onClick={() => setOpen(true)}
         aria-label="Open command palette"
       >
-        <Search className="h-4 w-4" aria-hidden="true" />
+        <Search className="h-5 w-5 sm:h-5 sm:w-5" aria-hidden="true" />
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-lg gap-0 overflow-hidden border border-border/70 bg-card p-0 shadow-xl">

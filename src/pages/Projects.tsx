@@ -40,7 +40,7 @@ function ProjectsPage() {
         <motion.div
           initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
           whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="space-y-8"
         >
@@ -52,7 +52,7 @@ function ProjectsPage() {
             onSearchQueryChange={setSearchQuery}
           />
           {filteredProjects.length ? (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filteredProjects.map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}
