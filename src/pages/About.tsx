@@ -47,11 +47,7 @@ function AboutPage() {
             {about.resumeUrl && about.resumeUrl !== "#" ? (
               <div className="flex items-center gap-3">
                 <Button asChild className="rounded-full">
-                  <a
-                    href={about.resumeViewPath ?? about.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href={about.resumeViewPath ?? about.resumeUrl}>
                     View resume
                   </a>
                 </Button>

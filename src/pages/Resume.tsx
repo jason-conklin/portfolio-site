@@ -1,7 +1,8 @@
 import { PageSEO } from "@/app/seo";
 import { about } from "@/data/profile";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function ResumePage() {
   const resumeUrl = about.resumeUrl;
@@ -16,6 +17,16 @@ function ResumePage() {
       <div className="flex min-h-[100svh] flex-col bg-background">
         <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-10 sm:px-6 lg:px-8">
           <header className="space-y-4">
+            <Button
+              asChild
+              variant="ghost"
+              className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm text-muted-foreground hover:text-foreground"
+            >
+              <Link to="/about">
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                Back to About
+              </Link>
+            </Button>
             <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Jason Conklin&apos;s Resume
             </h1>
