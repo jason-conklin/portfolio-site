@@ -17,6 +17,22 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    if (isMenuOpen) {
+      html.classList.add("overflow-hidden");
+      body.classList.add("overflow-hidden");
+    } else {
+      html.classList.remove("overflow-hidden");
+      body.classList.remove("overflow-hidden");
+    }
+    return () => {
+      html.classList.remove("overflow-hidden");
+      body.classList.remove("overflow-hidden");
+    };
+  }, [isMenuOpen]);
+
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 backdrop-blur-lg">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">

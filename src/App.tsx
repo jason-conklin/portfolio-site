@@ -23,19 +23,17 @@ export function App() {
       className="relative flex min-h-[100svh] flex-col overflow-x-hidden bg-background text-foreground"
     >
       <BackgroundParticles />
-      <div className="relative z-10 flex flex-1 flex-col">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
-        >
-          Skip to content
-        </a>
-        <Header />
-        <main id="main-content" className="relative flex-1">
-          <AppRoutes />
-        </main>
-        <Footer />
-      </div>
+      <a
+        href="#app-main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
+      >
+        Skip to content
+      </a>
+      <Header />
+      <main id="app-main" className="relative flex-1">
+        <AppRoutes />
+      </main>
+      <Footer />
       <ScrollRestoration />
     </div>
   );

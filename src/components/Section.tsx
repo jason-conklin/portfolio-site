@@ -33,7 +33,7 @@ export function Section({
     minHeight === "screen"
       ? "min-h-[100svh]"
       : minHeight === "hero"
-        ? "min-h-[70vh]"
+        ? "min-h-[70svh]"
         : "";
 
   return (
@@ -42,7 +42,7 @@ export function Section({
       aria-labelledby={normalizedHeadingId}
       className={cn(
         minHClass,
-        "mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8",
+        "relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8",
         className,
       )}
     >

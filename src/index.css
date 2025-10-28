@@ -6,6 +6,11 @@ html,
 body,
 #root {
   height: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 :root {
@@ -79,6 +84,13 @@ body,
   }
   body {
     @apply bg-background text-foreground antialiased;
+  }
+}
+
+@supports (height: 100svh) {
+  .min-h-screen,
+  .min-h-\[100vh\] {
+    min-height: 100svh !important;
   }
 }
 
