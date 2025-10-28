@@ -530,7 +530,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   <>
                     <button
                       type="button"
-                      className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-lg backdrop-blur transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-lg backdrop-blur transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       onClick={(event) => {
                         event.stopPropagation();
                         goToMedia(-1);
@@ -542,7 +542,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     </button>
                     <button
                       type="button"
-                      className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-lg backdrop-blur transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-lg backdrop-blur transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       onClick={(event) => {
                         event.stopPropagation();
                         goToMedia(1);
@@ -554,7 +554,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     </button>
                   </>
                 ) : null}
-                <div className="flex h-full w-full items-center justify-center">
+                <div className="relative flex h-full w-full items-center justify-center">
                   <img
                     src={activeMedia.image}
                     alt={activeMedia.title}
