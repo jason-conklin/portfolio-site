@@ -107,6 +107,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const activeMedia =
     gallery && activeMediaIndex !== null ? gallery[activeMediaIndex] : null;
   const totalMedia = gallery?.length ?? 0;
+  const activeMediaNumber =
+    activeMediaIndex !== null ? activeMediaIndex + 1 : null;
 
   const goToMedia = useCallback(
     (direction: number) => {
@@ -319,6 +321,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 <div className="mt-4 grid gap-6 md:grid-cols-2">
                   {gallery.map((item, index) => (
                     <div key={`${item.title}-${index}`} className="space-y-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Screenshot {index + 1}
+                      </p>
                       {item.image ? (
                         <button
                           type="button"
@@ -328,7 +333,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         >
                           <img
                             src={item.image}
-                            alt={item.title}
+                            alt={`${index + 1}. ${item.title}`}
                             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                             loading="lazy"
                           />
@@ -430,6 +435,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {activeMedia ? (
             <>
               <DialogHeader>
+                {activeMediaNumber !== null && totalMedia > 0 ? (
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Screenshot {activeMediaNumber} of {totalMedia}
+                  </p>
+                ) : null}
                 <DialogTitle>{activeMedia.title}</DialogTitle>
                 <DialogDescription>{activeMedia.description}</DialogDescription>
               </DialogHeader>
