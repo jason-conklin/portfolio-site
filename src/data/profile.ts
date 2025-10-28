@@ -5,6 +5,8 @@ const aiCoachRecap = new URL("../assets/interview_recap.png", import.meta.url).h
 const aiCoachSummary = new URL("../assets/session_summary.png", import.meta.url).href;
 const coveyTownLobby = new URL("../assets/covey_newtown.png", import.meta.url).href;
 const coveyTownPoker = new URL("../assets/covey_poker.png", import.meta.url).href;
+const satelliteTile = new URL("../assets/satellite.png", import.meta.url).href;
+const satelliteMask = new URL("../assets/satellite_mask.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -43,7 +45,7 @@ export const hero = {
     primary: { label: "View Projects", href: "/projects" },
     secondary: { label: "Get in Touch", href: "/contact" },
   },
-  featuredProjectTitles: ["AI Interview Coach", "LyricSmith"],
+  featuredProjectTitles: ["AI Interview Coach", "CoveyTown Poker", "Road Segmentation — SAM"],
 } as const;
 
 export const about = {
@@ -72,20 +74,32 @@ export const about = {
 } as const;
 
 export const skills = {
-  Languages: ["Python", "TypeScript/JavaScript", "SQL"],
+  Languages: ["Python", "TypeScript/JavaScript", "Java", "C", "C++", "SQL"],
   "Frameworks & Libraries": [
     "React",
     "Vite",
     "Tailwind",
     "shadcn/ui",
     "FastAPI",
+    "Flask",
+    "jQuery",
   ],
-  "Data & Infra": ["SQLite", "PostgreSQL (basic)", "Render"],
+  "Data & Infra": [
+    "SQLite",
+    "PostgreSQL (basic)",
+    "MySQL",
+    "MongoDB",
+    "AWS",
+    "Google Cloud Platform",
+    "Docker",
+    "Render",
+  ],
   "AI / LLM": [
-    "Prompting",
-    "Evaluation pipelines",
-    "OpenAI-compatible APIs (LM Studio/Ollama)",
-    "JSON-mode fallbacks",
+    "Evaluation Pipelines",
+    "OpenAI / LM Studio / Ollama APIs",
+    "JSON-Mode Responses",
+    "Segment Anything (SAM)",
+    "FastAPI Endpoints",
   ],
   Tools: ["Git", "GitHub Actions", "VS Code"],
 } as const;
@@ -173,6 +187,38 @@ export const projects = [
     ],
   },
   {
+    title: "Road Segmentation — SAM",
+    slug: "road-segmentation-sam",
+    summary:
+      "Segment roads from high-resolution satellite tiles using Meta's Segment Anything Model plus post-processing heuristics.",
+    highlights: [
+      "Wrapped SAM inference in a reproducible pipeline with CLI, notebook, and Shiny for Python demo entry points",
+      "Orchestrated morphological filtering and elongation heuristics to stitch clean road ribbons from raw masks",
+      "Config-driven architecture makes swapping checkpoints, tiles, or tuning thresholds straightforward",
+      "Documented troubleshooting for large-model dependencies and GPU/CPU fallbacks to ease onboarding",
+    ],
+    tech: ["Python", "PyTorch", "SAM", "Shiny for Python", "CLI"],
+    githubUrl: "https://github.com/jason-conklin/road-segmentation-sam",
+    liveUrl: "",
+    featured: true,
+    category: ["AI", "Tools"],
+    statusNote: "Research spike · reproducible demos bundled",
+    gallery: [
+      {
+        title: "Source satellite tile",
+        description:
+          "High-resolution satellite imagery tile used as the starting point for segmentation.",
+        image: satelliteTile,
+      },
+      {
+        title: "Road mask output",
+        description:
+          "SAM-derived road mask after heuristic cleanup, with ribbons ready for overlay or export.",
+        image: satelliteMask,
+      },
+    ],
+  },
+  {
     title: "LyricSmith",
     slug: "lyricsmith",
     summary: "Generate lyrics from BPM, chords, topic, and title.",
@@ -184,7 +230,7 @@ export const projects = [
     tech: ["TypeScript", "LLM", "Node"],
     githubUrl: "",
     liveUrl: "",
-    featured: true,
+    featured: false,
     category: ["AI", "Web"],
     statusNote: "Coming soon · Deploying to Render",
     gallery: [
