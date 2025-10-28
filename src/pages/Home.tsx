@@ -3,6 +3,8 @@ import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "@/components/ProjectCard";
+import { ScrollCue } from "@/components/ScrollCue";
+import { HeroParallax } from "@/components/HeroParallax";
 import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
 import { hero, projects } from "@/data/profile";
@@ -17,10 +19,12 @@ function HomePage() {
     <>
       <PageSEO path="/" />
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px]
+        <HeroParallax intensity={1}>
+          <div className="absolute inset-0 -z-10">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px]
           bg-[linear-gradient(to_bottom,rgba(59,130,246,0.28)_0,rgba(59,130,246,0.14)_220px,rgba(59,130,246,0.06)_360px,rgba(59,130,246,0)_520px)]" />
-        </div>
+          </div>
+        </HeroParallax>
         <Section
           id="home"
           minHeight="hero"
@@ -52,6 +56,7 @@ function HomePage() {
                 </Link>
               </Button>
             </div>
+            <ScrollCue />
             {hero.featuredProjectTitles.length ? (
               <div className="flex flex-col gap-2 text-sm text-muted-foreground">
                 <span className="font-semibold uppercase tracking-wide text-xs text-primary">
