@@ -1,4 +1,5 @@
 const resumePdf = new URL("../assets/jason-conklin-resume.pdf", import.meta.url).href;
+const resumePagePath = "/resume";
 const aiCoachHome = new URL("../assets/home_screen.png", import.meta.url).href;
 const aiCoachBehavioral = new URL("../assets/interview_q1.png", import.meta.url).href;
 const aiCoachTechnical = new URL("../assets/interview_q2.png", import.meta.url).href;
@@ -33,7 +34,7 @@ export const site = {
     github: "https://github.com/jason-conklin",
     linkedin: "https://www.linkedin.com/in/jason-conklin-aaa138302/",
     email: "jasonconklin.dev@gmail.com",
-    resume: resumePdf,
+    resume: resumePagePath,
   },
 } as const;
 
@@ -79,6 +80,7 @@ export const about = {
     },
   ],
   resumeUrl: resumePdf,
+  resumeViewPath: resumePagePath,
 } as const;
 
 export const skills = {
@@ -377,6 +379,11 @@ export const metaByRoute = {
     description:
       "Connect with Jason Conklin for software engineering collaborations, AI-enabled apps, and full-stack web projects.",
   },
+  "/resume": {
+    title: "Jason Conklin's Resume",
+    description:
+      "View or download Jason Conklin's resume highlighting experience, skills, and recent work.",
+  },
   "/404": {
     title: "Page Not Found — Jason Conklin",
     description: "Sorry, that page could not be found. Navigate back to Jason's work.",
@@ -389,3 +396,4 @@ export const siteOptions = {
   lineDistance: 120, // Increase to link particles across wider gaps.
   motionSpeed: 0.2, // Higher values make the animation livelier; keep low for calm vibe.
 } as const;
+

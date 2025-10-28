@@ -48,7 +48,7 @@ function AboutPage() {
               <div className="flex items-center gap-3">
                 <Button asChild className="rounded-full">
                   <a
-                    href={about.resumeUrl}
+                    href={about.resumeViewPath ?? about.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

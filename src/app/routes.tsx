@@ -6,6 +6,7 @@ import ProjectsPage from "../pages/Projects";
 import SkillsPage from "../pages/Skills";
 import ContactPage from "../pages/Contact";
 import NotFoundPage from "../pages/NotFound";
+import ResumePage from "../pages/Resume";
 import { routesMeta, type RouteMeta } from "./routes-meta";
 
 export interface RouteConfig extends RouteMeta {
@@ -18,6 +19,7 @@ const routeElements: Record<string, JSX.Element> = {
   "/projects": <ProjectsPage />,
   "/skills": <SkillsPage />,
   "/contact": <ContactPage />,
+  "/resume": <ResumePage />,
   "*": <NotFoundPage />,
 };
 

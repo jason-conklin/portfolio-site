@@ -10,5 +10,6 @@ export const routesMeta: RouteMeta[] = [
   { path: "/projects", metaKey: "/projects" },
   { path: "/skills", metaKey: "/skills" },
   { path: "/contact", metaKey: "/contact" },
+  { path: "/resume", metaKey: "/resume" },
   { path: "*", metaKey: "/404", includeInSitemap: false },
 ];
