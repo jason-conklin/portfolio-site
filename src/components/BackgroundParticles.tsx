@@ -223,6 +223,9 @@ export function BackgroundParticles() {
       handleResize();
     });
     resizeObserver.observe(document.documentElement);
+    if (document.body) {
+      resizeObserver.observe(document.body);
+    }
 
     return () => {
       clearAnimation();
