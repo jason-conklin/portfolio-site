@@ -18,7 +18,8 @@ function HomePage() {
       <PageSEO path="/" />
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.25),_rgba(255,255,255,0))]" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px]
+          bg-[linear-gradient(to_bottom,rgba(59,130,246,0.28)_0,rgba(59,130,246,0.14)_220px,rgba(59,130,246,0.06)_360px,rgba(59,130,246,0)_520px)]" />
         </div>
         <Section
           id="home"
@@ -73,7 +74,7 @@ function HomePage() {
       <Section
         id="featured"
         title="Featured projects"
-        description="A quick look at the AI-enabled and full-stack work that is currently shipping or deploying to Render."
+        description="A quick look at my AI-enabled and full-stack work that is currently shipping or deploying to Render."
       >
         <div className={cn("grid gap-6 md:grid-cols-2")}>
           {featuredProjects.map((project) => (

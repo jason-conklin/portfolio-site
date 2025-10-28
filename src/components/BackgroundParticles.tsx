@@ -69,15 +69,27 @@ export function BackgroundParticles() {
     };
 
     const setCanvasSize = () => {
-      const { innerWidth, innerHeight } = window;
+      const { innerWidth } = window;
       devicePixelRatio = window.devicePixelRatio || 1;
-      width = innerWidth;
-      height = innerHeight;
+      const doc = document.documentElement;
+      const body = document.body;
+      const targetWidth = Math.max(
+        innerWidth,
+        doc?.scrollWidth ?? 0,
+        body?.scrollWidth ?? 0,
+      );
+      const targetHeight = Math.max(
+        window.innerHeight,
+        doc?.scrollHeight ?? 0,
+        body?.scrollHeight ?? 0,
+      );
+      width = targetWidth;
+      height = targetHeight;
 
-      canvas.width = innerWidth * devicePixelRatio;
-      canvas.height = innerHeight * devicePixelRatio;
-      canvas.style.width = `${innerWidth}px`;
-      canvas.style.height = `${innerHeight}px`;
+      canvas.width = targetWidth * devicePixelRatio;
+      canvas.height = targetHeight * devicePixelRatio;
+      canvas.style.width = `${targetWidth}px`;
+      canvas.style.height = `${targetHeight}px`;
 
       context.setTransform(1, 0, 0, 1, 0, 0);
       context.scale(devicePixelRatio, devicePixelRatio);
@@ -207,9 +219,15 @@ export function BackgroundParticles() {
 
     window.addEventListener("resize", handleResize);
 
+    const resizeObserver = new ResizeObserver(() => {
+      handleResize();
+    });
+    resizeObserver.observe(document.documentElement);
+
     return () => {
       clearAnimation();
       window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
     };
   }, [palette, prefersReducedMotion, isEnabled]);
 
