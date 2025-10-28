@@ -4,8 +4,10 @@ import { Menu } from "lucide-react";
 
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
-import { navigation } from "@/data/profile";
+import { navigation, site } from "@/data/profile";
 import { cn } from "@/lib/utils";
+import { CommandPalette } from "@/components/CommandPalette";
+import logoMark from "@/assets/logo.png";
 
 export function Header() {
   const { pathname } = useLocation();
@@ -18,15 +20,20 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 backdrop-blur-lg">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-        <Link
-          to="/"
-          className="flex items-center gap-2 text-lg font-semibold tracking-tight transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-        >
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-soft">
-            JC
-          </span>
-          <span className="hidden sm:inline">Jason Conklin</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <CommandPalette />
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-lg font-semibold tracking-tight transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            <img
+              src={logoMark}
+              alt="Jason Conklin monogram"
+              className="h-10 w-10 rounded-full object-cover shadow-soft"
+            />
+            <span className="hidden sm:inline">Jason Conklin</span>
+          </Link>
+        </div>
         <nav className="hidden items-center gap-1 rounded-full border border-border/70 bg-background/60 p-1 shadow-sm md:flex">
           {navigation.map((item) => {
             const isActive =
@@ -50,6 +57,18 @@ export function Header() {
           })}
         </nav>
         <div className="flex items-center gap-2">
+          <Button
+            asChild
+            className="hidden rounded-full px-4 sm:inline-flex"
+          >
+            <a
+              href={site.links.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Resume
+            </a>
+          </Button>
           <ThemeToggle />
           <Button
             variant="ghost"
@@ -86,6 +105,17 @@ export function Header() {
                 </li>
               );
             })}
+            <li className="mt-3">
+              <a
+                href={site.links.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-between rounded-xl border border-border px-3 py-2 text-sm font-semibold text-foreground transition hover:border-primary hover:bg-muted"
+              >
+                Resume (PDF)
+                <span className="text-xs text-muted-foreground">opens in new tab</span>
+              </a>
+            </li>
           </ul>
         </nav>
       ) : null}

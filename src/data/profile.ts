@@ -1,3 +1,4 @@
+const resumePdf = new URL("../assets/jason-conklin-resume.pdf", import.meta.url).href;
 const aiCoachHome = new URL("../assets/home_screen.png", import.meta.url).href;
 const aiCoachBehavioral = new URL("../assets/interview_q1.png", import.meta.url).href;
 const aiCoachTechnical = new URL("../assets/interview_q2.png", import.meta.url).href;
@@ -7,6 +8,12 @@ const coveyTownLobby = new URL("../assets/covey_newtown.png", import.meta.url).h
 const coveyTownPoker = new URL("../assets/covey_poker.png", import.meta.url).href;
 const satelliteTile = new URL("../assets/satellite.png", import.meta.url).href;
 const satelliteMask = new URL("../assets/satellite_mask.png", import.meta.url).href;
+const kanjiSignup = new URL("../assets/kanji_signup.png", import.meta.url).href;
+const kanjiModeSelect = new URL("../assets/kanji_mode_select.png", import.meta.url).href;
+const kanjiHome = new URL("../assets/kanji_home_screen.png", import.meta.url).href;
+const kanjiPerSet = new URL("../assets/kanji_per_set.png", import.meta.url).href;
+const kanjiPractice = new URL("../assets/kanji_practice.png", import.meta.url).href;
+const kanjiResults = new URL("../assets/kanji_results.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -26,6 +33,7 @@ export const site = {
     github: "https://github.com/jason-conklin",
     linkedin: "https://www.linkedin.com/in/jason-conklin-aaa138302/",
     email: "jasonconklin.dev@gmail.com",
+    resume: resumePdf,
   },
 } as const;
 
@@ -70,7 +78,7 @@ export const about = {
       ],
     },
   ],
-  resumeUrl: "#",
+  resumeUrl: resumePdf,
 } as const;
 
 export const skills = {
@@ -121,6 +129,7 @@ export const projects = [
     featured: true,
     category: ["AI", "Tools", "Web"],
     statusNote: "Deploying to Render",
+    teamSize: 1,
     gallery: [
       {
         title: "Personalized landing screen",
@@ -158,7 +167,7 @@ export const projects = [
     title: "CoveyTown Poker",
     slug: "coveytown-poker",
     summary:
-      "Led a team integrating a Texas Hold'em experience into the Covey.Town virtual meeting platform.",
+      "Led a 4-person team integrating a Texas Hold'em experience into the Covey.Town virtual meeting platform.",
     highlights: [
       "Extended Covey.Town with an event-driven poker subsystem supporting 3–6 simultaneous players",
       "Coordinated frontend PhaserJS tilemaps with Twilio video chat to deliver shared gameplay moments",
@@ -171,6 +180,7 @@ export const projects = [
     featured: true,
     category: ["Web", "Tools"],
     statusNote: "Open-source contribution · Covey.Town community edition",
+    teamSize: 4,
     gallery: [
       {
         title: "Town lobby with poker table",
@@ -203,6 +213,7 @@ export const projects = [
     featured: true,
     category: ["AI", "Tools"],
     statusNote: "Research spike · reproducible demos bundled",
+    teamSize: 1,
     gallery: [
       {
         title: "Source satellite tile",
@@ -215,6 +226,63 @@ export const projects = [
         description:
           "SAM-derived road mask after heuristic cleanup, with ribbons ready for overlay or export.",
         image: satelliteMask,
+      },
+    ],
+  },
+  {
+    title: "Kanji Gator",
+    slug: "kanji-gator",
+    summary:
+      "Collaborative Japanese learning platform built by a 11-person team, focusing on kanji drills across curated study sets.",
+    highlights: [
+      "Frontend lead for the practice experience, coordinating animations, responsive layout, and form flows",
+      "Integrated React + Tailwind UI with Flask backend endpoints to orchestrate practice sessions and user data",
+      "Shipped kanji browsing tools with JLPT/Jōyō categorization and custom study set management",
+      "Coordinated with ML/backend squads to align handwriting evaluation APIs and practice heuristics",
+    ],
+    tech: ["React", "Tailwind", "Flask", "TypeScript", "Python"],
+    githubUrl: "(Private repository — demo available upon request.)",
+    liveUrl: "",
+    featured: true,
+    category: ["Web", "Tools"],
+    statusNote: "Team delivery · frontend lead + cross-team collaboration",
+    teamSize: 11,
+    gallery: [
+      {
+        title: "Kanji Gator Sign up",
+        description:
+          "Account creation flow capturing name, email, and password with responsive validation.",
+        image: kanjiSignup,
+      },
+      {
+        title: "Practice mode selection",
+        description:
+          "Learners choose study tracks including JLPT levels, grade sets, and Jōyō kanji.",
+        image: kanjiModeSelect,
+      },
+      {
+        title: "Kanji Gator Home",
+        description:
+          "Central hub to review kanji sets, craft custom study decks, and jump into practice modes.",
+        image: kanjiHome,
+      },
+      {
+        title: "View Kanji per set",
+        description:
+          "Explorer showing every kanji in the selected set with supporting details.",
+        image: kanjiPerSet,
+      },
+      {
+        title: "Kanji practice session",
+        description:
+          "Drawing interface captures handwriting attempts for evaluation against target characters.",
+        image: kanjiPractice,
+      },
+      {
+        title: "Practice results",
+        description:
+          "Session summary modal highlights accuracy across attempted kanji.",
+        image: kanjiResults,
       },
     ],
   },
@@ -233,6 +301,7 @@ export const projects = [
     featured: false,
     category: ["AI", "Web"],
     statusNote: "Coming soon · Deploying to Render",
+    teamSize: 2,
     gallery: [
       {
         title: "Prompt builder",

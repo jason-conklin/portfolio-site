@@ -23,7 +23,8 @@ function HomePage() {
         </div>
         <Section
           id="home"
-          className="relative flex min-h-[70vh] flex-col justify-center py-20"
+          minHeight="hero"
+          className="relative flex flex-col justify-center py-20"
           headingClassName="text-4xl font-bold sm:text-5xl lg:text-6xl"
         >
           <motion.div

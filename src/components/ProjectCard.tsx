@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ExternalLink,
@@ -20,7 +21,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/Tag";
+import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import { cn } from "@/lib/utils";
+import peopleIconLight from "@/assets/people_icon_light.png";
+import peopleIconDark from "@/assets/people_icon_dark.png";
 
 interface Project {
   title: string;
@@ -37,6 +41,7 @@ interface Project {
     description: string;
     image?: string;
   }[];
+  teamSize?: number;
 }
 
 interface ProjectCardProps {
@@ -54,6 +59,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     featured,
     statusNote,
     gallery,
+    teamSize,
   } = project;
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
@@ -74,6 +80,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
     pointerId: undefined as number | undefined,
   });
   const ZOOM_SCALE = 2;
+  const hasTeamSize = typeof teamSize === "number" && teamSize > 0;
+  const isPrivateRepo =
+    typeof githubUrl === "string" &&
+    githubUrl.trim().startsWith("(Private repository");
 
   const resetZoomState = useCallback(() => {
     if (dragRef.current.pointerId !== undefined && containerRef.current) {
@@ -119,6 +129,43 @@ export function ProjectCard({ project }: ProjectCardProps) {
     [gallery, resetZoomState],
   );
 
+  const renderTeamSizeBadge = useCallback(
+    (className?: string) => {
+      if (!hasTeamSize) return null;
+      return (
+        <span
+          className={cn(
+            "inline-flex items-center gap-1 rounded-full border border-border/70 bg-background/60 px-2 py-0.5 text-xs text-muted-foreground shadow-sm dark:border-border/60 dark:bg-background/40 dark:text-foreground/80",
+            className,
+          )}
+          aria-label={`Team size: ${teamSize}`}
+        >
+            <span className="group/team relative inline-flex items-center">
+              <ThemedIconCSS
+                lightThemeSrc={peopleIconDark}
+                darkThemeSrc={peopleIconLight}
+                alt=""
+                className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
+              />
+            <span
+              className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg border border-border/60 bg-popover/95 px-2.5 py-1 text-xs font-medium text-foreground shadow-lg backdrop-blur transition-opacity duration-150 group-hover/team:flex group-focus-visible/team:flex"
+              aria-hidden="true"
+            >
+              Team Size: {teamSize}
+            </span>
+            <span
+              className="ml-1 hidden tabular-nums text-foreground transition-opacity duration-150 group-hover/team:inline group-focus-visible/team:inline"
+              aria-hidden="true"
+            >
+              {teamSize}
+            </span>
+          </span>
+        </span>
+      );
+    },
+    [hasTeamSize, teamSize],
+  );
+
   useEffect(() => {
     if (activeMediaIndex === null) return;
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -161,71 +208,93 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div className="flex flex-col gap-4">
               <div className="flex items-start justify-between gap-3">
                 <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
-              {featured ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                  <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                  Featured
-                </span>
-              ) : null}
+                {(featured || hasTeamSize) ? (
+                  <div className="flex items-center gap-2">
+                    {hasTeamSize ? renderTeamSizeBadge("self-start") : null}
+                    {featured ? (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                        <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                        Featured
+                      </span>
+                    ) : null}
+                  </div>
+                ) : null}
+              </div>
+              <p className="text-sm text-muted-foreground">{summary}</p>
+              <div className="flex flex-wrap gap-2">
+                {tech.map((stack) => (
+                  <Tag key={stack}>{stack}</Tag>
+                ))}
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground">{summary}</p>
-            <div className="flex flex-wrap gap-2">
-              {tech.map((stack) => (
-                <Tag key={stack}>{stack}</Tag>
-              ))}
-            </div>
-          </div>
-          <footer className="mt-6 flex flex-col gap-3">
-            <div className="flex flex-col gap-2 sm:flex-row">
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  setOpen(true);
-                }}
-              >
-                View details
-                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </Button>
-              {githubUrl ? (
+            <footer className="mt-6 flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setOpen(true);
+                  }}
+                >
+                  View details
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </Button>
+                {githubUrl ? (
+                  isPrivateRepo ? (
+                    <Button
+                      asChild
+                      variant="secondary"
+                      className="w-full text-left"
+                    >
+                      <Link
+                        to="/contact"
+                        onClick={(event) => event.stopPropagation()}
+                        className="flex items-center gap-2"
+                      >
+                        <Github className="h-4 w-4" aria-hidden="true" />
+                        Private repository
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button
+                      asChild
+                      variant="secondary"
+                      className="w-full"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+                        <Github className="h-4 w-4" aria-hidden="true" />
+                        Code
+                      </a>
+                    </Button>
+                  )
+                ) : null}
+              </div>
+              {liveUrl ? (
                 <Button
                   asChild
-                  variant="secondary"
                   className="w-full"
                   onClick={(event) => event.stopPropagation()}
                 >
-                  <a href={githubUrl} target="_blank" rel="noopener noreferrer">
-                    <Github className="h-4 w-4" aria-hidden="true" />
-                    Code
+                  <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="mr-2 inline h-4 w-4" aria-hidden="true" />
+                    Live site
                   </a>
                 </Button>
-              ) : null}
-            </div>
-            {liveUrl ? (
-              <Button
-                asChild
-                className="w-full"
-                onClick={(event) => event.stopPropagation()}
-              >
-                <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+              ) : (
+                <Button className="w-full" variant="outline" disabled>
                   <ExternalLink className="mr-2 inline h-4 w-4" aria-hidden="true" />
-                  Live site
-                </a>
-              </Button>
-            ) : (
-              <Button className="w-full" variant="outline" disabled>
-                <ExternalLink className="mr-2 inline h-4 w-4" aria-hidden="true" />
-                Live site (coming soon)
-              </Button>
-            )}
-            {statusNote ? (
-              <Badge variant="outline" className="w-full justify-center rounded-xl">
-                {statusNote}
-              </Badge>
-            ) : null}
+                  Live site (coming soon)
+                </Button>
+              )}
+              {statusNote ? (
+                <Badge variant="outline" className="w-full justify-center rounded-xl">
+                  {statusNote}
+                </Badge>
+              ) : null}
             </footer>
           </motion.article>
         </DialogTrigger>
@@ -233,98 +302,119 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{summary}</DialogDescription>
+            {hasTeamSize ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {renderTeamSizeBadge(
+                  "bg-background/70 px-3 py-1 dark:bg-background/50",
+                )}
+              </div>
+            ) : null}
           </DialogHeader>
           <div className="space-y-6">
-          {gallery && gallery.length ? (
+            {gallery && gallery.length ? (
+              <div>
+                <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                  Screenshots
+                </h4>
+                <div className="mt-4 grid gap-6 md:grid-cols-2">
+                  {gallery.map((item, index) => (
+                    <div key={`${item.title}-${index}`} className="space-y-3">
+                      {item.image ? (
+                        <button
+                          type="button"
+                          onClick={() => openMediaAt(index)}
+                          className="group relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-border/70 bg-muted/40 transition shadow-sm hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                          aria-label={`View ${item.title} in fullscreen`}
+                        >
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                            loading="lazy"
+                          />
+                          <span className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-black/50 text-sm font-semibold uppercase tracking-wide text-primary-foreground group-hover:flex">
+                            Click to enlarge
+                          </span>
+                        </button>
+                      ) : (
+                        <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/70 bg-muted/40">
+                          <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                            Image coming soon
+                          </span>
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">
+                          {item.title}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             <div>
               <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                Screenshots
+                Highlights
               </h4>
-              <div className="mt-4 grid gap-6 md:grid-cols-2">
-                {gallery.map((item, index) => (
-                  <div key={`${item.title}-${index}`} className="space-y-3">
-                    {item.image ? (
-                      <button
-                        type="button"
-                        onClick={() => openMediaAt(index)}
-                        className="group relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-border/70 bg-muted/40 transition shadow-sm hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                        aria-label={`View ${item.title} in fullscreen`}
-                      >
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                        <span className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-black/50 text-sm font-semibold uppercase tracking-wide text-primary-foreground group-hover:flex">
-                          Click to enlarge
-                        </span>
-                      </button>
-                    ) : (
-                      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/70 bg-muted/40">
-                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                          Image coming soon
-                        </span>
-                      </div>
-                    )}
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">
-                        {item.title}
-                      </p>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
-                    </div>
-                  </div>
+              <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-foreground">
+                {highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                Tech
+              </h4>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {tech.map((stack) => (
+                  <Tag key={stack}>{stack}</Tag>
                 ))}
               </div>
             </div>
-          ) : null}
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              Highlights
-            </h4>
-            <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-foreground">
-              {highlights.map((highlight) => (
-                <li key={highlight}>{highlight}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              Tech
-            </h4>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {tech.map((stack) => (
-                <Tag key={stack}>{stack}</Tag>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            {githubUrl ? (
-              <Button asChild className="w-full">
-                <a href={githubUrl} target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2 h-4 w-4" aria-hidden="true" />
-                  View repository
-                </a>
-              </Button>
-            ) : null}
-            {liveUrl ? (
-              <Button asChild variant="secondary" className="w-full">
-                <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+            <div className="flex flex-col gap-3 sm:flex-row">
+              {githubUrl ? (
+                isPrivateRepo ? (
+                  <Button asChild className="w-full text-left" variant="secondary">
+                    <Link
+                      to="/contact"
+                      className="flex items-center gap-2"
+                    >
+                      <Github className="mr-2 h-4 w-4" aria-hidden="true" />
+                      Private repository — demo available upon request.
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button asChild className="w-full">
+                    <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+                      <Github className="mr-2 h-4 w-4" aria-hidden="true" />
+                      View repository
+                    </a>
+                  </Button>
+                )
+              ) : null}
+              {liveUrl ? (
+                <Button asChild variant="secondary" className="w-full">
+                  <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
+                    Open live site
+                  </a>
+                </Button>
+              ) : (
+                <Button className="w-full" variant="outline" disabled>
                   <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
-                  Open live site
-                </a>
-              </Button>
-            ) : (
-              <Button className="w-full" variant="outline" disabled>
-                <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
-                Live link coming soon
-              </Button>
-            )}
+                  Live link coming soon
+                </Button>
+              )}
+            </div>
+            {statusNote ? (
+              <p className="text-sm text-muted-foreground">{statusNote}</p>
+            ) : null}
           </div>
-          {statusNote ? (
-            <p className="text-sm text-muted-foreground">{statusNote}</p>
-          ) : null}
-        </div>
         </DialogContent>
       </Dialog>
       <Dialog
@@ -336,7 +426,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           }
         }}
       >
-        <DialogContent className="max-w-[95vw] sm:max-w-6xl bg-background/95">
+        <DialogContent className="max-w-[95vw] bg-background/95 sm:max-w-6xl">
           {activeMedia ? (
             <>
               <DialogHeader>

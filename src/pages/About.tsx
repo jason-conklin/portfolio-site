@@ -6,6 +6,9 @@ import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
 import { about } from "@/data/profile";
 import profileImage from "@/assets/profile.png";
+import { ThemedIconCSS } from "@/components/ThemedIconCSS";
+import downloadIconLight from "@/assets/download_icon_light.png";
+import downloadIconDark from "@/assets/download_icon_dark.png";
 
 function AboutPage() {
   const prefersReducedMotion = useReducedMotion();
@@ -41,21 +44,42 @@ function AboutPage() {
               </h3>
               <p className="mt-2 text-base text-foreground">{about.location}</p>
             </div>
-            <Button
-              asChild
-              variant="secondary"
-              className="rounded-full"
-              disabled={about.resumeUrl === "#" || !about.resumeUrl}
-            >
-              <a
-                href={about.resumeUrl === "#" ? undefined : about.resumeUrl}
-                target={about.resumeUrl === "#" ? undefined : "_blank"}
-                rel={about.resumeUrl === "#" ? undefined : "noopener noreferrer"}
-                aria-disabled={about.resumeUrl === "#"}
-              >
-                Download resume
-              </a>
-            </Button>
+            {about.resumeUrl && about.resumeUrl !== "#" ? (
+              <div className="flex items-center gap-3">
+                <Button asChild className="rounded-full">
+                  <a
+                    href={about.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View resume
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-10 w-10 rounded-full p-0"
+                >
+                  <a
+                    href={about.resumeUrl}
+                    download="Jason-Conklin-Resume.pdf"
+                    aria-label="Download resume as PDF"
+                    title="Download PDF"
+                  >
+                    <ThemedIconCSS
+                      lightThemeSrc={downloadIconDark}
+                      darkThemeSrc={downloadIconLight}
+                      alt=""
+                      className="h-5 w-5"
+                    />
+                  </a>
+                </Button>
+              </div>
+            ) : (
+              <Button variant="secondary" className="rounded-full" disabled>
+                Resume coming soon
+              </Button>
+            )}
           </div>
           <div className="space-y-6">
             <h3 className="text-lg font-semibold tracking-tight text-foreground">
