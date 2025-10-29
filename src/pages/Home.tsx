@@ -60,7 +60,7 @@ function HomePage() {
             {hero.featuredProjectTitles.length ? (
               <div className="flex flex-col gap-2 text-sm text-muted-foreground">
                 <span className="font-semibold uppercase tracking-wide text-xs text-primary">
-                  Deploying to Render
+                  Ready to Deploy
                 </span>
                 <ul className="flex flex-wrap gap-2">
                   {hero.featuredProjectTitles.map((project) => (
@@ -80,7 +80,7 @@ function HomePage() {
       <Section
         id="featured"
         title="Featured projects"
-        description="A quick look at my AI-enabled and full-stack work that is currently shipping or deploying to Render."
+        description="Highlights of my recent full-stack and AI-integrated projects currently live or in deployment."
       >
         <div className={cn("grid gap-6 md:grid-cols-2")}>
           {featuredProjects.map((project) => (

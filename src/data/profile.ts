@@ -48,7 +48,7 @@ export const navigation = [
 
 export const hero = {
   name: "Jason Conklin",
-  tagline: "Software Developer — AI-enabled apps & full-stack web",
+  tagline: "Software Developer — Full-stack engineering & applied AI",
   location: "New Jersey, USA · Open to Remote (US)",
   cta: {
     primary: { label: "View Projects", href: "/projects" },
