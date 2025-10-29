@@ -88,12 +88,12 @@ export function Header() {
           <ThemeToggle />
           <Button
             variant="ghost"
-            className="h-10 w-10 px-0 md:hidden"
+            className="h-12 w-12 px-0 md:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((value) => !value)}
           >
-            <Menu className="h-5 w-5" aria-hidden="true" />
+            <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
         </div>
       </div>

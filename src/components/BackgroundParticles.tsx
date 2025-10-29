@@ -23,8 +23,8 @@ export function BackgroundParticles() {
     const isDark = resolvedTheme === "dark";
     return {
       // Tweak these to retheme the network glow per brand.
-      node: isDark ? "rgba(255, 255, 255, 0.99)" : "rgba(167, 167, 167, 0.9)",
-      lineRgb: isDark ? "255, 255, 255" : "180, 180, 180",
+      node: isDark ? "rgba(255, 255, 255, 1)" : "rgba(180, 180, 180, 0.9)",
+      lineRgb: isDark ? "255, 255, 255" : "190, 190, 190",
       lineBaseAlpha: isDark ? 0.82 : 0.52,
       background: isDark ? "rgba(15, 23, 42, 0.34)" : "rgba(226, 232, 240, 0.32)",
     };

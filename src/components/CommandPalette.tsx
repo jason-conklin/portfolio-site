@@ -89,11 +89,11 @@ export function CommandPalette() {
       <Button
         type="button"
         variant="ghost"
-        className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 transition hover:text-foreground sm:hidden"
+        className="flex h-14 w-14 items-center justify-center rounded-full text-foreground/80 transition hover:text-foreground sm:hidden"
         onClick={() => setOpen(true)}
         aria-label="Open command palette"
       >
-        <Search className="h-5 w-5 sm:h-5 sm:w-5" aria-hidden="true" />
+        <Search className="h-7 w-7" aria-hidden="true" />
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-lg gap-0 overflow-hidden border border-border/70 bg-card p-0 shadow-xl">
