@@ -12,6 +12,7 @@ import logoMark from "@/assets/logo.png";
 export function Header() {
   const { pathname } = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -33,8 +34,24 @@ export function Header() {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border/80 backdrop-blur-lg">
+    <header
+      data-scrolled={scrolled ? "true" : "false"}
+      className={cn(
+        "fixed inset-x-0 top-0 z-[55] border-b border-transparent bg-background/80 backdrop-blur transition-all duration-300",
+        "data-[scrolled=true]:border-border/40 data-[scrolled=true]:shadow-sm",
+      )}
+    >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <CommandPalette />
