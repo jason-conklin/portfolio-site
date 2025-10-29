@@ -88,6 +88,10 @@ html {
   }
 }
 
+#app-root[data-modal-open="true"] header {
+  pointer-events: none;
+}
+
 @supports (height: 100svh) {
   .min-h-screen,
   .min-h-\[100vh\] {
