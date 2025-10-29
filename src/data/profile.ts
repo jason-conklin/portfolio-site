@@ -20,7 +20,7 @@ export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
   title: "Jason Conklin — Software Developer",
   description:
-    "Portfolio of Jason Conklin — AI-enabled apps & full-stack web projects.",
+    "Portfolio of Jason Conklin — Full-stack and AI-driven web projects.",
   keywords: [
     "Jason Conklin",
     "software developer",
@@ -58,7 +58,7 @@ export const hero = {
 } as const;
 
 export const about = {
-  bio: "Recent B.S. in Computer Science (Spring 2025). I build practical, production-ready web apps and AI-enabled tools. Interested in software engineering, evaluation pipelines, and developer UX.",
+  bio: "Recent B.S. in Computer Science (Spring 2025). I build practical, production-ready web apps and AI-driven tools. Interested in software engineering, evaluation pipelines, and developer UX.",
   location: "New Jersey, USA · Open to Remote (US)",
   education: [
     {
@@ -357,12 +357,12 @@ export const metaByRoute = {
   "/": {
     title: `${site.title}`,
     description:
-      "Software developer building AI-enabled apps and full-stack web experiences. Explore projects, skills, and ways to collaborate with Jason Conklin.",
+      "Software developer building AI-powered and full-stack web experiences. Explore projects, skills, and collaboration opportunities with Jason Conklin.",
   },
   "/about": {
     title: "About — Jason Conklin",
     description:
-      "Learn about Jason Conklin, a software developer focused on AI-enabled, production-ready web applications.",
+      "Learn about Jason Conklin, a software developer focused on AI-integrated, production-ready web applications.",
   },
   "/projects": {
     title: "Projects — Jason Conklin",
@@ -377,7 +377,7 @@ export const metaByRoute = {
   "/contact": {
     title: "Contact — Jason Conklin",
     description:
-      "Connect with Jason Conklin for software engineering collaborations, AI-enabled apps, and full-stack web projects.",
+      "Connect with Jason Conklin for software engineering collaborations, AI-driven applications, and full-stack web projects.",
   },
   "/resume": {
     title: "Jason Conklin's Resume",

@@ -19,7 +19,7 @@ function AboutPage() {
       <Section
         id="about"
         title="About"
-        description="A focused software developer building AI-enabled, production-ready experiences with a strong foundation in computer science and developer experience."
+        description="A focused software developer building AI-powered, production-ready experiences with a strong foundation in computer science and developer experience."
       >
         <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr]">
           <div className="space-y-6 text-lg text-muted-foreground">
@@ -33,7 +33,7 @@ function AboutPage() {
               <div className="space-y-2 text-base text-foreground">
                 <p className="text-xl font-semibold text-foreground">Jason Conklin</p>
                 <p className="text-sm text-muted-foreground">
-                  Software Developer building AI-enabled, production-ready experiences.
+                  Software Developer building AI-driven, production-ready experiences.
                 </p>
               </div>
             </div>
