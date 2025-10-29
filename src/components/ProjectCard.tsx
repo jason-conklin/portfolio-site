@@ -301,15 +301,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
+            <div className="flex flex-wrap items-center gap-3">
+              <DialogTitle>{title}</DialogTitle>
+              {hasTeamSize
+                ? renderTeamSizeBadge(
+                    "bg-background/70 px-3 py-1 text-xs dark:bg-background/50",
+                  )
+                : null}
+            </div>
             <DialogDescription>{summary}</DialogDescription>
-            {hasTeamSize ? (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {renderTeamSizeBadge(
-                  "bg-background/70 px-3 py-1 dark:bg-background/50",
-                )}
-              </div>
-            ) : null}
           </DialogHeader>
           <div className="space-y-6">
             {gallery && gallery.length ? (

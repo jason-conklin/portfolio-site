@@ -397,3 +397,4 @@ export const siteOptions = {
   motionSpeed: 0.2, // Higher values make the animation livelier; keep low for calm vibe.
 } as const;
 
+
