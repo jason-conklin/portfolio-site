@@ -20,6 +20,9 @@ const cirmResource = new URL("../assets/CIRM_resource.png", import.meta.url).hre
 const cirmForecast = new URL("../assets/CIRM_forecast.png", import.meta.url).href;
 const cirmAlerts = new URL("../assets/CIRM_alerts.png", import.meta.url).href;
 const cirmSettings = new URL("../assets/CIRM_settings.png", import.meta.url).href;
+const flowguardDashboard = new URL("../assets/flowguard_dashboard.png", import.meta.url).href;
+const flowguardExplore = new URL("../assets/flowguard_explore.png", import.meta.url).href;
+const flowguardSettings = new URL("../assets/flowguard_settings.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -226,35 +229,53 @@ export const projects = [
     ],
   },
   {
-    title: "Road Segmentation — SAM",
-    slug: "road-segmentation-sam",
+    title: "FlowGuard – Intelligent Log & Metrics Aggregator",
+    slug: "flowguard-monitor",
     summary:
-      "Segment roads from high-resolution satellite tiles using Meta's Segment Anything Model plus post-processing heuristics.",
+      "Centralized log and metrics platform providing anomaly detection, alerting, and real-time dashboards for distributed systems.",
     highlights: [
-      "Wrapped SAM inference in a reproducible pipeline with CLI, notebook, and Shiny for Python demo entry points",
-      "Orchestrated morphological filtering and elongation heuristics to stitch clean road ribbons from raw masks",
-      "Config-driven architecture makes swapping checkpoints, tiles, or tuning thresholds straightforward",
-      "Documented troubleshooting for large-model dependencies and GPU/CPU fallbacks to ease onboarding",
+      "Asynchronous ingestion pipeline with Celery and Redis for scalable processing",
+      "Anomaly detection powered by IsolationForest and rolling KPI thresholds",
+      "Automated Slack and SMTP alerts for spikes in error rate or latency",
+      "Modular Flask API with SQLAlchemy models and clean REST endpoints",
+      "Interactive React and Vite dashboard built with Chart.js and Axios",
+      "Synthetic data generator for local development without external sources",
     ],
-    tech: ["Python", "PyTorch", "SAM", "Shiny for Python", "CLI"],
-    githubUrl: "https://github.com/jason-conklin/road-segmentation-sam",
+    tech: [
+      "React",
+      "Vite",
+      "Chart.js",
+      "Flask",
+      "Celery",
+      "Redis",
+      "SQLAlchemy",
+      "scikit-learn",
+      "Docker Compose",
+    ],
+    githubUrl: "https://github.com/jason-conklin/flowguard-monitor",
     liveUrl: "",
     featured: true,
-    category: ["AI", "Tools"],
-    statusNote: "Research spike · reproducible demos bundled",
+    category: ["Tools", "Web"],
+    statusNote: "Live link coming soon",
     teamSize: 1,
     gallery: [
       {
-        title: "Source satellite tile",
+        title: "Dashboard overview",
         description:
-          "High-resolution satellite imagery tile used as the starting point for segmentation.",
-        image: satelliteTile,
+          "Unified KPIs and performance charts for error rate, latency, and throughput, with IsolationForest anomaly highlights.",
+        image: flowguardDashboard,
       },
       {
-        title: "Road mask output",
+        title: "Explorer screen",
         description:
-          "SAM-derived road mask after heuristic cleanup, with ribbons ready for overlay or export.",
-        image: satelliteMask,
+          "Search and filter log streams by service, severity, or message content with virtualized tables for high-volume data.",
+        image: flowguardExplore,
+      },
+      {
+        title: "Settings panel",
+        description:
+          "Review configuration, thresholds, and alert channels while triggering Slack or email test notifications.",
+        image: flowguardSettings,
       },
     ],
   },
@@ -345,6 +366,39 @@ export const projects = [
         description:
           "In-game view showing player cards, bets, chip counts, and pot updates synchronized in real time.",
         image: coveyTownPoker,
+      },
+    ],
+  },
+  {
+    title: "Road Segmentation — SAM",
+    slug: "road-segmentation-sam",
+    summary:
+      "Segment roads from high-resolution satellite tiles using Meta's Segment Anything Model plus post-processing heuristics.",
+    highlights: [
+      "Wrapped SAM inference in a reproducible pipeline with CLI, notebook, and Shiny for Python demo entry points",
+      "Orchestrated morphological filtering and elongation heuristics to stitch clean road ribbons from raw masks",
+      "Config-driven architecture makes swapping checkpoints, tiles, or tuning thresholds straightforward",
+      "Documented troubleshooting for large-model dependencies and GPU/CPU fallbacks to ease onboarding",
+    ],
+    tech: ["Python", "PyTorch", "SAM", "Shiny for Python", "CLI"],
+    githubUrl: "https://github.com/jason-conklin/road-segmentation-sam",
+    liveUrl: "",
+    featured: false,
+    category: ["AI", "Tools"],
+    statusNote: "Research spike · reproducible demos bundled",
+    teamSize: 1,
+    gallery: [
+      {
+        title: "Source satellite tile",
+        description:
+          "High-resolution satellite imagery tile used as the starting point for segmentation.",
+        image: satelliteTile,
+      },
+      {
+        title: "Road mask output",
+        description:
+          "SAM-derived road mask after heuristic cleanup, with ribbons ready for overlay or export.",
+        image: satelliteMask,
       },
     ],
   },
