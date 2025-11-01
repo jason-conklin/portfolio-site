@@ -15,6 +15,11 @@ const kanjiHome = new URL("../assets/kanji_home_screen.png", import.meta.url).hr
 const kanjiPerSet = new URL("../assets/kanji_per_set.png", import.meta.url).href;
 const kanjiPractice = new URL("../assets/kanji_practice.png", import.meta.url).href;
 const kanjiResults = new URL("../assets/kanji_results.png", import.meta.url).href;
+const cirmDashboard = new URL("../assets/CIRM_dashboard.png", import.meta.url).href;
+const cirmResource = new URL("../assets/CIRM_resource.png", import.meta.url).href;
+const cirmForecast = new URL("../assets/CIRM_forecast.png", import.meta.url).href;
+const cirmAlerts = new URL("../assets/CIRM_alerts.png", import.meta.url).href;
+const cirmSettings = new URL("../assets/CIRM_settings.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -54,7 +59,7 @@ export const hero = {
     primary: { label: "View Projects", href: "/projects" },
     secondary: { label: "Get in Touch", href: "/contact" },
   },
-  featuredProjectTitles: ["AI Interview Coach", "CoveyTown Poker", "Road Segmentation — SAM"],
+  featuredProjectTitles: ["AI Interview Coach", "AutoScale CIRM", "Road Segmentation - SAM"],
 } as const;
 
 export const about = {
@@ -125,7 +130,7 @@ export const projects = [
       "Post-interview diagnostics with action items",
       "Deploy-ready on Render with CI/CD hooks",
     ],
-    tech: ["React", "FastAPI", "Tailwind", "Render"],
+    tech: ["React", "FastAPI", "Tailwind", "Render", "OpenAI API"],
     githubUrl: "https://github.com/jason-conklin/ai-interview-coach",
     liveUrl: "",
     featured: true,
@@ -166,35 +171,57 @@ export const projects = [
     ],
   },
   {
-    title: "CoveyTown Poker",
-    slug: "coveytown-poker",
+    title: "AutoScale CIRM",
+    slug: "autoscale-cirm",
     summary:
-      "Led a 4-person team integrating a Texas Hold'em experience into the Covey.Town virtual meeting platform.",
+      "Cloud infrastructure resource monitor with live dashboards, forecasts, and real-time alerting.",
     highlights: [
-      "Extended Covey.Town with an event-driven poker subsystem supporting 3–6 simultaneous players",
-      "Coordinated frontend PhaserJS tilemaps with Twilio video chat to deliver shared gameplay moments",
-      "Introduced shared socket types for real-time poker state syncing between client and town service",
-      "Mentored a four-person team across architecture, gameplay mechanics, and integration workflows",
+      "Forecasts CPU/Mem saturation within a configurable lookahead window",
+      "Slack/SMTP alerts with de-dupe and persistent alert history",
+      "Works with AWS/GCP or local simulator (no credentials required)",
+      "APScheduler polling loop with fault-tolerant error handling",
     ],
-    tech: ["TypeScript", "React", "Phaser", "Node", "WebSockets", "Twilio"],
-    githubUrl: "https://github.com/jason-conklin/CoveyTown-Poker",
+    tech: [
+      "React",
+      "Vite",
+      "Chart.js",
+      "Axios",
+      "Flask",
+      "SQLAlchemy",
+      "APScheduler",
+      "scikit-learn",
+    ],
+    githubUrl: "https://github.com/jason-conklin/autoscale-cirm",
     liveUrl: "",
     featured: true,
-    category: ["Web", "Tools"],
-    statusNote: "Open-source contribution · Covey.Town community edition",
-    teamSize: 4,
+    category: ["Tools", "Web"],
+    statusNote: "Private beta — demo available upon request",
+    teamSize: 1,
     gallery: [
       {
-        title: "Town lobby with poker table",
-        description:
-          "Players assemble in Covey.Town, ready to join the Group 18 poker table and start dealing.",
-        image: coveyTownLobby,
+        title: "Dashboard overview",
+        description: "Live KPIs, charts, and forecasts for active infrastructure.",
+        image: cirmDashboard,
       },
       {
-        title: "Active poker round",
-        description:
-          "In-game view showing player cards, bets, chip counts, and pot updates synchronized in real time.",
-        image: coveyTownPoker,
+        title: "Resource selector",
+        description: "Switch between providers, instances, and custom time ranges.",
+        image: cirmResource,
+      },
+      {
+        title: "Forecast card",
+        description: "Predicts upcoming saturation thresholds with ETA and confidence bands.",
+        image: cirmForecast,
+      },
+      {
+        title: "Alerts table",
+        description: "Review Slack and email alerts with delivery timestamps.",
+        image: cirmAlerts,
+      },
+      {
+        title: "Settings panel",
+        description: "Configure providers, thresholds, and send test alerts from one place.",
+        image: cirmSettings,
       },
     ],
   },
@@ -289,29 +316,35 @@ export const projects = [
     ],
   },
   {
-    title: "LyricSmith",
-    slug: "lyricsmith",
-    summary: "Generate lyrics from BPM, chords, topic, and title.",
+    title: "CoveyTown Poker",
+    slug: "coveytown-poker",
+    summary:
+      "Led a 4-person team integrating a Texas Hold'em experience into the Covey.Town virtual meeting platform.",
     highlights: [
-      "Constrained prompting keeps tone and structure grounded",
-      "Song templates support verse, chorus, and bridge variations",
-      "Optional rhyme scheme controls for creative direction",
+      "Extended Covey.Town with an event-driven poker subsystem supporting 3–6 simultaneous players",
+      "Coordinated frontend PhaserJS tilemaps with Twilio video chat to deliver shared gameplay moments",
+      "Introduced shared socket types for real-time poker state syncing between client and town service",
+      "Mentored a four-person team across architecture, gameplay mechanics, and integration workflows",
     ],
-    tech: ["TypeScript", "LLM", "Node"],
-    githubUrl: "",
+    tech: ["TypeScript", "React", "Phaser", "Node", "WebSockets", "Twilio"],
+    githubUrl: "https://github.com/jason-conklin/CoveyTown-Poker",
     liveUrl: "",
     featured: false,
-    category: ["AI", "Web"],
-    statusNote: "Coming soon · Deploying to Render",
-    teamSize: 2,
+    category: ["Web", "Tools"],
+    statusNote: "Open-source contribution · Covey.Town community edition",
+    teamSize: 4,
     gallery: [
       {
-        title: "Prompt builder",
-        description: "Interface mock coming soon.",
+        title: "Town lobby with poker table",
+        description:
+          "Players assemble in Covey.Town, ready to join the Group 18 poker table and start dealing.",
+        image: coveyTownLobby,
       },
       {
-        title: "Lyric output view",
-        description: "Song generation preview placeholder.",
+        title: "Active poker round",
+        description:
+          "In-game view showing player cards, bets, chip counts, and pot updates synchronized in real time.",
+        image: coveyTownPoker,
       },
     ],
   },
