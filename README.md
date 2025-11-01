@@ -1,4 +1,5 @@
 # Jason Conklin — Portfolio
+<img width="1596" height="945" alt="Screenshot 2025-10-29 193816" src="https://github.com/user-attachments/assets/31aec7e0-3691-4c5d-8e71-0a1878f962fc" />
 
 Professional developer portfolio for Jason Conklin, built with React, Vite, TypeScript, Tailwind CSS, and shadcn/ui. The site highlights AI-enabled and full-stack projects while staying fast, accessible, and deployment-ready for Render static hosting.
 
