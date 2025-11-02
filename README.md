@@ -72,18 +72,18 @@ scripts/       # Build-time sitemap/robots generator
 All profile content (links, projects, skills, education, meta descriptions) lives in `src/data/profile.ts`. Updating that file will propagate through the site automatically.
 
 ## Screenshots
-Screenshot 1
+Screenshot 1:
 About Page
 <img width="1308" height="940" alt="portfolio_about" src="https://github.com/user-attachments/assets/f2128f11-aff0-4d9b-bcfb-7fe7f44aa922" />
 
-Screenshot 2
+Screenshot 2:
 Projects Page
 <img width="1219" height="940" alt="portfolio_projects" src="https://github.com/user-attachments/assets/c327cdff-89f9-4bd4-82f5-0e2ed8a8f78e" />
 
-Screenshot 3
+Screenshot 3:
 Skills Page
 <img width="1185" height="943" alt="portfolio_skills" src="https://github.com/user-attachments/assets/4124edae-8a78-4cb6-a84b-0256bac338c2" />
 
-Screenshot 4
+Screenshot 4:
 Contact Page
 <img width="1269" height="938" alt="portfolio_contact" src="https://github.com/user-attachments/assets/b9f31cd2-0917-4afe-8291-e70e4ea53877" />
