@@ -87,3 +87,7 @@ Skills Page
 Screenshot 4:
 Contact Page
 <img width="1269" height="938" alt="portfolio_contact" src="https://github.com/user-attachments/assets/b9f31cd2-0917-4afe-8291-e70e4ea53877" />
+
+Screenshot 5:
+Resume Page
+<img width="1159" height="941" alt="portfolio_resume" src="https://github.com/user-attachments/assets/fe9f8111-dadd-4baf-b4a1-90445a02917b" />
