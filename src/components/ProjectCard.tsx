@@ -7,6 +7,7 @@ import {
   useState,
   useId,
   type RefObject,
+  type MouseEvent as ReactMouseEvent,
 } from "react";
 import { createPortal } from "react-dom";
 import {
@@ -362,6 +363,24 @@ export function ProjectCard({ project }: ProjectCardProps) {
     screenshotCloseButtonRef,
   );
 
+  const handleDetailBackdropClick = useCallback(
+    (event: ReactMouseEvent<HTMLDivElement>) => {
+      if (event.target === event.currentTarget) {
+        closeDetailModal();
+      }
+    },
+    [closeDetailModal],
+  );
+
+  const handleScreenshotBackdropClick = useCallback(
+    (event: ReactMouseEvent<HTMLDivElement>) => {
+      if (event.target === event.currentTarget) {
+        closeScreenshotModal();
+      }
+    },
+    [closeScreenshotModal],
+  );
+
 
   const detailModal =
     open && typeof document !== "undefined"
@@ -372,7 +391,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
               className="absolute inset-0 z-[80] bg-black/50 backdrop-blur-[2px]"
               onClick={closeDetailModal}
             />
-            <div className="absolute inset-0 z-[90] flex items-center justify-center px-4 py-6 sm:px-6">
+            <div
+              className="absolute inset-0 z-[90] flex items-center justify-center px-4 py-6 sm:px-6"
+              onMouseDown={handleDetailBackdropClick}
+            >
               <div
                 ref={detailDialogRef}
                 role="dialog"
@@ -534,7 +556,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
               className="absolute inset-0 z-[82] bg-black/60 backdrop-blur-sm"
               onClick={closeScreenshotModal}
             />
-            <div className="absolute inset-0 z-[95] flex items-center justify-center px-4 py-8 sm:px-8">
+            <div
+              className="absolute inset-0 z-[95] flex items-center justify-center px-4 py-8 sm:px-8"
+              onMouseDown={handleScreenshotBackdropClick}
+            >
               <div
                 ref={screenshotDialogRef}
                 role="dialog"
