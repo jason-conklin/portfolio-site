@@ -463,7 +463,7 @@ export const projects = [
     githubUrl: "https://github.com/jason-conklin/CoveyTown-Poker",
     liveUrl: "",
     featured: false,
-    category: ["Web", "Tools"],
+    category: ["Web"],
     statusNote: "Open-source contribution · Covey.Town community edition",
     teamSize: 4,
     gallery: [
@@ -523,7 +523,7 @@ export const projects = [
     githubUrl: "",
     liveUrl: "",
     featured: false,
-    category: ["Web"],
+    category: [],
     statusNote: "Coming soon",
     gallery: [
       {
