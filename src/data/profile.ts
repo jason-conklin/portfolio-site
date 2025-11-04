@@ -23,15 +23,6 @@ const cirmSettings = new URL("../assets/CIRM_settings.png", import.meta.url).hre
 const flowguardDashboard = new URL("../assets/flowguard_dashboard.png", import.meta.url).href;
 const flowguardExplore = new URL("../assets/flowguard_explore.png", import.meta.url).href;
 const flowguardSettings = new URL("../assets/flowguard_settings.png", import.meta.url).href;
-const sentinelLogin = new URL("../assets/sentinel_login.png", import.meta.url).href;
-const sentinelAdminDash = new URL("../assets/sentinel_admin_dash.png", import.meta.url).href;
-const sentinelUsers = new URL("../assets/sentinel_users.png", import.meta.url).href;
-const sentinelSessions = new URL("../assets/sentinel_sessions.png", import.meta.url).href;
-const sentinelAudit = new URL("../assets/sentinel_audit.png", import.meta.url).href;
-const sentinelProfile = new URL("../assets/sentinel_profile.png", import.meta.url).href;
-const sentinelMySessions = new URL("../assets/sentinel_my_sessions.png", import.meta.url).href;
-const sentinelUserDash = new URL("../assets/sentinel_user_dash.png", import.meta.url).href;
-const placeHolderImg = new URL("../assets/placeholder.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -71,18 +62,16 @@ export const hero = {
     primary: { label: "View Projects", href: "/projects" },
     secondary: { label: "Get in Touch", href: "/contact" },
   },
-  featuredProjectTitles: ["AI Interview Coach", "AutoScale CIRM", "FlowGuard – Intelligent Log & Metrics Aggregator"],
+  featuredProjectTitles: ["AI Interview Coach", "AutoScale CIRM", "Road Segmentation - SAM"],
 } as const;
 
 export const about = {
-  bio: `Software developer crafting AI-powered, production-ready applications with a solid foundation in computer science and a focus on developer experience.
-
-I enjoy turning complex ideas into intuitive, reliable software that people actually want to use.`,
+  bio: "Recent B.S. in Computer Science (Spring 2025). I build practical, production-ready web apps and AI-driven tools. Interested in software engineering, evaluation pipelines, and developer UX.",
   location: "New Jersey, USA · Open to Remote (US)",
   education: [
     {
       school: "New Jersey Institute of Technology",
-      degree: "Bachelor of Science in Computer Science",
+      degree: "B.S. in Computer Science",
       graduation: "Spring 2025",
       url: "https://www.njit.edu",
       coursework: [
@@ -111,10 +100,6 @@ export const skills = {
     "shadcn/ui",
     "FastAPI",
     "Flask",
-    "Chart.js",
-    "Axios",
-    "Celery",
-    "SQLAlchemy",
     "jQuery",
   ],
   "Data & Infra": [
@@ -124,10 +109,6 @@ export const skills = {
     "MongoDB",
     "AWS",
     "Google Cloud Platform",
-    "Google Cloud Monitoring",
-    "Redis",
-    "APScheduler",
-    "Docker Compose",
     "Docker",
     "Render",
   ],
@@ -138,93 +119,10 @@ export const skills = {
     "Segment Anything (SAM)",
     "FastAPI Endpoints",
   ],
-  "Security & Observability": [
-    "JWT & Refresh Token Flows",
-    "RBAC Design",
-    "Audit Logging & Session Telemetry",
-    "Slack/SMTP Alerting Pipelines",
-    "Anomaly Detection (IsolationForest)",
-  ],
-  Tools: ["Git", "GitHub Actions", "VS Code", "pytest"],
+  Tools: ["Git", "GitHub Actions", "VS Code"],
 } as const;
 
 export const projects = [
-  {
-    title: "SentinelAuth – Role-Based Access & Security Platform",
-    slug: "sentinelauth-access-control",
-    summary:
-      "Role-based authentication, authorization, and security telemetry service with RBAC enforcement, alerts, and admin dashboards.",
-    highlights: [
-      "Bcrypt-secured registration and JWT rotation with Redis-backed rate limiting",
-      "Role-based access control enforced at the API layer with admin, moderator, and user tiers",
-      "Structured audit trail plus Slack and email alerts for suspicious activity",
-      "Pytest suite covering auth flows, RBAC, rate limits, and auditing",
-      "Optional React admin console for viewing users, sessions, and audit streams in real time",
-      "Docker Compose profiles for API, Redis, Postgres, and the optional web dashboard",
-    ],
-    tech: [
-      "React",
-      "Vite",
-      "Chart.js",
-      "Axios",
-      "FastAPI",
-      "Redis",
-      "SQLAlchemy",
-      "PostgreSQL",
-      "scikit-learn",
-      "Docker Compose",
-      "Python",
-      "Node.js",
-    ],
-    githubUrl: "https://github.com/jason-conklin/sentinelauth-access-control",
-    liveUrl: "",
-    featured: true,
-    category: ["Web", "Tools"],
-    statusNote: "Live link coming soon",
-    teamSize: 1,
-    gallery: [
-      {
-        title: "Login page",
-        description: "Secure login screen with JWT rotation and rate-limited access.",
-        image: sentinelLogin,
-      },
-      {
-        title: "Admin dashboard",
-        description: "Security overview with navigation to users, sessions, and audit tools.",
-        image: sentinelAdminDash,
-      },
-      {
-        title: "Users directory",
-        description: "Admin view listing users, roles, and active status for RBAC management.",
-        image: sentinelUsers,
-      },
-      {
-        title: "Sessions overview",
-        description: "Inspect active sessions with device fingerprinting and revocation controls.",
-        image: sentinelSessions,
-      },
-      {
-        title: "Audit trail",
-        description: "Structured audit events with IDs, actors, IP addresses, and timestamps.",
-        image: sentinelAudit,
-      },
-      {
-        title: "Profile details",
-        description: "User profile page with role membership, metadata, and password update actions.",
-        image: sentinelProfile,
-      },
-      {
-        title: "My sessions",
-        description: "Personal session history with IP, device, and last-seen activity.",
-        image: sentinelMySessions,
-      },
-      {
-        title: "Limited dashboard",
-        description: "User role dashboard showing restricted access indicators and trimmed navigation.",
-        image: sentinelUserDash,
-      },
-    ],
-  },
   {
     title: "AI Interview Coach",
     slug: "ai-interview-coach",
@@ -235,20 +133,7 @@ export const projects = [
       "Post-interview diagnostics with action items",
       "Deploy-ready on Render with CI/CD hooks",
     ],
-    tech: [
-      "React",
-      "Vite",
-      "TypeScript",
-      "Tailwind CSS",
-      "FastAPI",
-      "SQLAlchemy",
-      "Alembic",
-      "OpenAI API",
-      "Render",
-      "Docker Compose",
-      "Pytest",
-      "Vitest",
-    ],
+    tech: ["React", "FastAPI", "Tailwind", "Render", "OpenAI API"],
     githubUrl: "https://github.com/jason-conklin/ai-interview-coach",
     liveUrl: "",
     featured: true,
@@ -466,7 +351,7 @@ export const projects = [
     githubUrl: "https://github.com/jason-conklin/CoveyTown-Poker",
     liveUrl: "",
     featured: false,
-    category: ["Web"],
+    category: ["Web", "Tools"],
     statusNote: "Open-source contribution · Covey.Town community edition",
     teamSize: 4,
     gallery: [
@@ -526,18 +411,16 @@ export const projects = [
     githubUrl: "",
     liveUrl: "",
     featured: false,
-    category: [],
+    category: ["Web"],
     statusNote: "Coming soon",
     gallery: [
       {
         title: "Concept preview",
         description: "Screenshot to be added soon.",
-        image: placeHolderImg,
       },
       {
         title: "Workflow glimpse",
         description: "Second placeholder image area.",
-        image: placeHolderImg,
       },
     ],
   },
@@ -600,5 +483,3 @@ export const siteOptions = {
   lineDistance: 120, // Increase to link particles across wider gaps.
   motionSpeed: 0.2, // Higher values make the animation livelier; keep low for calm vibe.
 } as const;
-
-

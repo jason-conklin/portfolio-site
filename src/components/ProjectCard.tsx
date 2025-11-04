@@ -28,6 +28,8 @@ import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import { cn } from "@/lib/utils";
 import peopleIconLight from "@/assets/people_icon_light.png";
 import peopleIconDark from "@/assets/people_icon_dark.png";
+import placeholder from "@/assets/placeholder.png";
+
 
 const FOCUSABLE_ELEMENTS_SELECTOR = [
   "a[href]",
@@ -199,6 +201,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
     gallery,
     teamSize,
   } = project;
+  // Always ensure gallery is safe to render
+  const safeGallery = gallery && gallery.length > 0 ? gallery : [{
+    title: "Coming soon",
+    description: "Screenshots will be added soon.",
+    image: placeholder,
+  }];
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);
@@ -247,8 +255,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   }, []);
 
   const activeMedia =
-    gallery && activeMediaIndex !== null ? gallery[activeMediaIndex] : null;
-  const totalMedia = gallery?.length ?? 0;
+    safeGallery && activeMediaIndex !== null ? safeGallery[activeMediaIndex] : null;
+  const totalMedia = safeGallery?.length ?? 0;
   const activeMediaNumber =
     activeMediaIndex !== null ? activeMediaIndex + 1 : null;
   const detailTitleId = useId();
@@ -270,11 +278,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   const openMediaAt = useCallback(
     (index: number) => {
-      if (!gallery || !gallery.length) return;
+      if (!safeGallery || !safeGallery.length) return;
       resetZoomState();
       setActiveMediaIndex(index);
     },
-    [gallery, resetZoomState],
+    [safeGallery, resetZoomState],
   );
 
   const renderTeamSizeBadge = useCallback(
@@ -391,6 +399,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               className="absolute inset-0 z-[80] bg-black/50 backdrop-blur-[2px]"
               onClick={closeDetailModal}
             />
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div
               className="absolute inset-0 z-[90] flex items-center justify-center px-4 py-6 sm:px-6"
               onMouseDown={handleDetailBackdropClick}
@@ -435,13 +444,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 </div>
                 <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8">
                   <div className="space-y-6">
-                    {gallery && gallery.length ? (
+                    {safeGallery && safeGallery.length ? (
                       <div>
                         <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                           Screenshots
                         </h4>
                         <div className="mt-4 grid gap-6 md:grid-cols-2">
-                          {gallery.map((item, index) => (
+                          {safeGallery.map((item, index) => (
                             <div key={`${item.title}-${index}`} className="space-y-3">
                               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                                 Screenshot {index + 1}
@@ -556,6 +565,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               className="absolute inset-0 z-[82] bg-black/60 backdrop-blur-sm"
               onClick={closeScreenshotModal}
             />
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div
               className="absolute inset-0 z-[95] flex items-center justify-center px-4 py-8 sm:px-8"
               onMouseDown={handleScreenshotBackdropClick}
@@ -689,56 +699,150 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     }
                   }}
                 >
-                  {totalMedia > 1 ? (
-                    <>
-                      <button
-                        type="button"
-                        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-lg backdrop-blur transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          goToMedia(-1);
-                        }}
-                        onPointerDown={(event) => event.stopPropagation()}
-                        aria-label="View previous screenshot"
-                      >
-                        <ChevronLeft className="h-5 w-5" aria-hidden="true" />
-                      </button>
-                      <button
-                        type="button"
-                        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-lg backdrop-blur transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          goToMedia(1);
-                        }}
-                        onPointerDown={(event) => event.stopPropagation()}
-                        aria-label="View next screenshot"
-                      >
-                        <ChevronRight className="h-5 w-5" aria-hidden="true" />
-                      </button>
-                    </>
-                  ) : null}
-                  <div className="relative flex h-full w-full items-center justify-center">
-                    {activeMedia?.image ? (
-                      <img
-                        src={activeMedia.image}
-                        alt={activeMedia.title}
-                        className="select-none"
-                        style={{
-                          maxWidth: "100%",
-                          maxHeight: "90vh",
-                          transformOrigin,
-                          transform: `translate(${translate.x}px, ${translate.y}px) scale(${isZoomed ? ZOOM_SCALE : 1})`,
-                          transition: isDragging ? "none" : "transform 0.3s ease",
-                          cursor: isZoomed
-                            ? isDragging
-                              ? "grabbing"
-                              : "zoom-out"
-                            : "zoom-in",
-                          touchAction: "none",
-                        }}
-                        draggable={false}
-                      />
+                  <div className="relative flex h-full w-full items-center justify-center px-8 sm:px-12 lg:px-16">
+                    {totalMedia > 1 ? (
+                      <>
+                        <button
+                          type="button"
+                          className="absolute left-2 sm:left-4 lg:left-6 top-1/2 z-30 -translate-y-1/2 rounded-full border border-border/50 bg-white/60 p-2 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:bg-black/50 dark:hover:bg-black/70"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            goToMedia(-1);
+                          }}
+                          onPointerDown={(event) => event.stopPropagation()}
+                          aria-label="View previous screenshot"
+                        >
+                          <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+                        </button>
+                        <button
+                          type="button"
+                          className="absolute right-2 sm:right-4 lg:right-6 top-1/2 z-30 -translate-y-1/2 rounded-full border border-border/50 bg-white/60 p-2 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:bg-black/50 dark:hover:bg-black/70"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            goToMedia(1);
+                          }}
+                          onPointerDown={(event) => event.stopPropagation()}
+                          aria-label="View next screenshot"
+                        >
+                          <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                        </button>
+                      </>
                     ) : null}
+                    <div
+                      ref={containerRef}
+                      className={cn(
+                        "relative flex max-h-[90vh] w-full items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted/40",
+                        isZoomed
+                          ? isDragging
+                            ? "cursor-grabbing"
+                            : "cursor-grab"
+                          : "cursor-zoom-in",
+                      )}
+                      onPointerDown={(event) => {
+                        const state = dragRef.current;
+                        state.pointerId = event.pointerId;
+                        state.moved = false;
+
+                        if (!isZoomed) {
+                          state.activatedZoom = true;
+                          if (containerRef.current) {
+                            const rect = containerRef.current.getBoundingClientRect();
+                            const originX = ((event.clientX - rect.left) / rect.width) * 100;
+                            const originY = ((event.clientY - rect.top) / rect.height) * 100;
+                            setTransformOrigin(`${originX}% ${originY}%`);
+                          }
+                          setTranslate({ x: 0, y: 0 });
+                          setIsZoomed(true);
+                        } else {
+                          state.activatedZoom = false;
+                          state.isPointerDown = true;
+                          state.startX = event.clientX;
+                          state.startY = event.clientY;
+                          state.baseX = translate.x;
+                          state.baseY = translate.y;
+                          containerRef.current?.setPointerCapture(event.pointerId);
+                          event.preventDefault();
+                        }
+                      }}
+                      onPointerMove={(event) => {
+                        const state = dragRef.current;
+                        if (!state.isPointerDown) return;
+
+                        const deltaX = event.clientX - state.startX;
+                        const deltaY = event.clientY - state.startY;
+
+                        if (!state.moved) {
+                          if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+                            state.moved = true;
+                            setIsDragging(true);
+                          }
+                        }
+
+                        if (state.moved) {
+                          setTranslate({
+                            x: state.baseX + deltaX,
+                            y: state.baseY + deltaY,
+                          });
+                        }
+
+                        event.preventDefault();
+                      }}
+                      onPointerUp={() => {
+                        const state = dragRef.current;
+                        if (state.isPointerDown) {
+                          if (state.pointerId !== undefined) {
+                            containerRef.current?.releasePointerCapture(state.pointerId);
+                            state.pointerId = undefined;
+                          }
+                          if (!state.moved) {
+                            resetZoomState();
+                          } else {
+                            state.isPointerDown = false;
+                            state.moved = false;
+                            setIsDragging(false);
+                          }
+                          return;
+                        }
+
+                        if (state.activatedZoom) {
+                          state.activatedZoom = false;
+                        }
+                      }}
+                      onPointerLeave={() => {
+                        const state = dragRef.current;
+                        if (state.isPointerDown) {
+                          state.isPointerDown = false;
+                          state.moved = false;
+                          setIsDragging(false);
+                          if (state.pointerId !== undefined) {
+                            containerRef.current?.releasePointerCapture(state.pointerId);
+                          }
+                          state.pointerId = undefined;
+                        }
+                      }}
+                    >
+                      {activeMedia?.image ? (
+                        <img
+                          src={activeMedia.image}
+                          alt={activeMedia.title}
+                          className="select-none"
+                          style={{
+                            maxWidth: "100%",
+                            maxHeight: "90vh",
+                            transformOrigin,
+                            transform: `translate(${translate.x}px, ${translate.y}px) scale(${isZoomed ? ZOOM_SCALE : 1})`,
+                            transition: isDragging ? "none" : "transform 0.3s ease",
+                            cursor: isZoomed
+                              ? isDragging
+                                ? "grabbing"
+                                : "zoom-out"
+                              : "zoom-in",
+                            touchAction: "none",
+                          }}
+                          draggable={false}
+                        />
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </div>
