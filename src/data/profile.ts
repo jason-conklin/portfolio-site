@@ -31,6 +31,7 @@ const sentinelAudit = new URL("../assets/sentinel_audit.png", import.meta.url).h
 const sentinelProfile = new URL("../assets/sentinel_profile.png", import.meta.url).href;
 const sentinelMySessions = new URL("../assets/sentinel_my_sessions.png", import.meta.url).href;
 const sentinelUserDash = new URL("../assets/sentinel_user_dash.png", import.meta.url).href;
+const placeHolderImg = new URL("../assets/placeholder.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -531,10 +532,12 @@ export const projects = [
       {
         title: "Concept preview",
         description: "Screenshot to be added soon.",
+        image: placeHolderImg,
       },
       {
         title: "Workflow glimpse",
         description: "Second placeholder image area.",
+        image: placeHolderImg,
       },
     ],
   },
