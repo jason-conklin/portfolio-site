@@ -35,7 +35,7 @@ function ProjectsPage() {
       <Section
         id="projects"
         title="Projects"
-        description="Select a card to peek inside the build details, tech stack, deployment status, and see screenshots. Filters let you focus on AI, web, or tooling workstreams."
+        description="Select a project card to view the build details, tech stack, deployment status, and screenshots. Filters let you focus on AI, web, or tooling workstreams."
       >
         <motion.div
           initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
