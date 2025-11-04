@@ -7,6 +7,14 @@ import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
 import { contact } from "@/data/profile";
 
+// If you installed `emailjs-com`:
+import emailjs from "@emailjs/browser";
+// If you instead installed `@emailjs/browser`, swap the import:
+// import emailjs from "@emailjs/browser";
+import.meta.env;
+
+console.log(import.meta.env.VITE_EMAILJS_SERVICE_ID);
+
 const EMAIL = "jasonconklin.dev@gmail.com";
 const SUBJECT = encodeURIComponent("Inquiry – Jason Conklin (Portfolio)");
 const PREFILLED_BODY = encodeURIComponent("Hi Jason,\n\n");
@@ -67,7 +75,7 @@ function ContactPage() {
             </Button>
           </div>
           <p className="text-sm text-muted-foreground">
-            Typically replies within 1-2 days.
+            Typically replies within 1–2 days.
           </p>
         </div>
       </Section>
@@ -83,9 +91,7 @@ function ContactCTAs() {
 
   useEffect(() => {
     return () => {
-      if (toastTimer.current) {
-        clearTimeout(toastTimer.current);
-      }
+      if (toastTimer.current) clearTimeout(toastTimer.current);
     };
   }, []);
 
@@ -93,12 +99,9 @@ function ContactCTAs() {
     try {
       await navigator.clipboard.writeText(EMAIL);
       setToastMessage("Email copied");
-      if (toastTimer.current) {
-        clearTimeout(toastTimer.current);
-      }
+      if (toastTimer.current) clearTimeout(toastTimer.current);
       toastTimer.current = setTimeout(() => setToastMessage(null), 2500);
     } catch {
-      // Fallback prompt as a last resort
       window.prompt("Copy email address", EMAIL);
     }
   };
@@ -126,13 +129,13 @@ function ContactCTAs() {
         <button
           type="button"
           className="text-sm text-muted-foreground underline-offset-4 transition hover:underline"
-          onClick={() => setShowForm((value) => !value)}
+          onClick={() => setShowForm(v => !v)}
         >
           {showForm ? "Hide form" : "Use form instead"}
         </button>
       </div>
 
-     <AnimatePresence>
+      <AnimatePresence>
         {toastMessage ? (
           <motion.div
             key="contact-toast"
@@ -172,31 +175,64 @@ function ContactForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [honeypot, setHoneypot] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const pk = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    if (pk) {
+      emailjs.init(pk);
+    } else {
+      console.warn("EmailJS public key is missing");
+    }
+  }, []);
+
+  const isEmail = (v: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (honeypot) return;
-    if (!name.trim() || !email.trim() || message.trim().length < 20) {
-      setError("Please complete all fields. The message should be at least 20 characters.");
+
+    if (!name.trim() || !email.trim() || !isEmail(email) || message.trim().length < 20) {
+      setError("Please enter a valid email and a message of at least 20 characters.");
       return;
     }
 
+    setStatus("sending");
     setError(null);
-    setSubmitted(true);
 
-    const body = encodeURIComponent(
-      `Name: ${name.trim()}\nEmail: ${email.trim()}\n\n${message.trim()}\n`,
-    );
-    const mailtoLink = `mailto:${EMAIL}?subject=${SUBJECT}&body=${body}`;
-    window.location.href = mailtoLink;
+    // 🚨 These keys MUST match your EmailJS template placeholders
+    const params = {
+      name: name.trim(),
+      email: email.trim(),
+      message: message.trim(),
+      time: new Date().toLocaleString(),
+    };
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID!,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID!,
+        params,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY!
+      );
+
+      setStatus("sent");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setStatus("error");
+      setError("Something went wrong while sending. Please try again or use the email button.");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="mt-3 grid max-w-md gap-3">
       <div className="grid gap-2">
-        <label className="text-sm font-medium text-foreground" htmlFor="contact-name">
+        <label htmlFor="contact-name" className="text-sm font-medium text-foreground">
           Name
         </label>
         <input
@@ -205,12 +241,13 @@ function ContactForm() {
           placeholder="Your name"
           className="rounded-md border border-border/60 bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
           value={name}
-          onChange={(event) => setName(event.target.value)}
+          onChange={(e) => setName(e.target.value)}
           required
         />
       </div>
+
       <div className="grid gap-2">
-        <label className="text-sm font-medium text-foreground" htmlFor="contact-email">
+        <label htmlFor="contact-email" className="text-sm font-medium text-foreground">
           Work email
         </label>
         <input
@@ -219,10 +256,11 @@ function ContactForm() {
           placeholder="you@company.com"
           className="rounded-md border border-border/60 bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
       </div>
+
       <input
         type="text"
         tabIndex={-1}
@@ -230,10 +268,11 @@ function ContactForm() {
         className="hidden"
         value={honeypot}
         aria-hidden="true"
-        onChange={(event) => setHoneypot(event.target.value)}
+        onChange={(e) => setHoneypot(e.target.value)}
       />
+
       <div className="grid gap-2">
-        <label className="text-sm font-medium text-foreground" htmlFor="contact-message">
+        <label htmlFor="contact-message" className="text-sm font-medium text-foreground">
           Message
         </label>
         <textarea
@@ -241,28 +280,33 @@ function ContactForm() {
           placeholder="Share a bit about your project or role (min 20 characters)"
           className="min-h-[120px] rounded-md border border-border/60 bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
           value={message}
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={(e) => setMessage(e.target.value)}
           minLength={20}
           required
         />
       </div>
+
       <div className="flex items-center gap-3">
-        <Button type="submit" className="rounded-full">
-          Send
+        <Button type="submit" className="rounded-full" disabled={status === "sending"}>
+          {status === "sending" ? "Sending..." : "Send"}
         </Button>
-        {submitted ? (
-          <span className="text-xs text-muted-foreground" aria-live="polite">
-            Thanks—expect a reply within 1–2 days.
+
+        {status === "sent" && (
+          <span className="text-xs text-green-500" aria-live="polite">
+            ✅ Message sent! Expect a reply within 1–2 days.
           </span>
-        ) : null}
+        )}
+        {status === "error" && (
+          <span className="text-xs text-destructive" aria-live="polite">
+            ❌ Failed to send — please email manually.
+          </span>
+        )}
       </div>
-      {error ? (
-        <p className="text-xs text-destructive" role="alert">
-          {error}
-        </p>
-      ) : null}
+
+      {error && <p className="text-xs text-destructive">{error}</p>}
+
       <p className="text-xs text-muted-foreground">
-        Prefer email? Write to {EMAIL}
+        Prefer email? Write to <a href={`mailto:${EMAIL}`} className="underline">{EMAIL}</a>
       </p>
     </form>
   );
