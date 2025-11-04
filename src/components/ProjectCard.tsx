@@ -28,6 +28,8 @@ import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import { cn } from "@/lib/utils";
 import peopleIconLight from "@/assets/people_icon_light.png";
 import peopleIconDark from "@/assets/people_icon_dark.png";
+import placeholder from "@/assets/placeholder.png";
+
 
 const FOCUSABLE_ELEMENTS_SELECTOR = [
   "a[href]",
@@ -199,6 +201,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
     gallery,
     teamSize,
   } = project;
+  // Always ensure gallery is safe to render
+  const safeGallery = gallery && gallery.length > 0 ? gallery : [{
+    title: "Coming soon",
+    description: "Screenshots will be added soon.",
+    image: placeholder,
+  }];
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);
@@ -247,8 +255,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   }, []);
 
   const activeMedia =
-    gallery && activeMediaIndex !== null ? gallery[activeMediaIndex] : null;
-  const totalMedia = gallery?.length ?? 0;
+    safeGallery && activeMediaIndex !== null ? safeGallery[activeMediaIndex] : null;
+  const totalMedia = safeGallery?.length ?? 0;
   const activeMediaNumber =
     activeMediaIndex !== null ? activeMediaIndex + 1 : null;
   const detailTitleId = useId();
@@ -270,11 +278,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   const openMediaAt = useCallback(
     (index: number) => {
-      if (!gallery || !gallery.length) return;
+      if (!safeGallery || !safeGallery.length) return;
       resetZoomState();
       setActiveMediaIndex(index);
     },
-    [gallery, resetZoomState],
+    [safeGallery, resetZoomState],
   );
 
   const renderTeamSizeBadge = useCallback(
@@ -436,13 +444,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 </div>
                 <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8">
                   <div className="space-y-6">
-                    {gallery && gallery.length ? (
+                    {safeGallery && safeGallery.length ? (
                       <div>
                         <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                           Screenshots
                         </h4>
                         <div className="mt-4 grid gap-6 md:grid-cols-2">
-                          {gallery.map((item, index) => (
+                          {safeGallery.map((item, index) => (
                             <div key={`${item.title}-${index}`} className="space-y-3">
                               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                                 Screenshot {index + 1}
