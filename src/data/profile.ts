@@ -1,6 +1,28 @@
 const resumePdf = new URL("../assets/jason-conklin-resume.pdf", import.meta.url).href;
 const resumePagePath = "/resume";
-
+const aiCoachHome = new URL("../assets/home_screen.png", import.meta.url).href;
+const aiCoachBehavioral = new URL("../assets/interview_q1.png", import.meta.url).href;
+const aiCoachTechnical = new URL("../assets/interview_q2.png", import.meta.url).href;
+const aiCoachRecap = new URL("../assets/interview_recap.png", import.meta.url).href;
+const aiCoachSummary = new URL("../assets/session_summary.png", import.meta.url).href;
+const coveyTownLobby = new URL("../assets/covey_newtown.png", import.meta.url).href;
+const coveyTownPoker = new URL("../assets/covey_poker.png", import.meta.url).href;
+const satelliteTile = new URL("../assets/satellite.png", import.meta.url).href;
+const satelliteMask = new URL("../assets/satellite_mask.png", import.meta.url).href;
+const kanjiSignup = new URL("../assets/kanji_signup.png", import.meta.url).href;
+const kanjiModeSelect = new URL("../assets/kanji_mode_select.png", import.meta.url).href;
+const kanjiHome = new URL("../assets/kanji_home_screen.png", import.meta.url).href;
+const kanjiPerSet = new URL("../assets/kanji_per_set.png", import.meta.url).href;
+const kanjiPractice = new URL("../assets/kanji_practice.png", import.meta.url).href;
+const kanjiResults = new URL("../assets/kanji_results.png", import.meta.url).href;
+const cirmDashboard = new URL("../assets/CIRM_dashboard.png", import.meta.url).href;
+const cirmResource = new URL("../assets/CIRM_resource.png", import.meta.url).href;
+const cirmForecast = new URL("../assets/CIRM_forecast.png", import.meta.url).href;
+const cirmAlerts = new URL("../assets/CIRM_alerts.png", import.meta.url).href;
+const cirmSettings = new URL("../assets/CIRM_settings.png", import.meta.url).href;
+const flowguardDashboard = new URL("../assets/flowguard_dashboard.png", import.meta.url).href;
+const flowguardExplore = new URL("../assets/flowguard_explore.png", import.meta.url).href;
+const flowguardSettings = new URL("../assets/flowguard_settings.png", import.meta.url).href;
 const sentinelLogin = new URL("../assets/sentinel_login.png", import.meta.url).href;
 const sentinelAdminDash = new URL("../assets/sentinel_admin_dash.png", import.meta.url).href;
 const sentinelUsers = new URL("../assets/sentinel_users.png", import.meta.url).href;
@@ -186,24 +208,281 @@ export const projects = [
     ],
   },
   {
-    title: "New Project",
-    slug: "new-project",
-    summary: "Coming soon.",
-    highlights: ["Stay tuned"],
-    tech: ["TBD"],
-    githubUrl: "",
+    title: "AI Interview Coach",
+    slug: "ai-interview-coach",
+    summary: "Mock interviews with AI scoring and coaching feedback.",
+    highlights: [
+      "Structured rubric scoring tuned for behavioral and technical tracks",
+      "LLM/heuristic switching keeps costs predictable",
+      "Post-interview diagnostics with action items",
+      "Deploy-ready on Render with CI/CD hooks",
+    ],
+    tech: ["React", "FastAPI", "Tailwind", "Render", "OpenAI API"],
+    githubUrl: "https://github.com/jason-conklin/ai-interview-coach",
     liveUrl: "",
-    featured: false,
-    category: ["Web"],
-    statusNote: "Coming soon",
+    featured: true,
+    category: ["AI", "Tools", "Web"],
+    statusNote: "Deploying to Render",
+    teamSize: 1,
     gallery: [
       {
-        title: "Concept preview",
-        description: "Screenshot to be added soon.",
+        title: "Personalized landing screen",
+        description:
+          "Select interview level, role, and focus areas before starting a new mock session.",
+        image: aiCoachHome,
       },
       {
-        title: "Workflow glimpse",
-        description: "Second placeholder image area.",
+        title: "Behavioral question walkthrough",
+        description:
+          "Sample behavioral answer graded with rubric-aligned scoring and targeted feedback.",
+        image: aiCoachBehavioral,
+      },
+      {
+        title: "Technical prompt deep-dive",
+        description:
+          "Technical interview response with structured evaluation and coaching tips.",
+        image: aiCoachTechnical,
+      },
+      {
+        title: "Interview recap modal",
+        description:
+          "End-of-interview recap with aggregate scores and recommendations for next steps.",
+        image: aiCoachRecap,
+      },
+      {
+        title: "Session analytics dashboard",
+        description:
+          "Running summary of all mock interviews in the current session, highlighting trends.",
+        image: aiCoachSummary,
+      },
+    ],
+  },
+  {
+    title: "AutoScale CIRM",
+    slug: "autoscale-cirm",
+    summary:
+      "Cloud infrastructure resource monitor with live dashboards, forecasts, and real-time alerting.",
+    highlights: [
+      "Forecasts CPU/Mem saturation within a configurable lookahead window",
+      "Slack/SMTP alerts with de-dupe and persistent alert history",
+      "Works with AWS/GCP or local simulator (no credentials required)",
+      "APScheduler polling loop with fault-tolerant error handling",
+    ],
+    tech: [
+      "React",
+      "Vite",
+      "Chart.js",
+      "Axios",
+      "Flask",
+      "SQLAlchemy",
+      "APScheduler",
+      "scikit-learn",
+    ],
+    githubUrl: "https://github.com/jason-conklin/autoscale-cirm",
+    liveUrl: "",
+    featured: true,
+    category: ["Tools", "Web"],
+    statusNote: "Private beta — demo available upon request",
+    teamSize: 1,
+    gallery: [
+      {
+        title: "Dashboard overview",
+        description: "Live KPIs, charts, and forecasts for active infrastructure.",
+        image: cirmDashboard,
+      },
+      {
+        title: "Resource selector",
+        description: "Switch between providers, instances, and custom time ranges.",
+        image: cirmResource,
+      },
+      {
+        title: "Forecast card",
+        description: "Predicts upcoming saturation thresholds with ETA and confidence bands.",
+        image: cirmForecast,
+      },
+      {
+        title: "Alerts table",
+        description: "Review Slack and email alerts with delivery timestamps.",
+        image: cirmAlerts,
+      },
+      {
+        title: "Settings panel",
+        description: "Configure providers, thresholds, and send test alerts from one place.",
+        image: cirmSettings,
+      },
+    ],
+  },
+  {
+    title: "FlowGuard – Intelligent Log & Metrics Aggregator",
+    slug: "flowguard-monitor",
+    summary:
+      "Centralized log and metrics platform providing anomaly detection, alerting, and real-time dashboards for distributed systems.",
+    highlights: [
+      "Asynchronous ingestion pipeline with Celery and Redis for scalable processing",
+      "Anomaly detection powered by IsolationForest and rolling KPI thresholds",
+      "Automated Slack and SMTP alerts for spikes in error rate or latency",
+      "Modular Flask API with SQLAlchemy models and clean REST endpoints",
+      "Interactive React and Vite dashboard built with Chart.js and Axios",
+      "Synthetic data generator for local development without external sources",
+    ],
+    tech: [
+      "React",
+      "Vite",
+      "Chart.js",
+      "Flask",
+      "Celery",
+      "Redis",
+      "SQLAlchemy",
+      "scikit-learn",
+      "Docker Compose",
+    ],
+    githubUrl: "https://github.com/jason-conklin/flowguard-monitor",
+    liveUrl: "",
+    featured: true,
+    category: ["Tools", "Web"],
+    statusNote: "Live link coming soon",
+    teamSize: 1,
+    gallery: [
+      {
+        title: "Dashboard overview",
+        description:
+          "Unified KPIs and performance charts for error rate, latency, and throughput, with IsolationForest anomaly highlights.",
+        image: flowguardDashboard,
+      },
+      {
+        title: "Explorer screen",
+        description:
+          "Search and filter log streams by service, severity, or message content with virtualized tables for high-volume data.",
+        image: flowguardExplore,
+      },
+      {
+        title: "Settings panel",
+        description:
+          "Review configuration, thresholds, and alert channels while triggering Slack or email test notifications.",
+        image: flowguardSettings,
+      },
+    ],
+  },
+  {
+    title: "Kanji Gator",
+    slug: "kanji-gator",
+    summary:
+      "Collaborative Japanese learning platform built by a 11-person team, focusing on kanji drills across curated study sets.",
+    highlights: [
+      "Frontend lead for the practice experience, coordinating animations, responsive layout, and form flows",
+      "Integrated React + Tailwind UI with Flask backend endpoints to orchestrate practice sessions and user data",
+      "Shipped kanji browsing tools with JLPT/Jōyō categorization and custom study set management",
+      "Coordinated with ML/backend squads to align handwriting evaluation APIs and practice heuristics",
+    ],
+    tech: ["React", "Tailwind", "Flask", "TypeScript", "Python"],
+    githubUrl: "(Private repository — demo available upon request.)",
+    liveUrl: "",
+    featured: true,
+    category: ["Web", "Tools"],
+    statusNote: "Team delivery · frontend lead + cross-team collaboration",
+    teamSize: 11,
+    gallery: [
+      {
+        title: "Kanji Gator Sign up",
+        description:
+          "Account creation flow capturing name, email, and password with responsive validation.",
+        image: kanjiSignup,
+      },
+      {
+        title: "Practice mode selection",
+        description:
+          "Learners choose study tracks including JLPT levels, grade sets, and Jōyō kanji.",
+        image: kanjiModeSelect,
+      },
+      {
+        title: "Kanji Gator Home",
+        description:
+          "Central hub to review kanji sets, craft custom study decks, and jump into practice modes.",
+        image: kanjiHome,
+      },
+      {
+        title: "View Kanji per set",
+        description:
+          "Explorer showing every kanji in the selected set with supporting details.",
+        image: kanjiPerSet,
+      },
+      {
+        title: "Kanji practice session",
+        description:
+          "Drawing interface captures handwriting attempts for evaluation against target characters.",
+        image: kanjiPractice,
+      },
+      {
+        title: "Practice results",
+        description:
+          "Session summary modal highlights accuracy across attempted kanji.",
+        image: kanjiResults,
+      },
+    ],
+  },
+  {
+    title: "CoveyTown Poker",
+    slug: "coveytown-poker",
+    summary:
+      "Led a 4-person team integrating a Texas Hold'em experience into the Covey.Town virtual meeting platform.",
+    highlights: [
+      "Extended Covey.Town with an event-driven poker subsystem supporting 3–6 simultaneous players",
+      "Coordinated frontend PhaserJS tilemaps with Twilio video chat to deliver shared gameplay moments",
+      "Introduced shared socket types for real-time poker state syncing between client and town service",
+      "Mentored a four-person team across architecture, gameplay mechanics, and integration workflows",
+    ],
+    tech: ["TypeScript", "React", "Phaser", "Node", "WebSockets", "Twilio"],
+    githubUrl: "https://github.com/jason-conklin/CoveyTown-Poker",
+    liveUrl: "",
+    featured: false,
+    category: ["Web", "Tools"],
+    statusNote: "Open-source contribution · Covey.Town community edition",
+    teamSize: 4,
+    gallery: [
+      {
+        title: "Town lobby with poker table",
+        description:
+          "Players assemble in Covey.Town, ready to join the Group 18 poker table and start dealing.",
+        image: coveyTownLobby,
+      },
+      {
+        title: "Active poker round",
+        description:
+          "In-game view showing player cards, bets, chip counts, and pot updates synchronized in real time.",
+        image: coveyTownPoker,
+      },
+    ],
+  },
+  {
+    title: "Road Segmentation — SAM",
+    slug: "road-segmentation-sam",
+    summary:
+      "Segment roads from high-resolution satellite tiles using Meta's Segment Anything Model plus post-processing heuristics.",
+    highlights: [
+      "Wrapped SAM inference in a reproducible pipeline with CLI, notebook, and Shiny for Python demo entry points",
+      "Orchestrated morphological filtering and elongation heuristics to stitch clean road ribbons from raw masks",
+      "Config-driven architecture makes swapping checkpoints, tiles, or tuning thresholds straightforward",
+      "Documented troubleshooting for large-model dependencies and GPU/CPU fallbacks to ease onboarding",
+    ],
+    tech: ["Python", "PyTorch", "SAM", "Shiny for Python", "CLI"],
+    githubUrl: "https://github.com/jason-conklin/road-segmentation-sam",
+    liveUrl: "",
+    featured: false,
+    category: ["AI", "Tools"],
+    statusNote: "Research spike · reproducible demos bundled",
+    teamSize: 1,
+    gallery: [
+      {
+        title: "Source satellite tile",
+        description:
+          "High-resolution satellite imagery tile used as the starting point for segmentation.",
+        image: satelliteTile,
+      },
+      {
+        title: "Road mask output",
+        description:
+          "SAM-derived road mask after heuristic cleanup, with ribbons ready for overlay or export.",
+        image: satelliteMask,
       },
     ],
   },
