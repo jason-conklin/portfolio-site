@@ -74,12 +74,14 @@ export const hero = {
 } as const;
 
 export const about = {
-  bio: "Recent B.S. in Computer Science (Spring 2025). I build practical, production-ready web apps and AI-driven tools. Interested in software engineering, evaluation pipelines, and developer UX.",
+  bio: `Software developer crafting AI-powered, production-ready applications with a solid foundation in computer science and a focus on developer experience.
+
+I enjoy turning complex ideas into intuitive, reliable software that people actually want to use.`,
   location: "New Jersey, USA · Open to Remote (US)",
   education: [
     {
       school: "New Jersey Institute of Technology",
-      degree: "B.S. in Computer Science",
+      degree: "Bachelor of Science in Computer Science",
       graduation: "Spring 2025",
       url: "https://www.njit.edu",
       coursework: [
