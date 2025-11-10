@@ -70,7 +70,7 @@ export const hero = {
     primary: { label: "View Projects", href: "/projects" },
     secondary: { label: "Get in Touch", href: "/contact" },
   },
-  featuredProjectTitles: ["AI Interview Coach", "AutoScale CIRM", "Road Segmentation - SAM"],
+  featuredProjectTitles: ["AI Interview Coach", "SentinelAuth", "FlowGuard", "AutoScale CIRM"],
 } as const;
 
 export const about = {
