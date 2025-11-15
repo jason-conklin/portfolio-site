@@ -48,7 +48,7 @@ export const site = {
   language: "en-US",
   links: {
     github: "https://github.com/jason-conklin",
-    linkedin: "https://www.linkedin.com/in/jason-conklin-aaa138302/",
+    linkedin: "https://www.linkedin.com/in/jasonconklin-dev",
     email: "jasonconklin.dev@gmail.com",
     resume: resumePagePath,
   },
@@ -498,7 +498,7 @@ export const projectFilters = [
 export const contact = {
   email: "mailto:jasonconklin.dev@gmail.com",
   github: "https://github.com/jason-conklin",
-  linkedin: "https://www.linkedin.com/in/jason-conklin-aaa138302/",
+  linkedin: "https://www.linkedin.com/in/jasonconklin-dev",
   responseTimeNote: "Typically replies within 1–2 days.",
 } as const;
 
