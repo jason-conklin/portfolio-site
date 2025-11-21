@@ -39,8 +39,7 @@ function ProjectsPage() {
       >
         <motion.div
           initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
-          whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="space-y-8"
         >
