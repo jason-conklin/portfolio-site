@@ -200,6 +200,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     statusNote,
     gallery,
     teamSize,
+    slug,
   } = project;
   // Always ensure gallery is safe to render
   const safeGallery = gallery && gallery.length > 0 ? gallery : [{
@@ -859,6 +860,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         role="button"
         tabIndex={0}
         aria-label={`Open ${title} details`}
+        data-project-slug={slug}
         onClick={() => setOpen(true)}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {

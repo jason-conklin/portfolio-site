@@ -31,6 +31,15 @@ const sentinelAudit = new URL("../assets/sentinel_audit.png", import.meta.url).h
 const sentinelProfile = new URL("../assets/sentinel_profile.png", import.meta.url).href;
 const sentinelMySessions = new URL("../assets/sentinel_my_sessions.png", import.meta.url).href;
 const sentinelUserDash = new URL("../assets/sentinel_user_dash.png", import.meta.url).href;
+const giftperchDashboard = new URL("../assets/giftperch_dashboard.png", import.meta.url).href;
+const giftperchRecipients = new URL("../assets/giftperch_rec_profs.png", import.meta.url).href;
+const giftperchProfile = new URL("../assets/giftperch_edit_rec_profs.png", import.meta.url).href;
+const giftperchChat = new URL("../assets/giftperch_perchpal_chat.png", import.meta.url).href;
+const giftperchCalendar = new URL("../assets/giftperch_occasions.png", import.meta.url).href;
+const giftperchHistory = new URL("../assets/giftperch_gift_ideas.png", import.meta.url).href;
+const giftperchAbout = new URL("../assets/giftperch_about.png", import.meta.url).href;
+const giftperchBlog = new URL("../assets/giftperch_blog.png", import.meta.url).href;
+const giftperchIcon = new URL("../assets/giftperch_icon.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -70,8 +79,18 @@ export const hero = {
     primary: { label: "View Projects", href: "/projects" },
     secondary: { label: "Get in Touch", href: "/contact" },
   },
-  featuredProjectTitles: ["AI Interview Coach", "SentinelAuth", "FlowGuard", "AutoScale CIRM"],
+  featuredProjectTitles: ["GiftPerch — giftperch.com"],
 } as const;
+
+export const liveProjects = [
+  {
+    name: "GiftPerch",
+    description: "AI-powered gifting workspace with recipient profiles, PerchPal chat, and live occasion tracking.",
+    liveUrl: "https://giftperch.com",
+    slug: "giftperch-recipient-profiles",
+    icon: giftperchIcon,
+  },
+] as const;
 
 export const about = {
   bio: "I build practical, production-ready web apps and AI-driven tools, with a focus on software engineering, automated evaluation systems, and developer experience.",
@@ -131,6 +150,84 @@ export const skills = {
 } as const;
 
 export const projects = [
+  {
+    title: "GiftPerch – AI-Powered Recipient Profiles & Gift Suggestions",
+    slug: "giftperch-recipient-profiles",
+    summary:
+      "AI-powered gifting workspace with reusable recipient profiles, an occasion calendar, and PerchPal chat for gift ideas.",
+    highlights: [
+      "Recipient profiles capture interests, budgets, anti-gifts, and relationship context to avoid repeat or misfit ideas",
+      "PerchPal AI chat suggests budget-aware gifts with rationales and batching for a single prompt",
+      "AI gift ideas workspace generates multi-item lists on demand with copyable links",
+      "Occasion calendar tracks birthdays and events with future-proof navigation and reminders",
+      "Gift history logs past gifts and reactions so suggestions stay fresh and non-repetitive",
+      "Amazon Associates-ready links (giftperch-20) with disclosure-friendly CTAs baked into UI",
+      "Marketing site plus blog with SEO content and custom hero imagery",
+      "Responsive layouts tuned for desktop, mobile, and fullscreen PerchPal chat",
+    ],
+    tech: [
+      "Next.js 16 (App Router)",
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Supabase (Postgres/Auth/Storage/RLS)",
+      "OpenAI API",
+      "Vercel",
+    ],
+    githubUrl: "https://github.com/jason-conklin/giftperch",
+    liveUrl: "https://giftperch.com",
+    featured: true,
+    category: ["AI", "Web", "Tools"],
+    statusNote: "Live on Vercel",
+    teamSize: 1,
+    gallery: [
+      {
+        title: "PerchPal HQ dashboard",
+        description:
+          "GiftPerch dashboard showing upcoming occasions, quick links, and the PerchPal workspace.",
+        image: giftperchDashboard,
+      },
+      {
+        title: "Recipient profiles grid",
+        description:
+          "Grid of recipient profile cards with relationships, interests, and quick occasion stats.",
+        image: giftperchRecipients,
+      },
+      {
+        title: "Recipient profile details",
+        description:
+          "Single recipient view highlighting interests, budgets, anti-gifts, and notes.",
+        image: giftperchProfile,
+      },
+      {
+        title: "AI gift ideas chat",
+        description:
+          "PerchPal conversation generating tailored gift ideas tuned to vibe and budget.",
+        image: giftperchChat,
+      },
+      {
+        title: "Generate AI Gift Suggestions",
+        description: "AI Gift Suggestions tailored to each individual recipient profile.",
+        image: giftperchHistory,
+      },
+      {
+        title: "Occasions calendar",
+        description: "Monthly gifting calendar with birthdays, anniversaries, and navigation controls.",
+        image: giftperchCalendar,
+      },
+      {
+        title: "About GiftPerch page",
+        description: "Marketing page describing the platform’s purpose, features, and AI assistant.",
+        image: giftperchAbout,
+      },
+      {
+        title: "GiftPerch Journal blog post",
+        description:
+          "Blog article layout with hero image and long-form gifting guidance from the Journal.",
+        image: giftperchBlog,
+      },
+    ],
+  },
   {
     title: "SentinelAuth – Role-Based Access & Security Platform",
     slug: "sentinelauth-access-control",

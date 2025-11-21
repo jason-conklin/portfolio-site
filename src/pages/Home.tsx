@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -7,13 +8,26 @@ import { ScrollCue } from "@/components/ScrollCue";
 import { HeroParallax } from "@/components/HeroParallax";
 import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
-import { hero, projects } from "@/data/profile";
+import { hero, projects, liveProjects } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
 const featuredProjects = projects.filter((project) => project.featured);
 
 function HomePage() {
   const prefersReducedMotion = useReducedMotion();
+
+  const openLiveProjectDetails = useCallback((slug?: string) => {
+    if (!slug) return;
+    const card = document.querySelector<HTMLElement>(`[data-project-slug="${slug}"]`);
+    if (!card) {
+      window.location.hash = "featured";
+      return;
+    }
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    window.setTimeout(() => {
+      card.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    }, 350);
+  }, []);
 
   return (
     <>
@@ -57,21 +71,54 @@ function HomePage() {
               </Button>
             </div>
             <ScrollCue />
-            {hero.featuredProjectTitles.length ? (
-              <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-                <span className="font-semibold uppercase tracking-wide text-xs text-primary">
-                  Ready to Deploy
-                </span>
-                <ul className="flex flex-wrap gap-2">
-                  {hero.featuredProjectTitles.map((project) => (
-                    <li
-                      key={project}
-                      className="rounded-full border border-border/70 bg-background/60 px-3 py-1"
+            {liveProjects.length ? (
+              <div className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground shadow-sm backdrop-blur">
+                <div className="flex flex-col gap-1">
+                  <span className="font-semibold uppercase tracking-wide text-[11px] text-primary">
+                    Deployed live
+                  </span>
+                  <p className="text-sm text-muted-foreground">
+                    Projects currently running in production.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  {liveProjects.map((project) => (
+                    <div
+                      key={project.name}
+                      className="flex flex-col gap-3 rounded-xl border border-border/70 bg-card/70 p-3 shadow-soft sm:flex-row sm:items-center sm:justify-between"
                     >
-                      {project}
-                    </li>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-3">
+                          {project.icon ? (
+                            <img
+                              src={project.icon}
+                              alt={`${project.name} logo`}
+                              className="h-14 w-14 rounded-lg border border-border/70 bg-background/70 p-1 shadow-sm"
+                              loading="lazy"
+                            />
+                          ) : null}
+                          <div>
+                            <p className="text-base font-semibold text-foreground">{project.name}</p>
+                            <p className="text-sm text-muted-foreground">{project.description}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-nowrap items-center gap-2 sm:self-start">
+                        <Button
+                          className="min-w-[130px] rounded-full bg-[#d0e8ff] text-[#0b1220] hover:bg-[#bcdcff] whitespace-nowrap dark:bg-[#1b3d66] dark:text-[#e7f1ff] dark:hover:bg-[#28507f]"
+                          onClick={() => openLiveProjectDetails(project.slug)}
+                        >
+                          View details
+                        </Button>
+                        <Button asChild className="min-w-[110px] rounded-full whitespace-nowrap">
+                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                            View live
+                          </a>
+                        </Button>
+                      </div>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
             ) : null}
           </motion.div>
