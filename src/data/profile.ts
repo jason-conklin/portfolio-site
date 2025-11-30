@@ -40,6 +40,11 @@ const giftperchHistory = new URL("../assets/giftperch_gift_ideas.png", import.me
 const giftperchAbout = new URL("../assets/giftperch_about.png", import.meta.url).href;
 const giftperchBlog = new URL("../assets/giftperch_blog.png", import.meta.url).href;
 const giftperchIcon = new URL("../assets/giftperch_icon.png", import.meta.url).href;
+const statestatsLogo = new URL("../assets/statestats_logo.png", import.meta.url).href;
+const statestatsMap = new URL("../assets/statestats-map-view.png", import.meta.url).href;
+const statestatsTable = new URL("../assets/statestats-data-table.png", import.meta.url).href;
+const statestatsGraphHome = new URL("../assets/statestats-graph-home.png", import.meta.url).href;
+const statestatsGraphInc = new URL("../assets/statestats-graph-inc.png", import.meta.url).href;
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
@@ -89,6 +94,14 @@ export const liveProjects = [
     liveUrl: "https://giftperch.com",
     slug: "giftperch-recipient-profiles",
     icon: giftperchIcon,
+  },
+  {
+    name: "StateStats",
+    description:
+      "U.S. state-level data explorer with interactive maps, metric comparisons, and transparent public-data insights.",
+    liveUrl: "https://statestats.us",
+    slug: "statestats-data-explorer",
+    icon: statestatsLogo,
   },
 ] as const;
 
@@ -225,6 +238,62 @@ export const projects = [
         description:
           "Blog article layout with hero image and long-form gifting guidance from the Journal.",
         image: giftperchBlog,
+      },
+    ],
+  },
+  {
+    title: "StateStats – U.S. State-Level Data Explorer",
+    slug: "statestats-data-explorer",
+    summary:
+      "Interactive state-level data explorer with choropleth maps, metric comparisons, and responsive time-series charts.",
+    highlights: [
+      "Interactive U.S. map with dynamic metric selection and adjustable year slider",
+      "Fast, scalable backend powered by Supabase and PostgreSQL",
+      "Time-series comparison charts with multi-state selection",
+      "Custom legend, state-pinning, and accessibility-focused UI",
+      "Fully responsive layout with mobile-optimized controls",
+      "Modular Next.js server components and Prisma data layer",
+    ],
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Prisma",
+      "Supabase",
+      "PostgreSQL",
+      "D3.js",
+      "Tailwind",
+    ],
+    githubUrl: "https://github.com/jason-conklin/state-stats",
+    liveUrl: "https://statestats.us",
+    featured: true,
+    category: ["Web", "Tools"],
+    statusNote: "Live on statestats.us",
+    teamSize: 1,
+    gallery: [
+      {
+        title: "Map view",
+        description:
+          "Full-page map view showing the Unemployment Rate (2024) metric with the selector, year slider, and legend visible.",
+        image: statestatsMap,
+      },
+      {
+        title: "Data table",
+        description:
+          "Map page with the data table open, showing state rankings for Total Population and the metric selector expanded.",
+        image: statestatsTable,
+      },
+      {
+        title: "Compare (graph home)",
+        description:
+          "Compare view showing Median Home Value (2000–2024) for CA, TX, NY, and FL with the metric selector dropdown visible.",
+        image: statestatsGraphHome,
+      },
+      {
+        title: "Compare (income detail)",
+        description:
+          "Compare view showing Median Household Income (2000–2024) with hover details for 2011 values for each state.",
+        image: statestatsGraphInc,
       },
     ],
   },
