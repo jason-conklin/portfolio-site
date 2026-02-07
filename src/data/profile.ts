@@ -285,7 +285,7 @@ export const projects = [
       "Google OAuth / Gmail API",
       "Vercel",
     ],
-    githubUrl: "(Private repository — demo available upon request.)",
+    githubUrl: "https://github.com/jason-conklin/applictus",
     liveUrl: "https://applictus.com",
     featured: true,
     category: ["AI", "Web", "Tools"],

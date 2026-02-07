@@ -13,6 +13,17 @@ import { cn } from "@/lib/utils";
 
 const featuredProjects = projects.filter((project) => project.featured);
 
+function getProjectDomain(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/\/.*$/, "");
+  }
+}
+
 function HomePage() {
   const prefersReducedMotion = useReducedMotion();
 
@@ -98,7 +109,23 @@ function HomePage() {
                             />
                           ) : null}
                           <div>
-                            <p className="text-base font-semibold text-foreground">{project.name}</p>
+                            <p className="flex flex-wrap items-center gap-x-1 text-base font-semibold text-foreground">
+                              <span>{project.name}</span>
+                              <span
+                                className="text-sm font-medium text-muted-foreground"
+                                aria-hidden="true"
+                              >
+                                -
+                              </span>
+                              <a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm font-medium text-muted-foreground underline-offset-4 transition hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                              >
+                                {getProjectDomain(project.liveUrl)}
+                              </a>
+                            </p>
                             <p className="text-sm text-muted-foreground">{project.description}</p>
                           </div>
                         </div>
