@@ -300,11 +300,11 @@ export const projects = [
         alt: "Applictus authentication page with Google sign-in and email sign-up options",
       },
       {
-        title: "Blank dashboard (Gmail not connected)",
+        title: "Connected Gmail · Initial sync in progress",
         description:
-          "New user dashboard state prompting Gmail connection before ingestion begins.",
+          "Dashboard state after Gmail is connected, showing a clean starting workspace while the first sync runs (progress bar mid-sync) before any applications are detected and populated.",
         image: applictusBlankDashboard,
-        alt: "Applictus blank dashboard for a new account before Gmail is connected",
+        alt: "Applictus blank dashboard for a new account",
       },
       {
         title: "Populated dashboard (applications table)",
