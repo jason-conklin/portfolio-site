@@ -169,6 +169,7 @@ function useDialogFocusTrap(
 interface Project {
   title: string;
   slug: string;
+  cardSummary?: string;
   summary: string;
   highlights: readonly string[];
   tech: readonly string[];
@@ -180,6 +181,7 @@ interface Project {
     title: string;
     description: string;
     image?: string;
+    alt?: string;
   }[];
   teamSize?: number;
 }
@@ -191,6 +193,7 @@ interface ProjectCardProps {
 export function ProjectCard({ project }: ProjectCardProps) {
   const {
     title,
+    cardSummary,
     summary,
     highlights,
     tech,
@@ -207,6 +210,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     title: "Coming soon",
     description: "Screenshots will be added soon.",
     image: placeholder,
+    alt: "Placeholder screenshot",
   }];
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
@@ -465,7 +469,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                                 >
                                   <img
                                     src={item.image}
-                                    alt={`${index + 1}. ${item.title}`}
+                                    alt={item.alt ?? `${index + 1}. ${item.title}`}
                                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                                     loading="lazy"
                                   />
@@ -825,7 +829,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                       {activeMedia?.image ? (
                         <img
                           src={activeMedia.image}
-                          alt={activeMedia.title}
+                          alt={activeMedia.alt ?? activeMedia.title}
                           className="select-none"
                           style={{
                             maxWidth: "100%",
@@ -888,7 +892,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </div>
             ) : null}
           </div>
-          <p className="text-sm text-muted-foreground">{summary}</p>
+          <p className="text-sm text-muted-foreground">{cardSummary ?? summary}</p>
           <div className="flex flex-wrap gap-2">
             {tech.map((stack) => (
               <Tag key={stack}>{stack}</Tag>

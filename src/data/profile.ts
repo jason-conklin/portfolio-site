@@ -40,6 +40,20 @@ const giftperchHistory = new URL("../assets/giftperch_gift_ideas.png", import.me
 const giftperchAbout = new URL("../assets/giftperch_about.png", import.meta.url).href;
 const giftperchBlog = new URL("../assets/giftperch_blog.png", import.meta.url).href;
 const giftperchIcon = new URL("../assets/giftperch_icon.png", import.meta.url).href;
+const applictusLogo = new URL("../assets/applictus_logo.png", import.meta.url).href;
+const applictusAuth = new URL("../assets/applictus_01_auth.png", import.meta.url).href;
+const applictusBlankDashboard = new URL(
+  "../assets/applictus_02_blank_dashboard.png",
+  import.meta.url,
+).href;
+const applictusDashboardTable = new URL(
+  "../assets/applictus_03_dashboard_table.png",
+  import.meta.url,
+).href;
+const applictusApplicationDetail = new URL(
+  "../assets/applictus_04_application_detail.png",
+  import.meta.url,
+).href;
 const statestatsLogo = new URL("../assets/statestats_logo.png", import.meta.url).href;
 const statestatsMap = new URL("../assets/statestats-map-view.png", import.meta.url).href;
 const statestatsTable = new URL("../assets/statestats-data-table.png", import.meta.url).href;
@@ -94,6 +108,14 @@ export const liveProjects = [
     liveUrl: "https://giftperch.com",
     slug: "giftperch-recipient-profiles",
     icon: giftperchIcon,
+  },
+  {
+    name: "Applictus",
+    description:
+      "Production job application tracker that connects to Gmail and automatically organizes confirmations, rejections, and status updates into a clean dashboard.",
+    liveUrl: "https://applictus.com",
+    slug: "applictus",
+    icon: applictusLogo,
   },
   {
     name: "StateStats",
@@ -238,6 +260,65 @@ export const projects = [
         description:
           "Blog article layout with hero image and long-form gifting guidance from the Journal.",
         image: giftperchBlog,
+      },
+    ],
+  },
+  {
+    title: "Applictus – Gmail-Powered Job Application Tracker",
+    slug: "applictus",
+    cardSummary:
+      "Production job application tracker that connects to Gmail and automatically organizes confirmations, rejections, and status updates into a clean dashboard.",
+    summary:
+      "Production web application that connects to Gmail via OAuth, detects job-related updates, deduplicates events, and keeps application status pipelines current with explainable inference.",
+    highlights: [
+      "Gmail OAuth ingestion pipeline classifies confirmations/rejections/interview signals and deduplicates by provider message IDs",
+      "Status inference with confidence scoring + \"why this was inferred\" explanations and event timelines",
+      "Privacy-first storage: persists only metadata/signals needed for tracking (sender/domain, subject, snippet, timestamps, identifiers)",
+      "Production-ready auth/session handling with secure token storage and account management flows",
+      "Responsive dashboard with sync summaries, pipeline breakdowns, and fast drill-in application detail views",
+    ],
+    tech: [
+      "Node.js",
+      "Express",
+      "PostgreSQL (Supabase)",
+      "Supabase Auth",
+      "Google OAuth / Gmail API",
+      "Vercel",
+    ],
+    githubUrl: "(Private repository — demo available upon request.)",
+    liveUrl: "https://applictus.com",
+    featured: true,
+    category: ["AI", "Web", "Tools"],
+    statusNote: "Live on Vercel",
+    teamSize: 1,
+    gallery: [
+      {
+        title: "Login / Sign-up (Google + Email)",
+        description:
+          "Auth page supporting Google OAuth and email/password account flows for secure sign-in and onboarding.",
+        image: applictusAuth,
+        alt: "Applictus authentication page with Google sign-in and email sign-up options",
+      },
+      {
+        title: "Blank dashboard (Gmail not connected)",
+        description:
+          "New user dashboard state prompting Gmail connection before ingestion begins.",
+        image: applictusBlankDashboard,
+        alt: "Applictus blank dashboard for a new account before Gmail is connected",
+      },
+      {
+        title: "Populated dashboard (applications table)",
+        description:
+          "Main dashboard with a full applications table showing synced job records and status groupings.",
+        image: applictusDashboardTable,
+        alt: "Applictus populated applications dashboard with a large synced jobs table",
+      },
+      {
+        title: "Application detail side panel (timeline + inference)",
+        description:
+          "Expanded application side panel showing inferred status, confidence score, explanation, and event timeline from synced Gmail updates.",
+        image: applictusApplicationDetail,
+        alt: "Applictus application side panel showing inferred status confidence explanation and event timeline",
       },
     ],
   },
