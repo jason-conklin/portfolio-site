@@ -130,7 +130,7 @@ function HomePage() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-nowrap items-center gap-2 sm:self-start">
+                      <div className="flex flex-nowrap items-center gap-2 sm:self-center">
                         <Button
                           className="min-w-[130px] whitespace-nowrap"
                           onClick={() => openLiveProjectDetails(project.slug)}
