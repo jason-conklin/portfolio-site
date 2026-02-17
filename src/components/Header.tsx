@@ -92,7 +92,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Button
             asChild
-            className="hidden rounded-full px-4 sm:inline-flex"
+            className="hidden sm:inline-flex"
           >
             <a
               href={site.links.resume}
@@ -139,15 +139,16 @@ export function Header() {
               );
             })}
             <li className="mt-3">
-              <a
-                href={site.links.resume}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex w-full items-center justify-between rounded-xl border border-border px-3 py-2 text-sm font-semibold text-foreground transition hover:border-primary hover:bg-muted"
-              >
-                Resume (PDF)
-                <span className="text-xs text-muted-foreground">opens in new tab</span>
-              </a>
+              <Button asChild variant="secondary" className="w-full justify-between">
+                <a
+                  href={site.links.resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Resume (PDF)
+                  <span className="text-xs text-muted-foreground">opens in new tab</span>
+                </a>
+              </Button>
             </li>
           </ul>
         </nav>

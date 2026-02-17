@@ -72,10 +72,10 @@ function HomePage() {
               {hero.tagline}
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button asChild className="rounded-full">
+              <Button asChild size="lg">
                 <Link to={hero.cta.primary.href}>{hero.cta.primary.label}</Link>
               </Button>
-              <Button asChild variant="outline" className="rounded-full">
+              <Button asChild variant="secondary" size="lg">
                 <Link to={hero.cta.secondary.href}>
                   {hero.cta.secondary.label}
                 </Link>
@@ -132,12 +132,16 @@ function HomePage() {
                       </div>
                       <div className="flex flex-nowrap items-center gap-2 sm:self-start">
                         <Button
-                          className="min-w-[130px] rounded-full bg-[#d0e8ff] text-[#0b1220] hover:bg-[#bcdcff] whitespace-nowrap dark:bg-[#1b3d66] dark:text-[#e7f1ff] dark:hover:bg-[#28507f]"
+                          className="min-w-[130px] whitespace-nowrap"
                           onClick={() => openLiveProjectDetails(project.slug)}
                         >
                           View details
                         </Button>
-                        <Button asChild className="min-w-[110px] rounded-full whitespace-nowrap">
+                        <Button
+                          asChild
+                          variant="secondary"
+                          className="min-w-[110px] whitespace-nowrap"
+                        >
                           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                             View live
                           </a>

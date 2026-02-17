@@ -44,6 +44,24 @@ html {
   --ring: 221.2 83.2% 53.3%;
 
   --radius: 1rem;
+
+  --btn-radius: 999px;
+  --btn-shadow:
+    0 14px 30px rgba(10, 20, 30, 0.16),
+    0 2px 6px rgba(10, 20, 30, 0.1);
+  --btn-shadow-hover:
+    0 18px 44px rgba(10, 20, 30, 0.2),
+    0 6px 14px rgba(10, 20, 30, 0.14);
+  --btn-ring: 0 0 0 4px hsl(var(--ring) / 0.22);
+
+  --btn-primary-900: hsl(var(--primary));
+  --btn-primary-800: hsl(var(--primary));
+  --btn-primary-700: hsl(var(--primary));
+  --btn-accent: hsl(var(--ring));
+
+  --btn-surface: hsl(var(--card));
+  --btn-surface-2: hsl(var(--muted));
+  --btn-text: hsl(var(--foreground));
 }
 
 .dark {
@@ -74,6 +92,14 @@ html {
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 224.3 76.3% 48%;
+
+  --btn-shadow:
+    0 12px 28px rgba(2, 8, 23, 0.45),
+    0 2px 8px rgba(2, 8, 23, 0.35);
+  --btn-shadow-hover:
+    0 18px 42px rgba(2, 8, 23, 0.6),
+    0 6px 14px rgba(2, 8, 23, 0.5);
+  --btn-ring: 0 0 0 4px hsl(var(--ring) / 0.32);
 }
 
 @layer base {
@@ -88,6 +114,266 @@ html {
   }
 }
 
+@layer components {
+  /* =========================
+     Portfolio Buttons (Bevel / 3D)
+     ========================= */
+  .btn,
+  .primary-button,
+  .secondary-button,
+  .ghost-button,
+  .danger-button,
+  .cta-primary,
+  .cta-secondary,
+  .hero-cta {
+    -webkit-tap-highlight-color: transparent;
+    @apply relative inline-flex items-center justify-center gap-2 select-none font-semibold no-underline;
+    border-radius: var(--btn-radius);
+    border: 1px solid transparent;
+    padding: 0.75rem 1.05rem;
+    min-height: 44px;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    color: var(--btn-text);
+    background: var(--btn-surface);
+    box-shadow: var(--btn-shadow);
+    transform: translateY(0);
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.18s ease,
+      filter 0.18s ease,
+      background 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn::before,
+  .primary-button::before,
+  .secondary-button::before,
+  .ghost-button::before,
+  .danger-button::before,
+  .cta-primary::before,
+  .cta-secondary::before,
+  .hero-cta::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: calc(var(--btn-radius) - 2px);
+    pointer-events: none;
+    opacity: 0.95;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.15) 40%,
+      rgba(255, 255, 255, 0) 60%
+    );
+    mix-blend-mode: soft-light;
+  }
+
+  .btn:hover,
+  .primary-button:hover,
+  .secondary-button:hover,
+  .ghost-button:hover,
+  .danger-button:hover,
+  .cta-primary:hover,
+  .cta-secondary:hover,
+  .hero-cta:hover {
+    box-shadow: var(--btn-shadow-hover);
+    filter: saturate(1.05);
+  }
+
+  .btn:active,
+  .primary-button:active,
+  .secondary-button:active,
+  .ghost-button:active,
+  .danger-button:active,
+  .cta-primary:active,
+  .cta-secondary:active,
+  .hero-cta:active {
+    transform: translateY(1px);
+    box-shadow:
+      0 10px 22px rgba(10, 20, 30, 0.14),
+      0 2px 6px rgba(10, 20, 30, 0.1);
+  }
+
+  .btn:focus-visible,
+  .primary-button:focus-visible,
+  .secondary-button:focus-visible,
+  .ghost-button:focus-visible,
+  .danger-button:focus-visible,
+  .cta-primary:focus-visible,
+  .cta-secondary:focus-visible,
+  .hero-cta:focus-visible {
+    box-shadow: var(--btn-shadow-hover), var(--btn-ring);
+  }
+
+  .btn[disabled],
+  .btn:disabled,
+  .btn[aria-disabled="true"],
+  .btn.btn--disabled,
+  .primary-button[disabled],
+  .secondary-button[disabled],
+  .ghost-button[disabled],
+  .danger-button[disabled] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    filter: none;
+    pointer-events: none;
+  }
+
+  .btn--sm {
+    padding: 0.55rem 0.85rem;
+    min-height: 38px;
+    font-size: 0.95rem;
+  }
+
+  .btn--md,
+  .primary-button,
+  .secondary-button,
+  .ghost-button,
+  .danger-button,
+  .cta-primary,
+  .cta-secondary,
+  .hero-cta {
+    padding: 0.75rem 1.05rem;
+    min-height: 44px;
+    font-size: 1rem;
+  }
+
+  .btn--lg {
+    padding: 0.95rem 1.25rem;
+    min-height: 52px;
+    font-size: 1.05rem;
+  }
+
+  .btn--primary,
+  .primary-button,
+  .cta-primary,
+  .hero-cta {
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(var(--primary) / 0.24);
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        rgba(255, 255, 255, 0.35),
+        rgba(255, 255, 255, 0) 55%
+      ),
+      linear-gradient(180deg, var(--btn-primary-700), var(--btn-primary-900));
+  }
+
+  .btn--primary:hover,
+  .primary-button:hover,
+  .cta-primary:hover,
+  .hero-cta:hover {
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        rgba(255, 255, 255, 0.4),
+        rgba(255, 255, 255, 0) 55%
+      ),
+      linear-gradient(180deg, var(--btn-accent), var(--btn-primary-900));
+  }
+
+  .btn--secondary,
+  .secondary-button,
+  .cta-secondary {
+    color: var(--btn-text);
+    border-color: hsl(var(--primary) / 0.2);
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        rgba(255, 255, 255, 0.75),
+        rgba(255, 255, 255, 0) 55%
+      ),
+      linear-gradient(180deg, var(--btn-surface), var(--btn-surface-2));
+  }
+
+  .btn--secondary:hover,
+  .secondary-button:hover,
+  .cta-secondary:hover {
+    border-color: hsl(var(--primary) / 0.3);
+  }
+
+  .btn--ghost,
+  .ghost-button {
+    color: var(--btn-text);
+    background: hsl(var(--background) / 0.55);
+    border-color: hsl(var(--primary) / 0.14);
+    box-shadow: 0 10px 20px rgba(10, 20, 30, 0.1);
+  }
+
+  .btn--ghost:hover,
+  .ghost-button:hover {
+    background: hsl(var(--background) / 0.72);
+    box-shadow: 0 14px 30px rgba(10, 20, 30, 0.14);
+  }
+
+  .btn--danger,
+  .danger-button {
+    color: hsl(var(--destructive-foreground));
+    border-color: rgba(255, 255, 255, 0.14);
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0) 55%
+      ),
+      linear-gradient(180deg, hsl(var(--destructive)), hsl(var(--destructive) / 0.6));
+  }
+
+  /* =========================
+     Back-compat mappings
+     ========================= */
+  .btn.bg-\[\#d0e8ff\],
+  .btn.text-\[\#0b1220\] {
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(var(--primary) / 0.24);
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        rgba(255, 255, 255, 0.35),
+        rgba(255, 255, 255, 0) 55%
+      ),
+      linear-gradient(180deg, var(--btn-primary-700), var(--btn-primary-900));
+  }
+
+  .btn.hover\:bg-\[\#bcdcff\]:hover {
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        rgba(255, 255, 255, 0.4),
+        rgba(255, 255, 255, 0) 55%
+      ),
+      linear-gradient(180deg, var(--btn-accent), var(--btn-primary-900));
+  }
+
+  .dark .btn.dark\:bg-\[\#1b3d66\],
+  .dark .btn.dark\:text-\[\#e7f1ff\] {
+    color: hsl(var(--primary-foreground));
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        rgba(255, 255, 255, 0.35),
+        rgba(255, 255, 255, 0) 55%
+      ),
+      linear-gradient(180deg, var(--btn-primary-700), var(--btn-primary-900));
+  }
+
+  .dark .btn.dark\:hover\:bg-\[\#28507f\]:hover {
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        rgba(255, 255, 255, 0.4),
+        rgba(255, 255, 255, 0) 55%
+      ),
+      linear-gradient(180deg, var(--btn-accent), var(--btn-primary-900));
+  }
+}
+
 #app-root[data-modal-open="true"] header {
   pointer-events: none;
 }
@@ -96,6 +382,30 @@ html {
   .min-h-screen,
   .min-h-\[100vh\] {
     min-height: 100svh !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .primary-button,
+  .secondary-button,
+  .ghost-button,
+  .danger-button,
+  .cta-primary,
+  .cta-secondary,
+  .hero-cta {
+    transition: none;
+  }
+
+  .btn:hover,
+  .primary-button:hover,
+  .secondary-button:hover,
+  .ghost-button:hover,
+  .danger-button:hover,
+  .cta-primary:hover,
+  .cta-secondary:hover,
+  .hero-cta:hover {
+    filter: none;
   }
 }
 

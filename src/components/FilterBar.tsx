@@ -36,13 +36,9 @@ export function FilterBar({
         {filters.map((filter) => (
           <Button
             key={filter.value}
-            variant={activeFilter === filter.value ? "default" : "secondary"}
-            className={cn(
-              "rounded-full px-4 py-1 text-sm",
-              activeFilter === filter.value
-                ? "shadow-soft"
-                : "bg-muted text-muted-foreground hover:bg-muted/70",
-            )}
+            variant={activeFilter === filter.value ? "default" : "ghost"}
+            size="sm"
+            className={cn("px-4", activeFilter === filter.value ? "shadow-soft" : "")}
             onClick={() => onFilterChange(filter.value)}
             aria-pressed={activeFilter === filter.value}
           >
