@@ -218,6 +218,17 @@ function getProjectMonogram(projectName: string) {
   return "PR";
 }
 
+function getProjectDomain(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/\/.*$/, "");
+  }
+}
+
 export function ProjectCard({ project }: ProjectCardProps) {
   const {
     title,
@@ -274,6 +285,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const projectMonogram = getProjectMonogram(projectName);
   const cardHighlightItems = (cardHighlights?.length ? cardHighlights : highlights).slice(0, 2);
   const teamSizeLabel = hasTeamSize ? (teamSize === 1 ? "Solo" : `Team of ${teamSize}`) : null;
+  const liveDomain = liveUrl ? getProjectDomain(liveUrl) : null;
+  const statusLine = liveDomain ? `Live • ${liveDomain}` : statusNote;
 
   const resetZoomState = useCallback(() => {
     if (dragRef.current.pointerId !== undefined && containerRef.current) {
@@ -923,31 +936,35 @@ export function ProjectCard({ project }: ProjectCardProps) {
           className="pointer-events-none absolute inset-x-6 top-0 z-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent"
         />
 
-        <div className="relative z-10 flex flex-col gap-3">
-          <div className="flex min-w-0 items-start gap-2.5">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-10 sm:w-10 sm:p-1.5">
-              {logo ? (
-                <img
-                  src={logo}
-                  alt={`${projectName} logo`}
-                  className="h-full w-full object-contain"
-                  loading="lazy"
-                />
-              ) : (
-                <span
-                  aria-hidden="true"
-                  className="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
-                >
-                  {projectMonogram}
-                </span>
-              )}
-            </div>
-            <div className="min-w-0 flex-1">
-              <h3 className="min-w-0 text-xl font-semibold tracking-tight">{title}</h3>
-              {(teamSizeLabel || statusNote) ? (
-                <div className="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+        <div className="relative z-10 flex flex-col gap-3.5">
+          <div className="space-y-3">
+            <div className="relative overflow-hidden rounded-xl px-2 py-2">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-primary/[0.12] via-primary/[0.05] to-transparent opacity-75 transition-opacity duration-200 group-hover:opacity-95 motion-reduce:transition-none dark:from-primary/[0.2] dark:via-primary/[0.08]"
+              />
+              <div className="relative flex min-w-0 items-start gap-2.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 transition-all duration-200 group-hover:-translate-y-px group-hover:border-border/80 group-hover:bg-background/80 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 sm:h-11 sm:w-11 sm:p-1.5">
+                  {logo ? (
+                    <img
+                      src={logo}
+                      alt={`${projectName} logo`}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span
+                      aria-hidden="true"
+                      className="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+                    >
+                      {projectMonogram}
+                    </span>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="min-w-0 text-xl font-semibold tracking-tight">{title}</h3>
                   {teamSizeLabel ? (
-                    <span className="inline-flex items-center gap-1">
+                    <div className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
                       <ThemedIconCSS
                         lightThemeSrc={peopleIconDark}
                         darkThemeSrc={peopleIconLight}
@@ -955,50 +972,52 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
                       />
                       <span>{teamSizeLabel}</span>
-                    </span>
+                    </div>
                   ) : null}
-                  {teamSizeLabel && statusNote ? (
-                    <span aria-hidden className="text-muted-foreground/70">
-                      •
-                    </span>
+                  {statusLine ? (
+                    <p className="mt-1 inline-flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500/75" aria-hidden="true" />
+                      <span className="truncate">{statusLine}</span>
+                    </p>
                   ) : null}
-                  {statusNote ? <span className="truncate">{statusNote}</span> : null}
                 </div>
-              ) : null}
+              </div>
             </div>
-          </div>
 
-          <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">
-            {cardSummary ?? summary}
-          </p>
+            <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">
+              {cardSummary ?? summary}
+            </p>
 
-          {cardHighlightItems.length ? (
-            <ul className="space-y-1.5 pl-4">
-              {cardHighlightItems.map((item, index) => (
-                <li
-                  key={`${slug}-highlight-${index}`}
-                  className="list-disc text-xs text-muted-foreground line-clamp-1 sm:text-sm"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-
-          <div className="max-h-[3.9rem] overflow-hidden">
-            <div className="flex flex-wrap gap-2">
-              {tech.map((stack) => (
-                <Tag key={stack}>{stack}</Tag>
-              ))}
-            </div>
+            {cardHighlightItems.length ? (
+              <ul className="space-y-1.5 pl-4">
+                {cardHighlightItems.map((item, index) => (
+                  <li
+                    key={`${slug}-highlight-${index}`}
+                    className="list-disc text-xs text-muted-foreground line-clamp-1 sm:text-sm"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
         </div>
         <footer className="relative z-10 mt-4 flex flex-col gap-3 border-t border-border/40 pt-4">
+          <div className="rounded-xl border border-border/45 bg-muted/30 p-3">
+            <div className="max-h-[3.9rem] overflow-hidden">
+              <div className="flex flex-wrap gap-2">
+                {tech.map((stack) => (
+                  <Tag key={stack}>{stack}</Tag>
+                ))}
+              </div>
+            </div>
+          </div>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button
               type="button"
               variant="soft"
-              className="w-full"
+              size="sm"
+              className="h-10 min-h-10 w-full"
               onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
@@ -1013,7 +1032,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 <Button
                   asChild
                   variant="secondary"
-                  className="w-full text-left"
+                  size="sm"
+                  className="h-10 min-h-10 w-full text-left"
                 >
                   <Link
                     to="/contact"
@@ -1028,7 +1048,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 <Button
                   asChild
                   variant="secondary"
-                  className="w-full"
+                  size="sm"
+                  className="h-10 min-h-10 w-full"
                   onClick={(event) => event.stopPropagation()}
                 >
                   <a href={githubUrl} target="_blank" rel="noopener noreferrer">
@@ -1042,7 +1063,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {liveUrl ? (
             <Button
               asChild
-              className="w-full"
+              size="sm"
+              className="h-10 min-h-10 w-full shadow-sm hover:shadow-md"
               onClick={(event) => event.stopPropagation()}
             >
               <a href={liveUrl} target="_blank" rel="noopener noreferrer">
@@ -1051,7 +1073,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </a>
             </Button>
           ) : (
-            <Button className="w-full" variant="outline" disabled>
+            <Button className="h-10 min-h-10 w-full" size="sm" variant="outline" disabled>
               <ExternalLink className="mr-2 inline h-4 w-4" aria-hidden="true" />
               Live site (coming soon)
             </Button>
