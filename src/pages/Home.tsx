@@ -48,7 +48,7 @@ function HomePage() {
       <PageSEO path="/" />
       <section
         id="home"
-        className="relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-10 sm:py-12"
+        className="relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden"
       >
         <div className="pointer-events-none absolute inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(59,130,246,0.12)_0,rgba(59,130,246,0.06)_30%,rgba(59,130,246,0)_56%)]" />
@@ -59,7 +59,7 @@ function HomePage() {
             initial={prefersReducedMotion ? undefined : { opacity: 0, y: 28 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
-            className="mx-auto max-w-4xl space-y-5 sm:space-y-6"
+            className="mx-auto max-w-4xl space-y-4 sm:space-y-5"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               {hero.location}
