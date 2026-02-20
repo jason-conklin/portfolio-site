@@ -1142,7 +1142,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             >
               <a href={liveUrl!} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-2 inline h-4 w-4" aria-hidden="true" />
-                Live demo
+                Live site
               </a>
             </Button>
           ) : null}

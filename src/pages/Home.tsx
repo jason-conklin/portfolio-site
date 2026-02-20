@@ -6,8 +6,11 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { Section } from "@/components/Section";
+import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import { PageSEO } from "@/app/seo";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
+import peopleIconLight from "@/assets/people_icon_light.png";
+import peopleIconDark from "@/assets/people_icon_dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 const homeFeaturedProjects = (() => {
@@ -55,6 +58,14 @@ function getProjectDomain(url: string) {
       .replace(/^www\./, "")
       .replace(/\/.*$/, "");
   }
+}
+
+function getTeamSizeLabel(slug?: string) {
+  const teamSize = slug
+    ? projects.find((project) => project.slug === slug)?.teamSize
+    : undefined;
+  if (typeof teamSize !== "number" || teamSize <= 1) return "Solo";
+  return `Team of ${teamSize}`;
 }
 
 function HomePage() {
@@ -110,62 +121,87 @@ function HomePage() {
                   {liveProjects.map((project) => (
                     <li
                       key={project.name}
-                      className="rounded-xl border border-border/55 bg-background/45 p-3 transition-shadow duration-200 hover:border-border/75 hover:shadow-sm motion-reduce:transition-none"
+                      className="group rounded-xl border border-border/55 bg-background/45 p-3 transition-shadow duration-200 hover:border-border/75 hover:shadow-sm motion-reduce:transition-none"
                     >
-                      <div className="flex items-start gap-3">
-                        {project.icon ? (
-                          <img
-                            src={project.icon}
-                            alt={`${project.name} logo`}
-                            className="mt-0.5 h-8 w-8 shrink-0 rounded-md border border-border/60 bg-background/70 object-contain p-0.5"
-                            loading="lazy"
+                      <div className="space-y-3">
+                        <div className="relative overflow-hidden rounded-xl border border-border/55 bg-background/65 px-3 py-2.5 ring-1 ring-border/45">
+                          <div
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-primary/[0.2] via-primary/[0.09] to-transparent opacity-85 transition-opacity duration-200 group-hover:opacity-100 motion-reduce:transition-none dark:from-primary/[0.32] dark:via-primary/[0.14]"
                           />
-                        ) : null}
-                        <div className="min-w-0">
-                          <p className="flex flex-wrap items-center gap-x-1 text-sm font-semibold text-foreground">
-                            <span>{project.name}</span>
-                            <span aria-hidden className="text-muted-foreground">
-                              ·
-                            </span>
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="font-medium text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                            >
-                              {getProjectDomain(project.liveUrl)}
-                            </a>
-                          </p>
-                          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                            {project.blurb}
-                          </p>
-                          <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                            <Button
-                              asChild
-                              variant="soft"
-                              size="sm"
-                              className="h-8 min-h-8 rounded-full px-2.5 text-xs shadow-none"
-                            >
+                          <div className="relative flex min-w-0 items-start gap-2.5">
+                            {project.icon ? (
+                              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-11 sm:w-11 sm:p-1.5">
+                                <img
+                                  src={project.icon}
+                                  alt={`${project.name} logo`}
+                                  className="h-full w-full object-contain"
+                                  loading="lazy"
+                                />
+                              </div>
+                            ) : null}
+                            <div className="min-w-0 flex-1">
+                              <p className="min-w-0 text-sm font-semibold tracking-tight text-foreground">
+                                {project.name}
+                              </p>
+                              <div className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+                                <ThemedIconCSS
+                                  lightThemeSrc={peopleIconDark}
+                                  darkThemeSrc={peopleIconLight}
+                                  alt=""
+                                  className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
+                                />
+                                <span>{getTeamSizeLabel(project.slug)}</span>
+                              </div>
+                              <p className="mt-1 inline-flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+                                <span
+                                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500/75"
+                                  aria-hidden="true"
+                                />
+                                <span>Live</span>
+                              </p>
                               <a
                                 href={project.liveUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                className="mt-1 block truncate text-xs text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                               >
-                                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                                Live
+                                {getProjectDomain(project.liveUrl)}
                               </a>
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => openProjectCaseStudy(project.slug)}
-                              className="h-8 min-h-8 rounded-full px-2.5 text-xs shadow-none"
-                            >
-                              <FileText className="h-3.5 w-3.5" aria-hidden="true" />
-                              Details
-                            </Button>
+                            </div>
                           </div>
+                          <div aria-hidden="true" className="relative mt-2 border-t border-border/40" />
+                        </div>
+
+                        <p className="text-xs leading-relaxed text-muted-foreground">
+                          {project.blurb}
+                        </p>
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <Button
+                            asChild
+                            variant="soft"
+                            size="sm"
+                            className="h-8 min-h-8 rounded-full px-2.5 text-xs shadow-none"
+                          >
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                              Live
+                            </a>
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openProjectCaseStudy(project.slug)}
+                            className="h-8 min-h-8 rounded-full px-2.5 text-xs shadow-none"
+                          >
+                            <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                            Details
+                          </Button>
                         </div>
                       </div>
                     </li>
