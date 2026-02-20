@@ -903,7 +903,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button
               type="button"
-              className="w-full bg-[#d0e8ff] text-[#0b1220] hover:bg-[#bcdcff] dark:bg-[#1b3d66] dark:text-[#e7f1ff] dark:hover:bg-[#28507f]"
+              variant="soft"
+              className="w-full"
               onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();

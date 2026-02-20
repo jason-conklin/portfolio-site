@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = {
   default: "btn btn--primary",
+  soft: "btn btn--soft",
   secondary: "btn btn--secondary",
   ghost: "btn btn--ghost",
   outline: "btn btn--secondary",

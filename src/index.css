@@ -278,6 +278,74 @@ html {
       linear-gradient(180deg, var(--btn-accent), var(--btn-primary-900));
   }
 
+  .btn--soft {
+    color: hsl(var(--primary));
+    border-color: hsl(var(--primary) / 0.26);
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        hsl(var(--primary-foreground) / 0.7),
+        hsl(var(--primary-foreground) / 0) 55%
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--primary) / 0.14),
+        hsl(var(--primary) / 0.08)
+      );
+    box-shadow: 0 10px 22px rgba(10, 20, 30, 0.12);
+  }
+
+  .btn--soft:hover {
+    transform: translateY(-1px);
+    border-color: hsl(var(--primary) / 0.34);
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        hsl(var(--primary-foreground) / 0.78),
+        hsl(var(--primary-foreground) / 0) 55%
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--primary) / 0.2),
+        hsl(var(--primary) / 0.12)
+      );
+    box-shadow: 0 14px 28px rgba(10, 20, 30, 0.16);
+    filter: none;
+  }
+
+  .dark .btn--soft {
+    color: hsl(var(--primary));
+    border-color: hsl(var(--primary) / 0.34);
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        hsl(var(--foreground) / 0.1),
+        hsl(var(--foreground) / 0) 60%
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--primary) / 0.2),
+        hsl(var(--primary) / 0.12)
+      );
+    box-shadow: 0 12px 24px rgba(2, 8, 23, 0.42);
+  }
+
+  .dark .btn--soft:hover {
+    border-color: hsl(var(--primary) / 0.44);
+    background:
+      radial-gradient(
+        120% 140% at 20% 10%,
+        hsl(var(--foreground) / 0.16),
+        hsl(var(--foreground) / 0) 60%
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--primary) / 0.28),
+        hsl(var(--primary) / 0.18)
+      );
+    box-shadow: 0 16px 30px rgba(2, 8, 23, 0.5);
+  }
+
   .btn--secondary,
   .secondary-button,
   .cta-secondary {
@@ -391,6 +459,7 @@ html {
   .secondary-button,
   .ghost-button,
   .danger-button,
+  .btn--soft,
   .cta-primary,
   .cta-secondary,
   .hero-cta {
@@ -402,10 +471,15 @@ html {
   .secondary-button:hover,
   .ghost-button:hover,
   .danger-button:hover,
+  .btn--soft:hover,
   .cta-primary:hover,
   .cta-secondary:hover,
   .hero-cta:hover {
     filter: none;
+  }
+
+  .btn--soft:hover {
+    transform: none;
   }
 }
 
