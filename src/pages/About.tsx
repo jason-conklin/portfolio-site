@@ -7,6 +7,7 @@ import { about } from "@/data/profile";
 import profileImage from "@/assets/profile.png";
 import njitLogo from "@/assets/njit-logo.png";
 import { ThemedIconCSS } from "@/components/ThemedIconCSS";
+import { FocusAreaGrid } from "@/components/FocusAreaGrid";
 import downloadIconLight from "@/assets/download_icon_light.png";
 import downloadIconDark from "@/assets/download_icon_dark.png";
 
@@ -155,27 +156,12 @@ function AboutPage() {
                             item.school
                           )}
                         </h4>
-                        <div className="mt-2">
-                          <p className="text-base font-medium text-foreground/90">{item.degree}</p>
-                          <p className="mt-1 text-sm text-muted-foreground">
-                            Graduated {item.graduation}
-                          </p>
-                        </div>
+                        <p className="mt-2 text-sm font-medium text-foreground/90">
+                          {item.degree} · {item.graduation}
+                        </p>
                       </div>
                     </div>
-                    <h5 className="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground/85">
-                      Relevant coursework
-                    </h5>
-                    <ul className="mt-2 grid grid-cols-1 gap-2.5 text-sm text-foreground sm:grid-cols-2">
-                      {item.coursework.map((course) => (
-                        <li
-                          key={course}
-                          className="rounded-lg bg-muted/35 px-3.5 py-2.5 transition-shadow duration-200 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-sm"
-                        >
-                          {course}
-                        </li>
-                      ))}
-                    </ul>
+                    <FocusAreaGrid areas={item.focusAreas} />
                   </motion.li>
                 ))}
               </ol>

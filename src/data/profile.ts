@@ -133,19 +133,30 @@ export const about = {
   education: [
     {
       school: "New Jersey Institute of Technology",
-      degree: "Bachelor of Science in Computer Science",
+      degree: "B.S. Computer Science",
       graduation: "Spring 2025",
       url: "https://www.njit.edu",
-      coursework: [
-        "Probability and Statistics",
-        "Programming Language Concepts",
-        "Data Science",
-        "Linux Programming",
-        "Operating Systems",
-        "Computer Networks",
-        "Artificial Intelligence",
-        "Computer Systems",
-        "Advanced Database Systems",
+      focusAreas: [
+        {
+          title: "Full-Stack Web Architecture",
+          description: "React/TypeScript, API design, static deploy hygiene",
+        },
+        {
+          title: "Applied AI & Evaluation",
+          description: "Prompt systems, evaluation loops, measurable outputs",
+        },
+        {
+          title: "Secure Auth & RBAC",
+          description: "Sessions/JWT, policy design, least privilege",
+        },
+        {
+          title: "Data Systems & Analytics",
+          description: "Schema design, ingestion, query performance",
+        },
+        {
+          title: "Systems Foundations",
+          description: "OS/networking fundamentals, performance awareness",
+        },
       ],
     },
   ],
