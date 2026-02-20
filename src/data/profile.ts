@@ -258,34 +258,108 @@ export const about = {
 } as const;
 
 export const skills = {
-  Languages: ["Python", "TypeScript/JavaScript", "Java", "C", "C++", "SQL"],
-  "Frameworks & Libraries": [
-    "React",
-    "Vite",
-    "Tailwind",
-    "shadcn/ui",
-    "FastAPI",
-    "Flask",
-    "jQuery",
+  coreStrengths: [
+    {
+      title: "Production Full-Stack Engineering",
+      description:
+        "Designing and shipping maintainable React and Node-based products with clean architecture, reliable delivery, and strong UX foundations.",
+      icon: "layers",
+    },
+    {
+      title: "Secure Auth & RBAC Systems",
+      description:
+        "Implementing OAuth/session flows, access boundaries, and least-privilege controls to keep user and admin paths safe in production.",
+      icon: "shield",
+    },
+    {
+      title: "Applied AI & Evaluation Workflows",
+      description:
+        "Building LLM-powered features with measurable evaluation loops, explainable outputs, and structured model integration in real apps.",
+      icon: "brain",
+    },
   ],
-  "Data & Infra": [
-    "SQLite",
-    "PostgreSQL (basic)",
-    "MySQL",
-    "MongoDB",
-    "AWS",
-    "Google Cloud Platform",
-    "Docker",
-    "Render",
+  categories: [
+    {
+      id: "languages",
+      title: "Languages",
+      icon: "code",
+      summary: "Primary implementation languages for frontend delivery, backend APIs, and data querying.",
+      proficiency: {
+        primary: ["TypeScript/JavaScript", "Python", "SQL"],
+        working: ["Java", "C++"],
+        familiar: ["C"],
+      },
+      usedIn: [
+        { label: "GiftPerch", slug: "giftperch-recipient-profiles" },
+        { label: "Applictus", slug: "applictus" },
+        { label: "StateStats", slug: "statestats-data-explorer" },
+      ],
+    },
+    {
+      id: "frameworks-libraries",
+      title: "Frameworks & Libraries",
+      icon: "workflow",
+      summary: "UI and backend frameworks used to build production interfaces and API services.",
+      proficiency: {
+        primary: ["React", "Vite", "Tailwind", "shadcn/ui"],
+        working: ["FastAPI", "Flask"],
+        familiar: ["jQuery (legacy)"],
+      },
+      usedIn: [
+        { label: "GiftPerch", slug: "giftperch-recipient-profiles" },
+        { label: "SentinelAuth", slug: "sentinelauth-access-control" },
+        { label: "FlowGuard", slug: "flowguard-monitor" },
+      ],
+    },
+    {
+      id: "data-infra",
+      title: "Data & Infra",
+      icon: "database",
+      summary: "Data modeling, persistence, and deployment tooling for reliable web application operation.",
+      proficiency: {
+        primary: ["PostgreSQL (schema + queries)", "Docker", "Render"],
+        working: ["Supabase", "SQLite", "MySQL", "MongoDB"],
+        familiar: ["AWS", "Google Cloud Platform"],
+      },
+      usedIn: [
+        { label: "Applictus", slug: "applictus" },
+        { label: "StateStats", slug: "statestats-data-explorer" },
+        { label: "SentinelAuth", slug: "sentinelauth-access-control" },
+      ],
+    },
+    {
+      id: "ai-llm",
+      title: "AI / LLM",
+      icon: "brain",
+      summary: "Applied model integration and evaluation patterns focused on usable, testable AI outputs.",
+      proficiency: {
+        primary: ["Evaluation Pipelines", "OpenAI / LM Studio / Ollama APIs"],
+        working: ["JSON-Mode Responses", "Prompt Orchestration"],
+        familiar: ["Segment Anything (SAM)"],
+      },
+      usedIn: [
+        { label: "GiftPerch", slug: "giftperch-recipient-profiles" },
+        { label: "Applictus", slug: "applictus" },
+        { label: "AI Interview Coach", slug: "ai-interview-coach" },
+      ],
+    },
+    {
+      id: "tools",
+      title: "Tools",
+      icon: "tools",
+      summary: "Developer tooling and workflows for version control, CI, and day-to-day implementation speed.",
+      proficiency: {
+        primary: ["Git", "VS Code"],
+        working: ["GitHub Actions", "npm / pnpm workflows"],
+        familiar: ["Postman"],
+      },
+      usedIn: [
+        { label: "StateStats", slug: "statestats-data-explorer" },
+        { label: "SentinelAuth", slug: "sentinelauth-access-control" },
+        { label: "FlowGuard", slug: "flowguard-monitor" },
+      ],
+    },
   ],
-  "AI / LLM": [
-    "Evaluation Pipelines",
-    "OpenAI / LM Studio / Ollama APIs",
-    "JSON-Mode Responses",
-    "Segment Anything (SAM)",
-    "FastAPI Endpoints",
-  ],
-  Tools: ["Git", "GitHub Actions", "VS Code"],
 } as const;
 
 export const projects = [
