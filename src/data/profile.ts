@@ -92,10 +92,7 @@ export const navigation = [
 
 export const hero = {
   name: "Jason Conklin",
-  headline:
-    "Production-grade software systems and applied AI workflows built with measurable evaluation.",
-  subtitle:
-    "Software engineer focused on scalable full-stack architecture, testable AI integrations, and reliable delivery.",
+  statement: "Full-stack engineer building production-grade web systems and applied AI tools.",
   location: "New Jersey, USA · Open to Remote (US)",
   cta: {
     primary: { label: "View Projects", href: "/projects" },
@@ -109,28 +106,6 @@ export const hero = {
 } as const;
 
 export const homeContent = {
-  proofStrip: [
-    {
-      icon: "rocket",
-      label: "Deployed products",
-      detail: "GiftPerch, Applictus, and StateStats running in production.",
-    },
-    {
-      icon: "sparkles",
-      label: "Applied AI workflows",
-      detail: "Inference pipelines with confidence scoring and explainability.",
-    },
-    {
-      icon: "shield",
-      label: "Secure auth and RBAC",
-      detail: "OAuth, session hardening, and least-privilege access patterns.",
-    },
-    {
-      icon: "database",
-      label: "Data systems",
-      detail: "Schema design, ingestion pipelines, and analytics-ready querying.",
-    },
-  ],
   spotlightProjects: [
     {
       slug: "giftperch-recipient-profiles",
@@ -163,24 +138,26 @@ export const homeContent = {
       tech: ["Next.js", "Prisma", "Supabase", "D3.js"],
     },
   ],
-  focusPillars: [
+  engineeringFocus: [
     {
-      icon: "server",
       title: "Production Engineering",
       description:
-        "Reliable full-stack systems with maintainable architecture, secure integrations, and deployment hygiene.",
+        "Reliable full-stack architecture, release hygiene, and maintainable systems that hold up in production.",
     },
     {
-      icon: "cpu",
-      title: "Applied AI and Evaluation",
+      title: "Applied AI Workflows",
       description:
-        "Structured prompt workflows, measurable scoring loops, and explainable outputs that support product decisions.",
+        "Structured AI integrations with measurable evaluation loops and outputs designed to be explainable.",
     },
     {
-      icon: "barChart",
+      title: "Secure Auth and RBAC",
+      description:
+        "OAuth, session management, and role-based access controls implemented with least-privilege principles.",
+    },
+    {
       title: "Data Systems and Analytics",
       description:
-        "Schema-first data models, ingestion pipelines, and query patterns optimized for product insights.",
+        "Schema-first modeling, ingestion pipelines, and query patterns tuned for product-grade dashboards.",
     },
   ],
 } as const;
