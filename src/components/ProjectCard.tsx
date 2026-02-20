@@ -177,6 +177,7 @@ interface Project {
   tech: readonly string[];
   githubUrl?: string;
   liveUrl?: string;
+  status?: "live" | "code-only" | "wip" | "prototype" | "local-run";
   featured?: boolean;
   category?: readonly string[];
   statusNote?: string;
@@ -230,6 +231,20 @@ function getProjectDomain(url: string) {
   }
 }
 
+const nonLiveStatusLabels = {
+  "code-only": "Code only",
+  wip: "WIP",
+  prototype: "Prototype",
+  "local-run": "Local run",
+} as const;
+
+type NonLiveProjectStatus = keyof typeof nonLiveStatusLabels;
+
+function normalizeNonLiveStatus(status?: Project["status"]): NonLiveProjectStatus | undefined {
+  if (!status || status === "live") return undefined;
+  return status;
+}
+
 export function ProjectCard({ project }: ProjectCardProps) {
   const {
     title,
@@ -241,8 +256,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
     tech,
     githubUrl,
     liveUrl,
+    status,
     category,
-    statusNote,
     gallery,
     teamSize,
     slug,
@@ -289,9 +304,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const cardHighlightItems = (cardHighlights?.length ? cardHighlights : highlights).slice(0, 2);
   const teamSizeLabel = hasTeamSize ? (teamSize === 1 ? "Solo" : `Team of ${teamSize}`) : null;
   const liveDomain = hasLiveUrl && liveUrl ? getProjectDomain(liveUrl) : null;
-  const statusLine = liveDomain ? `Live • ${liveDomain}` : statusNote;
+  const resolvedStatus = hasLiveUrl
+    ? "live"
+    : normalizeNonLiveStatus(status) ?? "code-only";
+  const statusLine =
+    resolvedStatus === "live"
+      ? `Live • ${liveDomain ?? "Production"}`
+      : nonLiveStatusLabels[resolvedStatus];
+  const statusDotClass =
+    resolvedStatus === "live" ? "bg-emerald-500/75" : "bg-muted-foreground/60";
   const quickFactsStack = tech.slice(0, 3);
-  const quickStatusLabel = hasLiveUrl ? "Live" : "WIP";
+  const quickStatusLabel =
+    resolvedStatus === "live" ? "Live" : nonLiveStatusLabels[resolvedStatus];
 
   const resetZoomState = useCallback(() => {
     if (dragRef.current.pointerId !== undefined && containerRef.current) {
@@ -474,7 +498,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                             <Button asChild variant="soft" size="sm" className="h-9 min-h-9 px-3">
                               <a href={liveUrl!} target="_blank" rel="noopener noreferrer">
                                 <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                                Live
+                                Live demo
                               </a>
                             </Button>
                           ) : null}
@@ -542,7 +566,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                               className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                             >
                               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                              Live link
+                              Live demo
                             </a>
                           </li>
                         ) : null}
@@ -1014,7 +1038,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   ) : null}
                   {statusLine ? (
                     <p className="mt-1 inline-flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500/75" aria-hidden="true" />
+                      <span
+                        className={cn("h-1.5 w-1.5 shrink-0 rounded-full", statusDotClass)}
+                        aria-hidden="true"
+                      />
                       <span className="truncate">{statusLine}</span>
                     </p>
                   ) : null}
@@ -1061,7 +1088,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button
               type="button"
-              variant="soft"
+              variant={hasLiveUrl ? "soft" : "default"}
               size="sm"
               className="h-10 min-h-10 w-full"
               onClick={(event) => {
@@ -1106,24 +1133,19 @@ export function ProjectCard({ project }: ProjectCardProps) {
               )
             ) : null}
           </div>
-          {liveUrl ? (
+          {hasLiveUrl ? (
             <Button
               asChild
               size="sm"
               className="h-10 min-h-10 w-full shadow-sm hover:shadow-md"
               onClick={(event) => event.stopPropagation()}
             >
-              <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+              <a href={liveUrl!} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-2 inline h-4 w-4" aria-hidden="true" />
-                Live site
+                Live demo
               </a>
             </Button>
-          ) : (
-            <Button className="h-10 min-h-10 w-full" size="sm" variant="outline" disabled>
-              <ExternalLink className="mr-2 inline h-4 w-4" aria-hidden="true" />
-              Live site (coming soon)
-            </Button>
-          )}
+          ) : null}
         </footer>
       </motion.article>
       {detailModal}
