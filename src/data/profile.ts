@@ -128,7 +128,7 @@ export const liveProjects = [
 ] as const;
 
 export const about = {
-  bio: "I build practical, production-ready web apps and AI-driven tools, with a focus on software engineering, automated evaluation systems, and developer experience.",
+  bio: "I build practical, production-ready web applications and AI-driven tools, with a focus on clean software architecture, measurable evaluation systems, and thoughtful developer experience.\n\nMy work centers on turning ideas into reliable systems - designing scalable data models, integrating AI in structured and testable ways, and shipping software that is maintainable, performant, and built for real users.",
   location: "New Jersey, USA · Open to Remote (US)",
   education: [
     {

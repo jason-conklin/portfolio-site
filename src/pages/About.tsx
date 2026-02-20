@@ -13,13 +13,7 @@ import downloadIconDark from "@/assets/download_icon_dark.png";
 
 function AboutPage() {
   const prefersReducedMotion = useReducedMotion();
-  const emphasizedPhrases = new Set([
-    "production-ready web apps",
-    "ai-driven tools",
-  ]);
-  const bioSegments = about.bio.split(
-    /(production-ready web apps|AI-driven tools)/i,
-  );
+  const bioParagraphs = about.bio.split(/\n\s*\n/).filter(Boolean);
 
   return (
     <>
@@ -34,7 +28,7 @@ function AboutPage() {
             className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_8%,rgba(59,130,246,0.05),transparent_54%),radial-gradient(circle_at_86%_4%,rgba(14,165,233,0.04),transparent_52%)] dark:bg-[radial-gradient(circle_at_12%_8%,rgba(96,165,250,0.08),transparent_58%),radial-gradient(circle_at_86%_4%,rgba(56,189,248,0.06),transparent_56%)]"
           />
           <div className="grid gap-12 lg:grid-cols-[1.2fr,1fr]">
-            <div className="space-y-5 text-muted-foreground">
+            <div className="space-y-4 text-muted-foreground">
               <div className="flex flex-col gap-5 rounded-3xl border border-border/60 bg-card/85 p-5 shadow-[0_20px_44px_-24px_rgba(15,23,42,0.45)] sm:flex-row sm:items-center dark:shadow-[0_22px_48px_-26px_rgba(2,8,23,0.72)]">
                 <div className="rounded-[1.65rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.28),rgba(59,130,246,0.08))] p-[2px]">
                   <img
@@ -56,21 +50,11 @@ function AboutPage() {
                   </p>
                 </div>
               </div>
-              <p className="max-w-[65ch] whitespace-pre-line text-lg leading-relaxed text-muted-foreground">
-                {bioSegments.map((segment, index) => {
-                  if (emphasizedPhrases.has(segment.toLowerCase())) {
-                    return (
-                      <span
-                        key={`bio-segment-${index}`}
-                        className="font-medium text-foreground/90"
-                      >
-                        {segment}
-                      </span>
-                    );
-                  }
-                  return <span key={`bio-segment-${index}`}>{segment}</span>;
-                })}
-              </p>
+              <div className="max-w-[65ch] space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                {bioParagraphs.map((paragraph, index) => (
+                  <p key={`bio-paragraph-${index}`}>{paragraph}</p>
+                ))}
+              </div>
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                   Location
