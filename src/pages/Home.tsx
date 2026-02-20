@@ -13,6 +13,8 @@ const projectsBySlug = new Map(projects.map((project) => [project.slug, project]
 const homeFeaturedProjects = (() => {
   const selected: (typeof projects)[number][] = [];
   const seen = new Set<string>();
+  const aiInterviewCoachSlug = "ai-interview-coach";
+  const flowGuardSlug = "flowguard-monitor";
 
   const pushProject = (project?: (typeof projects)[number]) => {
     if (!project || seen.has(project.slug)) return;
@@ -31,6 +33,14 @@ const homeFeaturedProjects = (() => {
 
   for (const project of projects) {
     pushProject(project);
+  }
+
+  const aiInterviewCoachIndex = selected.findIndex((project) => project.slug === aiInterviewCoachSlug);
+  const flowGuardIndex = selected.findIndex((project) => project.slug === flowGuardSlug);
+
+  if (aiInterviewCoachIndex !== -1 && flowGuardIndex !== -1) {
+    const [flowGuardProject] = selected.splice(flowGuardIndex, 1);
+    selected.splice(aiInterviewCoachIndex, 1, flowGuardProject);
   }
 
   return selected.slice(0, 6);

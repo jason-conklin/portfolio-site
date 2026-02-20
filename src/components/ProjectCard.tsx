@@ -14,6 +14,7 @@ import {
   ExternalLink,
   Github,
   ArrowUpRight,
+  Maximize2,
   ChevronLeft,
   ChevronRight,
   X,
@@ -281,12 +282,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isPrivateRepo =
     typeof githubUrl === "string" &&
     githubUrl.trim().startsWith("(Private repository");
+  const hasLiveUrl = Boolean(liveUrl && liveUrl.trim().length > 0);
+  const hasRepoUrl = Boolean(githubUrl && githubUrl.trim().length > 0);
   const projectName = getProjectName(title);
   const projectMonogram = getProjectMonogram(projectName);
   const cardHighlightItems = (cardHighlights?.length ? cardHighlights : highlights).slice(0, 2);
   const teamSizeLabel = hasTeamSize ? (teamSize === 1 ? "Solo" : `Team of ${teamSize}`) : null;
-  const liveDomain = liveUrl ? getProjectDomain(liveUrl) : null;
+  const liveDomain = hasLiveUrl && liveUrl ? getProjectDomain(liveUrl) : null;
   const statusLine = liveDomain ? `Live • ${liveDomain}` : statusNote;
+  const quickFactsStack = tech.slice(0, 3);
+  const quickStatusLabel = hasLiveUrl ? "Live" : "WIP";
 
   const resetZoomState = useCallback(() => {
     if (dragRef.current.pointerId !== undefined && containerRef.current) {
@@ -336,43 +341,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
       setActiveMediaIndex(index);
     },
     [safeGallery, resetZoomState],
-  );
-
-  const renderTeamSizeBadge = useCallback(
-    (className?: string) => {
-      if (!hasTeamSize) return null;
-      return (
-        <span
-          className={cn(
-            "inline-flex items-center gap-1 rounded-full border border-border/70 bg-background/60 px-2 py-0.5 text-xs text-muted-foreground shadow-sm dark:border-border/60 dark:bg-background/40 dark:text-foreground/80",
-            className,
-          )}
-          aria-label={`Team size: ${teamSize}`}
-        >
-            <span className="group/team relative inline-flex items-center">
-              <ThemedIconCSS
-                lightThemeSrc={peopleIconDark}
-                darkThemeSrc={peopleIconLight}
-                alt=""
-                className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
-              />
-            <span
-              className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg border border-border/60 bg-popover/95 px-2.5 py-1 text-xs font-medium text-foreground shadow-lg backdrop-blur transition-opacity duration-150 group-hover/team:flex group-focus-visible/team:flex"
-              aria-hidden="true"
-            >
-              Team Size: {teamSize}
-            </span>
-            <span
-              className="ml-1 hidden tabular-nums text-foreground transition-opacity duration-150 group-hover/team:inline group-focus-visible/team:inline"
-              aria-hidden="true"
-            >
-              {teamSize}
-            </span>
-          </span>
-        </span>
-      );
-    },
-    [hasTeamSize, teamSize],
   );
 
   useEffect(() => {
@@ -449,7 +417,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="fixed inset-0 z-[90]">
             <div
               aria-hidden="true"
-              className="absolute inset-0 z-[80] bg-black/50 backdrop-blur-[2px]"
+              className="absolute inset-0 z-[80] bg-black/60 backdrop-blur-[3px]"
               onClick={closeDetailModal}
             />
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
@@ -464,142 +432,212 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 aria-labelledby={detailTitleId}
                 aria-describedby={detailDescriptionId}
                 tabIndex={-1}
-                className="relative mx-auto flex max-h-[min(90vh,920px)] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-border/70 bg-background/95 text-left shadow-2xl focus:outline-none"
+                className="relative mx-auto flex max-h-[min(92vh,940px)] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-border/70 bg-background/95 text-left shadow-2xl ring-1 ring-border/50 focus:outline-none"
               >
-                <div className="flex items-start justify-between gap-4 border-b border-border/60 px-6 py-5 sm:px-8">
-                  <div className="flex min-w-0 flex-col gap-2">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <h2 id={detailTitleId} className="text-2xl font-semibold tracking-tight">
-                        {title}
-                      </h2>
-                      {hasTeamSize
-                        ? renderTeamSizeBadge(
-                            "bg-background/70 px-3 py-1 text-xs dark:bg-background/50",
-                          )
-                        : null}
+                <div className="flex-1 overflow-y-auto">
+                  <header className="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur-md">
+                    <div className="px-6 py-4 sm:px-8 sm:py-5">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="flex min-w-0 items-start gap-3">
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/75 p-1.5 sm:h-[44px] sm:w-[44px]">
+                            {logo ? (
+                              <img
+                                src={logo}
+                                alt={`${projectName} logo`}
+                                className="h-full w-full object-contain"
+                                loading="lazy"
+                              />
+                            ) : (
+                              <span
+                                aria-hidden="true"
+                                className="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+                              >
+                                {projectMonogram}
+                              </span>
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <h2 id={detailTitleId} className="text-2xl font-semibold tracking-tight">
+                              {title}
+                            </h2>
+                            <p
+                              id={detailDescriptionId}
+                              className="mt-1 text-sm text-muted-foreground line-clamp-2"
+                            >
+                              {cardSummary ?? summary}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex shrink-0 items-center gap-2">
+                          {hasLiveUrl ? (
+                            <Button asChild variant="soft" size="sm" className="h-9 min-h-9 px-3">
+                              <a href={liveUrl!} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                                Live
+                              </a>
+                            </Button>
+                          ) : null}
+                          {hasRepoUrl ? (
+                            isPrivateRepo ? (
+                              <Button asChild variant="secondary" size="sm" className="h-9 min-h-9 px-3">
+                                <Link to="/contact">
+                                  <Github className="h-4 w-4" aria-hidden="true" />
+                                  Private repo
+                                </Link>
+                              </Button>
+                            ) : (
+                              <Button asChild variant="secondary" size="sm" className="h-9 min-h-9 px-3">
+                                <a href={githubUrl!} target="_blank" rel="noopener noreferrer">
+                                  <Github className="h-4 w-4" aria-hidden="true" />
+                                  Code
+                                </a>
+                              </Button>
+                            )
+                          ) : null}
+                          <button
+                            ref={detailCloseButtonRef}
+                            type="button"
+                            onClick={closeDetailModal}
+                            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/60 bg-background/80 text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            aria-label="Close project details"
+                          >
+                            <X className="h-4 w-4" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <p
-                      id={detailDescriptionId}
-                      className="text-sm text-muted-foreground"
-                    >
-                      {summary}
-                    </p>
-                  </div>
-                  <button
-                    ref={detailCloseButtonRef}
-                    type="button"
-                    onClick={closeDetailModal}
-                    className="ml-auto inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/60 bg-background/80 text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                    aria-label="Close project details"
-                  >
-                    <X className="h-4 w-4" aria-hidden="true" />
-                  </button>
-                </div>
-                <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8">
-                  <div className="space-y-6">
+                  </header>
+
+                  <div className="space-y-8 px-6 py-6 sm:px-8">
+                    <section aria-label="Quick facts" className="rounded-2xl border border-border/60 bg-muted/25 p-3">
+                      <ul className="flex flex-wrap gap-2">
+                        <li className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+                          Status: {quickStatusLabel}
+                        </li>
+                        {teamSizeLabel ? (
+                          <li className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                            <ThemedIconCSS
+                              lightThemeSrc={peopleIconDark}
+                              darkThemeSrc={peopleIconLight}
+                              alt=""
+                              className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
+                            />
+                            {teamSizeLabel}
+                          </li>
+                        ) : null}
+                        {quickFactsStack.length ? (
+                          <li className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                            <span className="font-medium text-foreground/80">Stack:</span>{" "}
+                            {quickFactsStack.join(" · ")}
+                          </li>
+                        ) : null}
+                        {hasLiveUrl ? (
+                          <li>
+                            <a
+                              href={liveUrl!}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                              Live link
+                            </a>
+                          </li>
+                        ) : null}
+                        {hasRepoUrl ? (
+                          <li>
+                            {isPrivateRepo ? (
+                              <Link
+                                to="/contact"
+                                className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                              >
+                                <Github className="h-3.5 w-3.5" aria-hidden="true" />
+                                Repo: private
+                              </Link>
+                            ) : (
+                              <a
+                                href={githubUrl!}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                              >
+                                <Github className="h-3.5 w-3.5" aria-hidden="true" />
+                                Repo link
+                              </a>
+                            )}
+                          </li>
+                        ) : null}
+                      </ul>
+                    </section>
+
                     {safeGallery && safeGallery.length ? (
-                      <div>
-                        <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                      <section>
+                        <h3 className="text-base font-semibold tracking-tight text-foreground">
                           Screenshots
-                        </h4>
+                        </h3>
                         <div className="mt-4 grid gap-6 md:grid-cols-2">
                           {safeGallery.map((item, index) => (
-                            <div key={`${item.title}-${index}`} className="space-y-3">
-                              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                                Screenshot {index + 1}
-                              </p>
+                            <article key={`${item.title}-${index}`} className="space-y-2.5">
+                              <div>
+                                <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                                <p className="mt-1 text-xs text-muted-foreground line-clamp-1">
+                                  {item.description}
+                                </p>
+                              </div>
                               {item.image ? (
                                 <button
                                   type="button"
                                   onClick={() => openMediaAt(index)}
-                                  className="group relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-border/70 bg-muted/40 shadow-sm transition hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                                  className="group relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl border border-border/70 bg-muted/35 shadow-sm transition hover:border-primary/50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                                   aria-label={`View ${item.title} in fullscreen`}
                                 >
                                   <img
                                     src={item.image}
-                                    alt={item.alt ?? `${index + 1}. ${item.title}`}
-                                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                                    alt={item.alt ?? `${item.title} screenshot`}
+                                    className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
                                     loading="lazy"
                                   />
-                                  <span className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-black/50 text-sm font-semibold uppercase tracking-wide text-primary-foreground group-hover:flex">
-                                    Click to enlarge
+                                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+                                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/40 bg-black/45 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+                                      <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
+                                      Expand
+                                    </span>
                                   </span>
                                 </button>
                               ) : (
-                                <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/70 bg-muted/40">
+                                <div className="relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/70 bg-muted/35">
                                   <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                                     Image coming soon
                                   </span>
                                 </div>
                               )}
-                              <div>
-                                <p className="text-sm font-semibold text-foreground">
-                                  {item.title}
-                                </p>
-                                <p className="text-sm text-muted-foreground">
-                                  {item.description}
-                                </p>
-                              </div>
-                            </div>
+                            </article>
                           ))}
                         </div>
-                      </div>
+                      </section>
                     ) : null}
-                    <div>
-                      <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+
+                    <section>
+                      <h3 className="text-base font-semibold tracking-tight text-foreground">
                         Highlights
-                      </h4>
-                      <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-foreground">
+                      </h3>
+                      <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-foreground">
                         {highlights.map((highlight) => (
                           <li key={highlight}>{highlight}</li>
                         ))}
                       </ul>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                        Tech
-                      </h4>
-                      <div className="mt-2 flex flex-wrap gap-2">
+                    </section>
+
+                    <section>
+                      <h3 className="text-base font-semibold tracking-tight text-foreground">Tech</h3>
+                      <div className="mt-3 flex flex-wrap gap-2">
                         {tech.map((stack) => (
                           <Tag key={stack}>{stack}</Tag>
                         ))}
                       </div>
-                    </div>
-                    <div className="flex flex-col gap-3 sm:flex-row">
-                      {githubUrl ? (
-                        isPrivateRepo ? (
-                          <Button asChild className="w-full text-left" variant="secondary">
-                            <Link to="/contact" className="flex items-center gap-2">
-                              <Github className="mr-2 h-4 w-4" aria-hidden="true" />
-                              Private repository -- demo available upon request.
-                            </Link>
-                          </Button>
-                        ) : (
-                          <Button asChild className="w-full">
-                            <a href={githubUrl} target="_blank" rel="noopener noreferrer">
-                              <Github className="mr-2 h-4 w-4" aria-hidden="true" />
-                              View repository
-                            </a>
-                          </Button>
-                        )
-                      ) : null}
-                      {liveUrl ? (
-                        <Button asChild variant="secondary" className="w-full">
-                          <a href={liveUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
-                            Open live site
-                          </a>
-                        </Button>
-                      ) : (
-                        <Button className="w-full" variant="outline" disabled>
-                          <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
-                          Live link coming soon
-                        </Button>
-                      )}
-                    </div>
-                    {statusNote ? (
-                      <p className="text-sm text-muted-foreground">{statusNote}</p>
-                    ) : null}
+                    </section>
                   </div>
                 </div>
               </div>
