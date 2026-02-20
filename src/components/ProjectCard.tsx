@@ -908,13 +908,22 @@ export function ProjectCard({ project }: ProjectCardProps) {
           }
         }}
         className={cn(
-          "group flex h-full cursor-pointer flex-col justify-between rounded-2xl border border-border/60 p-6 shadow-md backdrop-blur transition-all duration-200 motion-reduce:transition-none",
+          "group relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-border/60 p-6 shadow-md ring-1 ring-border/50 transition-all duration-200 motion-reduce:transition-none",
           cardTintClass,
-          "hover:-translate-y-0.5 hover:border-border/90 hover:shadow-lg hover:shadow-primary/12 hover:ring-1 hover:ring-primary/10 motion-reduce:hover:translate-y-0",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+          "hover:-translate-y-0.5 hover:border-border/90 hover:shadow-lg hover:shadow-primary/12 hover:ring-border/70 motion-reduce:hover:translate-y-0",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-within:ring-2 focus-within:ring-primary/25",
         )}
       >
-        <div className="flex flex-col gap-3">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 bg-card/80 backdrop-blur-[2px]"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-6 top-0 z-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent"
+        />
+
+        <div className="relative z-10 flex flex-col gap-3">
           <div className="flex min-w-0 items-start gap-2.5">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-10 sm:w-10 sm:p-1.5">
               {logo ? (
@@ -984,7 +993,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </div>
         </div>
-        <footer className="mt-4 flex flex-col gap-3 border-t border-border/40 pt-4">
+        <footer className="relative z-10 mt-4 flex flex-col gap-3 border-t border-border/40 pt-4">
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button
               type="button"
