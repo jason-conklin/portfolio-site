@@ -124,11 +124,7 @@ function HomePage() {
                       className="group rounded-xl border border-border/55 bg-background/45 p-3 transition-shadow duration-200 hover:border-border/75 hover:shadow-sm motion-reduce:transition-none"
                     >
                       <div className="space-y-3">
-                        <div className="relative overflow-hidden rounded-xl border border-border/55 bg-background/65 px-3 py-2.5 ring-1 ring-border/45">
-                          <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-primary/[0.2] via-primary/[0.09] to-transparent opacity-85 transition-opacity duration-200 group-hover:opacity-100 motion-reduce:transition-none dark:from-primary/[0.32] dark:via-primary/[0.14]"
-                          />
+                        <div className="relative overflow-hidden rounded-xl border border-border/65 bg-background/75 px-3 py-2.5 shadow-sm ring-1 ring-border/70 backdrop-blur-sm before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-primary/35 before:content-[''] dark:bg-background/35 dark:ring-border/50">
                           <div className="relative flex min-w-0 items-start gap-2.5">
                             {project.icon ? (
                               <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-11 sm:w-11 sm:p-1.5">
@@ -170,7 +166,7 @@ function HomePage() {
                               </a>
                             </div>
                           </div>
-                          <div aria-hidden="true" className="relative mt-2 border-t border-border/40" />
+                          <div aria-hidden="true" className="relative mt-2 border-t border-border/50" />
                         </div>
 
                         <p className="text-xs leading-relaxed text-muted-foreground">
