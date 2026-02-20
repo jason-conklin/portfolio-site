@@ -1,11 +1,11 @@
-﻿import { GraduationCap } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+﻿import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
 import { about } from "@/data/profile";
 import profileImage from "@/assets/profile.png";
+import njitLogo from "@/assets/njit-logo.png";
 import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import downloadIconLight from "@/assets/download_icon_light.png";
 import downloadIconDark from "@/assets/download_icon_dark.png";
@@ -32,7 +32,7 @@ function AboutPage() {
               <div className="space-y-2 text-base text-foreground">
                 <p className="text-xl font-semibold text-foreground">Jason Conklin</p>
                 <p className="text-sm text-muted-foreground">
-                  B.S. in Computer Science — NJIT (Spring 2025)
+                  B.S. in Computer Science — NJIT
                 </p>
               </div>
             </div>
@@ -97,9 +97,14 @@ function AboutPage() {
                   className="rounded-2xl border border-border/70 bg-card/80 p-6 shadow-sm"
                 >
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-soft">
-                      <GraduationCap className="h-5 w-5" aria-hidden="true" />
-                    </span>
+                    <div className="flex h-10 w-[92px] shrink-0 items-center justify-center rounded-lg border border-border/60 bg-background/80 px-2 py-1 shadow-sm">
+                      <img
+                        src={njitLogo}
+                        alt="NJIT logo"
+                        loading="lazy"
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
                     <h4 className="text-lg font-semibold text-foreground">
                       {item.url ? (
                         <a
@@ -115,9 +120,10 @@ function AboutPage() {
                       )}
                     </h4>
                   </div>
-                  <p className="mt-2 pl-[52px] text-sm text-muted-foreground">
-                    {item.degree} — {item.graduation}
-                  </p>
+                  <div className="mt-2 text-sm text-muted-foreground sm:pl-[104px]">
+                    <p>{item.degree}</p>
+                    <p>Graduated {item.graduation}</p>
+                  </div>
                   <h5 className="mt-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                     Relevant coursework
                   </h5>
