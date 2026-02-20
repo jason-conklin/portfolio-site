@@ -170,6 +170,7 @@ function useDialogFocusTrap(
 interface Project {
   title: string;
   slug: string;
+  logo?: string;
   cardSummary?: string;
   summary: string;
   highlights: readonly string[];
@@ -192,9 +193,36 @@ interface ProjectCardProps {
   project: Project;
 }
 
+function getProjectName(title: string) {
+  return title.split(/\s[–-]\s/)[0]?.trim() || title;
+}
+
+function getProjectMonogram(projectName: string) {
+  const condensed = projectName.replace(/[^A-Za-z0-9]/g, "");
+  const uppercaseChars = condensed.match(/[A-Z0-9]/g);
+  if (uppercaseChars && uppercaseChars.length >= 2) {
+    return `${uppercaseChars[0]}${uppercaseChars[1]}`;
+  }
+
+  const words = projectName.split(/[^A-Za-z0-9]+/).filter(Boolean);
+  if (words.length >= 2) {
+    return words
+      .slice(0, 2)
+      .map((word) => word[0]!.toUpperCase())
+      .join("");
+  }
+
+  if (words.length === 1) {
+    return words[0].slice(0, 2).toUpperCase();
+  }
+
+  return "PR";
+}
+
 export function ProjectCard({ project }: ProjectCardProps) {
   const {
     title,
+    logo,
     cardSummary,
     summary,
     highlights,
@@ -243,6 +271,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isPrivateRepo =
     typeof githubUrl === "string" &&
     githubUrl.trim().startsWith("(Private repository");
+  const projectName = getProjectName(title);
+  const projectMonogram = getProjectMonogram(projectName);
 
   const resetZoomState = useCallback(() => {
     if (dragRef.current.pointerId !== undefined && containerRef.current) {
@@ -885,9 +915,31 @@ export function ProjectCard({ project }: ProjectCardProps) {
       >
         <div className="flex flex-col gap-4">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
+            <div className="flex min-w-0 items-start gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-10 sm:w-10 sm:p-1.5">
+                {logo ? (
+                  <img
+                    src={logo}
+                    alt={`${projectName} logo`}
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+                  >
+                    {projectMonogram}
+                  </span>
+                )}
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{cardSummary ?? summary}</p>
+              </div>
+            </div>
             {(featured || hasTeamSize) ? (
-              <div className="flex items-center gap-2">
+              <div className="flex shrink-0 items-center gap-2">
                 {hasTeamSize ? renderTeamSizeBadge("self-start") : null}
                 {featured ? (
                   <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
@@ -898,7 +950,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </div>
             ) : null}
           </div>
-          <p className="text-sm text-muted-foreground">{cardSummary ?? summary}</p>
           <div className="flex flex-wrap gap-2">
             {tech.map((stack) => (
               <Tag key={stack}>{stack}</Tag>

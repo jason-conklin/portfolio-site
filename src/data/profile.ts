@@ -389,9 +389,10 @@ export const projects = [
     ],
     githubUrl: "https://github.com/jason-conklin/giftperch",
     liveUrl: "https://giftperch.com",
+    logo: giftperchIcon,
     featured: true,
     category: ["AI", "Web", "Tools"],
-    statusNote: "Live on Vercel",
+    statusNote: "Live on giftperch.com",
     teamSize: 1,
     gallery: [
       {
@@ -465,9 +466,10 @@ export const projects = [
     ],
     githubUrl: "https://github.com/jason-conklin/applictus",
     liveUrl: "https://applictus.com",
+    logo: applictusLogo,
     featured: true,
     category: ["AI", "Web", "Tools"],
-    statusNote: "Live on Vercel",
+    statusNote: "Live on applictus.com",
     teamSize: 1,
     gallery: [
       {
@@ -525,6 +527,7 @@ export const projects = [
     ],
     githubUrl: "https://github.com/jason-conklin/state-stats",
     liveUrl: "https://statestats.us",
+    logo: statestatsLogo,
     featured: true,
     category: ["Web", "Tools"],
     statusNote: "Live on statestats.us",
