@@ -21,7 +21,7 @@ export function ScrollCue() {
       onClick={onActivate}
       onKeyDown={handleKeyDown}
       role="button"
-      aria-label="Scroll to featured projects"
+      aria-label="Scroll to spotlight projects"
       className="mt-6 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/60 px-3 py-2 text-sm text-muted-foreground/80 transition-colors hover:text-foreground backdrop-blur sm:mt-8"
       initial={reduced ? undefined : { opacity: 0, y: 10 }}
       animate={

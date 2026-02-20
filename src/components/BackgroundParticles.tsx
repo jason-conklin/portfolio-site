@@ -23,10 +23,10 @@ export function BackgroundParticles() {
     const isDark = resolvedTheme === "dark";
     return {
       // Tweak these to retheme the network glow per brand.
-      node: isDark ? "rgba(255, 255, 255, 1)" : "rgba(180, 180, 180, 0.9)",
+      node: isDark ? "rgba(226, 232, 240, 0.76)" : "rgba(148, 163, 184, 0.58)",
       lineRgb: isDark ? "255, 255, 255" : "190, 190, 190",
-      lineBaseAlpha: isDark ? 0.82 : 0.52,
-      background: isDark ? "rgba(15, 23, 42, 0.34)" : "rgba(226, 232, 240, 0.32)",
+      lineBaseAlpha: isDark ? 0.34 : 0.2,
+      background: isDark ? "rgba(15, 23, 42, 0.2)" : "rgba(226, 232, 240, 0.18)",
     };
   }, [resolvedTheme]);
 
@@ -60,7 +60,7 @@ export function BackgroundParticles() {
 
     const baseDensity = siteOptions.particleDensity; // Adjust in profile.ts (0.3 - 1.0)
     const maxLineDistance = siteOptions.lineDistance; // Adjust in profile.ts to link further nodes
-    const speed = siteOptions.motionSpeed; // Adjust in profile.ts to control velocity
+    const speed = siteOptions.motionSpeed * 0.8; // Slightly calmer than configured base speed.
 
     const clearAnimation = () => {
       if (animationRef.current) {
@@ -119,7 +119,7 @@ export function BackgroundParticles() {
       gradient.addColorStop(1, palette.background);
       context.fillStyle = gradient;
       context.fillRect(0, 0, width, height);
-      context.lineWidth = 0.6;
+      context.lineWidth = 0.45;
 
       for (const particle of particles) {
         particle.x += particle.vx;
@@ -138,7 +138,7 @@ export function BackgroundParticles() {
 
         context.beginPath();
         context.fillStyle = palette.node;
-        context.arc(particle.x, particle.y, 1.6, 0, Math.PI * 2);
+        context.arc(particle.x, particle.y, 1.4, 0, Math.PI * 2);
         context.fill();
 
         for (let j = i + 1; j < particles.length; j += 1) {
@@ -149,7 +149,7 @@ export function BackgroundParticles() {
 
           if (distance <= maxLineDistance) {
             const opacity = 1 - distance / maxLineDistance;
-            const alpha = Math.min(0.85, palette.lineBaseAlpha * (opacity * 2));
+            const alpha = Math.min(0.48, palette.lineBaseAlpha * (opacity * 1.45));
             context.beginPath();
             context.strokeStyle = `rgba(${palette.lineRgb}, ${alpha.toFixed(3)})`;
             context.moveTo(particle.x, particle.y);
@@ -171,14 +171,14 @@ export function BackgroundParticles() {
       context.fillRect(0, 0, width, height);
 
       const gridSize = Math.max(80, Math.min(140, Math.round(width / 12)));
-      context.lineWidth = 0.5;
-      context.strokeStyle = `rgba(${palette.lineRgb}, ${palette.lineBaseAlpha})`;
+      context.lineWidth = 0.45;
+      context.strokeStyle = `rgba(${palette.lineRgb}, ${(palette.lineBaseAlpha * 0.8).toFixed(3)})`;
       context.fillStyle = palette.node;
 
       for (let x = gridSize / 2; x < width; x += gridSize) {
         for (let y = gridSize / 2; y < height; y += gridSize) {
           context.beginPath();
-          context.arc(x, y, 1.2, 0, Math.PI * 2);
+          context.arc(x, y, 1.1, 0, Math.PI * 2);
           context.fill();
 
           context.beginPath();
@@ -239,7 +239,7 @@ export function BackgroundParticles() {
   }
 
   const blendModeClass =
-    resolvedTheme === "dark" ? "mix-blend-overlay opacity-60" : "mix-blend-multiply opacity-80";
+    resolvedTheme === "dark" ? "mix-blend-overlay opacity-45" : "mix-blend-multiply opacity-60";
 
   return (
     <canvas

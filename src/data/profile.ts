@@ -92,13 +92,97 @@ export const navigation = [
 
 export const hero = {
   name: "Jason Conklin",
-  tagline: "Software Developer — Full-stack engineering & applied AI",
+  headline:
+    "Production-grade software systems and applied AI workflows built with measurable evaluation.",
+  subtitle:
+    "Software engineer focused on scalable full-stack architecture, testable AI integrations, and reliable delivery.",
   location: "New Jersey, USA · Open to Remote (US)",
   cta: {
     primary: { label: "View Projects", href: "/projects" },
     secondary: { label: "Get in Touch", href: "/contact" },
+    tertiary: {
+      label: "GitHub",
+      href: site.links.github,
+      external: true,
+    },
   },
-  featuredProjectTitles: ["GiftPerch — giftperch.com"],
+} as const;
+
+export const homeContent = {
+  proofStrip: [
+    {
+      icon: "rocket",
+      label: "Deployed products",
+      detail: "GiftPerch, Applictus, and StateStats running in production.",
+    },
+    {
+      icon: "sparkles",
+      label: "Applied AI workflows",
+      detail: "Inference pipelines with confidence scoring and explainability.",
+    },
+    {
+      icon: "shield",
+      label: "Secure auth and RBAC",
+      detail: "OAuth, session hardening, and least-privilege access patterns.",
+    },
+    {
+      icon: "database",
+      label: "Data systems",
+      detail: "Schema design, ingestion pipelines, and analytics-ready querying.",
+    },
+  ],
+  spotlightProjects: [
+    {
+      slug: "giftperch-recipient-profiles",
+      outcome: "Shipped an AI gifting workspace that turns recipient context into repeatable gift decisions.",
+      highlights: [
+        "Built reusable recipient profile modeling to improve suggestion quality over time.",
+        "Integrated PerchPal conversational UX for budget-aware gift ideation with rationale.",
+        "Launched production deployment with responsive UI and SEO-ready marketing pages.",
+      ],
+      tech: ["Next.js", "TypeScript", "Supabase", "OpenAI API"],
+    },
+    {
+      slug: "applictus",
+      outcome: "Automated job application tracking by converting Gmail events into a structured status pipeline.",
+      highlights: [
+        "Implemented Gmail OAuth ingestion that classifies updates and deduplicates by provider IDs.",
+        "Added explainable status inference with confidence scores and event timelines.",
+        "Delivered privacy-first storage and production-ready auth/session management.",
+      ],
+      tech: ["Node.js", "Express", "PostgreSQL", "Gmail API"],
+    },
+    {
+      slug: "statestats-data-explorer",
+      outcome: "Delivered a U.S. data platform for transparent, state-level metric exploration and comparison.",
+      highlights: [
+        "Built interactive choropleth mapping with metric and year controls.",
+        "Added multi-state trend comparisons with performant chart rendering.",
+        "Shipped a responsive data experience with transparent sourcing and clear interaction design.",
+      ],
+      tech: ["Next.js", "Prisma", "Supabase", "D3.js"],
+    },
+  ],
+  focusPillars: [
+    {
+      icon: "server",
+      title: "Production Engineering",
+      description:
+        "Reliable full-stack systems with maintainable architecture, secure integrations, and deployment hygiene.",
+    },
+    {
+      icon: "cpu",
+      title: "Applied AI and Evaluation",
+      description:
+        "Structured prompt workflows, measurable scoring loops, and explainable outputs that support product decisions.",
+    },
+    {
+      icon: "barChart",
+      title: "Data Systems and Analytics",
+      description:
+        "Schema-first data models, ingestion pipelines, and query patterns optimized for product insights.",
+    },
+  ],
 } as const;
 
 export const liveProjects = [
@@ -830,5 +914,5 @@ export const siteOptions = {
   enableBackgroundParticles: true, // Flip to false to disable the animated canvas background.
   particleDensity: 0.6, // Tune particle count (0.3 - sparse, 1.0 - denser network).
   lineDistance: 120, // Increase to link particles across wider gaps.
-  motionSpeed: 0.2, // Higher values make the animation livelier; keep low for calm vibe.
+  motionSpeed: 0.18, // Higher values make the animation livelier; keep low for calm vibe.
 } as const;

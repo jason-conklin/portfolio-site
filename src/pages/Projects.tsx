@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { FilterBar } from "@/components/FilterBar";
@@ -11,6 +12,8 @@ function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const prefersReducedMotion = useReducedMotion();
+  const { hash } = useLocation();
+  const openedHashRef = useRef<string | null>(null);
 
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
@@ -28,6 +31,33 @@ function ProjectsPage() {
       return matchesFilter && matchesSearch;
     });
   }, [activeFilter, searchQuery]);
+
+  useEffect(() => {
+    if (!hash) {
+      openedHashRef.current = null;
+      return;
+    }
+
+    if (openedHashRef.current === hash) return;
+
+    const slug = decodeURIComponent(hash.replace(/^#/, ""));
+    if (!slug) return;
+
+    const frameId = window.requestAnimationFrame(() => {
+      const card = document.querySelector<HTMLElement>(`[data-project-slug="${slug}"]`);
+      if (!card) return;
+
+      openedHashRef.current = hash;
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      window.setTimeout(() => {
+        card.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      }, 120);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [hash, filteredProjects.length]);
 
   return (
     <>
