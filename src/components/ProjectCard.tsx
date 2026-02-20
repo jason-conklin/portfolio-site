@@ -14,7 +14,6 @@ import {
   ExternalLink,
   Github,
   ArrowUpRight,
-  Sparkles,
   ChevronLeft,
   ChevronRight,
   X,
@@ -230,7 +229,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
     tech,
     githubUrl,
     liveUrl,
-    featured,
     category,
     statusNote,
     gallery,
@@ -916,8 +914,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         )}
       >
-        <div className="flex flex-col gap-3.5">
-          <div className="flex min-w-0 items-start gap-3">
+        <div className="flex flex-col gap-3">
+          <div className="flex min-w-0 items-start gap-2.5">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-10 sm:w-10 sm:p-1.5">
               {logo ? (
                 <img
@@ -936,15 +934,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               )}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="flex min-w-0 items-start justify-between gap-2">
-                <h3 className="min-w-0 flex-1 text-xl font-semibold tracking-tight">{title}</h3>
-                {featured ? (
-                  <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                    Featured
-                  </span>
-                ) : null}
-              </div>
+              <h3 className="min-w-0 text-xl font-semibold tracking-tight">{title}</h3>
               {(teamSizeLabel || statusNote) ? (
                 <div className="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
                   {teamSizeLabel ? (
