@@ -13,7 +13,7 @@ import downloadIconDark from "@/assets/download_icon_dark.png";
 
 function AboutPage() {
   const prefersReducedMotion = useReducedMotion();
-  const bioParagraphs = about.bio.split(/\n\s*\n/).filter(Boolean);
+  const bioParagraphs = about.bio;
 
   return (
     <>
@@ -51,8 +51,18 @@ function AboutPage() {
                 </div>
               </div>
               <div className="max-w-[65ch] space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {bioParagraphs.map((paragraph, index) => (
-                  <p key={`bio-paragraph-${index}`}>{paragraph}</p>
+                {bioParagraphs.map((paragraph, paragraphIndex) => (
+                  <p key={`bio-paragraph-${paragraphIndex}`}>
+                    {paragraph.parts.map((part, partIndex) =>
+                      "strong" in part && part.strong ? (
+                        <strong key={`bio-part-${paragraphIndex}-${partIndex}`} className="font-semibold">
+                          {part.text}
+                        </strong>
+                      ) : (
+                        <span key={`bio-part-${paragraphIndex}-${partIndex}`}>{part.text}</span>
+                      ),
+                    )}
+                  </p>
                 ))}
               </div>
               <div>

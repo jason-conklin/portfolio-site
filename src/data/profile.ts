@@ -128,7 +128,36 @@ export const liveProjects = [
 ] as const;
 
 export const about = {
-  bio: "I build practical, production-ready web applications and AI-driven tools, with a focus on clean software architecture, measurable evaluation systems, and thoughtful developer experience.\n\nMy work centers on turning ideas into reliable systems - designing scalable data models, integrating AI in structured and testable ways, and shipping software that is maintainable, performant, and built for real users.",
+  bio: [
+    {
+      parts: [
+        { text: "I build practical, " },
+        { text: "production-ready web applications", strong: true },
+        { text: " and " },
+        { text: "AI-driven tools", strong: true },
+        { text: ", with a focus on " },
+        { text: "clean software architecture", strong: true },
+        { text: ", " },
+        { text: "measurable evaluation systems", strong: true },
+        { text: ", and " },
+        { text: "thoughtful developer experience", strong: true },
+        { text: "." },
+      ],
+    },
+    {
+      parts: [
+        { text: "My work centers on turning ideas into " },
+        { text: "reliable systems", strong: true },
+        { text: " — designing " },
+        { text: "scalable data models", strong: true },
+        { text: ", integrating AI in " },
+        { text: "structured and testable ways", strong: true },
+        { text: ", and shipping software that is " },
+        { text: "maintainable, performant, and built for real users", strong: true },
+        { text: "." },
+      ],
+    },
+  ],
   location: "New Jersey, USA · Open to Remote (US)",
   education: [
     {
