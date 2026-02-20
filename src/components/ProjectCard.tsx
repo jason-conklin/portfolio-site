@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/Tag";
 import { ThemedIconCSS } from "@/components/ThemedIconCSS";
@@ -276,6 +275,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const projectName = getProjectName(title);
   const projectMonogram = getProjectMonogram(projectName);
   const cardHighlightItems = (cardHighlights?.length ? cardHighlights : highlights).slice(0, 2);
+  const teamSizeLabel = hasTeamSize ? (teamSize === 1 ? "Solo" : `Team of ${teamSize}`) : null;
 
   const resetZoomState = useCallback(() => {
     if (dragRef.current.pointerId !== undefined && containerRef.current) {
@@ -916,45 +916,62 @@ export function ProjectCard({ project }: ProjectCardProps) {
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         )}
       >
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div className="flex min-w-0 flex-1 items-start gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-10 sm:w-10 sm:p-1.5">
-                {logo ? (
-                  <img
-                    src={logo}
-                    alt={`${projectName} logo`}
-                    className="h-full w-full object-contain"
-                    loading="lazy"
-                  />
-                ) : (
-                  <span
-                    aria-hidden="true"
-                    className="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
-                  >
-                    {projectMonogram}
-                  </span>
-                )}
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground line-clamp-2 sm:line-clamp-3">
-                  {cardSummary ?? summary}
-                </p>
-              </div>
+        <div className="flex flex-col gap-3.5">
+          <div className="flex min-w-0 items-start gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-10 sm:w-10 sm:p-1.5">
+              {logo ? (
+                <img
+                  src={logo}
+                  alt={`${projectName} logo`}
+                  className="h-full w-full object-contain"
+                  loading="lazy"
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+                >
+                  {projectMonogram}
+                </span>
+              )}
             </div>
-            {(featured || hasTeamSize) ? (
-              <div className="flex shrink-0 flex-wrap items-center gap-2 self-start sm:pl-2">
-                {hasTeamSize ? renderTeamSizeBadge("self-start") : null}
+            <div className="min-w-0 flex-1">
+              <div className="flex min-w-0 items-start justify-between gap-2">
+                <h3 className="min-w-0 flex-1 text-xl font-semibold tracking-tight">{title}</h3>
                 {featured ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
                     <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
                     Featured
                   </span>
                 ) : null}
               </div>
-            ) : null}
+              {(teamSizeLabel || statusNote) ? (
+                <div className="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                  {teamSizeLabel ? (
+                    <span className="inline-flex items-center gap-1">
+                      <ThemedIconCSS
+                        lightThemeSrc={peopleIconDark}
+                        darkThemeSrc={peopleIconLight}
+                        alt=""
+                        className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
+                      />
+                      <span>{teamSizeLabel}</span>
+                    </span>
+                  ) : null}
+                  {teamSizeLabel && statusNote ? (
+                    <span aria-hidden className="text-muted-foreground/70">
+                      •
+                    </span>
+                  ) : null}
+                  {statusNote ? <span className="truncate">{statusNote}</span> : null}
+                </div>
+              ) : null}
+            </div>
           </div>
+
+          <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">
+            {cardSummary ?? summary}
+          </p>
 
           {cardHighlightItems.length ? (
             <ul className="space-y-1.5 pl-4">
@@ -977,7 +994,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </div>
         </div>
-        <footer className="mt-6 flex flex-col gap-3">
+        <footer className="mt-4 flex flex-col gap-3 border-t border-border/40 pt-4">
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button
               type="button"
@@ -1040,11 +1057,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
               Live site (coming soon)
             </Button>
           )}
-          {statusNote ? (
-            <Badge variant="outline" className="w-full justify-center rounded-xl">
-              {statusNote}
-            </Badge>
-          ) : null}
         </footer>
       </motion.article>
       {detailModal}
