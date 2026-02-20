@@ -56,7 +56,10 @@ function HomePage() {
           </div>
         </HeroParallax>
 
-        <Section id="home" className="relative py-14 sm:py-16 lg:py-16">
+        <Section
+          id="home"
+          className="relative flex min-h-[calc(100svh-var(--header-height))] flex-col justify-center py-10 sm:py-12"
+        >
           <motion.div
             initial={prefersReducedMotion ? undefined : { opacity: 0, y: 28 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
@@ -86,7 +89,7 @@ function HomePage() {
                   {liveProjects.map((project) => (
                     <li
                       key={project.name}
-                      className="rounded-xl border border-border/55 bg-background/45 p-3"
+                      className="rounded-xl border border-border/55 bg-background/45 p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-border/75 hover:shadow-sm motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                     >
                       <div className="flex items-start gap-3">
                         {project.icon ? (
@@ -116,23 +119,31 @@ function HomePage() {
                             {project.blurb}
                           </p>
                           <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-primary/90 transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            <Button
+                              asChild
+                              variant="soft"
+                              size="sm"
+                              className="h-8 min-h-8 rounded-full px-2.5 text-xs shadow-none"
                             >
-                              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                              Live
-                            </a>
-                            <button
+                              <a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                                Live
+                              </a>
+                            </Button>
+                            <Button
                               type="button"
+                              variant="ghost"
+                              size="sm"
                               onClick={() => openProjectCaseStudy(project.slug)}
-                              className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-foreground/85 transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                              className="h-8 min-h-8 rounded-full px-2.5 text-xs shadow-none"
                             >
                               <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                               Details
-                            </button>
+                            </Button>
                           </div>
                         </div>
                       </div>

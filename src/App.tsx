@@ -30,7 +30,7 @@ export function App() {
         Skip to content
       </a>
       <Header />
-      <div aria-hidden className="h-[72px]" />
+      <div aria-hidden className="h-[var(--header-height)]" />
       <main id="app-main" className="relative flex-1">
         <AppRoutes />
       </main>

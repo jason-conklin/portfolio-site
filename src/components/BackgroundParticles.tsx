@@ -69,20 +69,10 @@ export function BackgroundParticles() {
     };
 
     const setCanvasSize = () => {
-      const { innerWidth } = window;
+      const { innerWidth, innerHeight } = window;
       devicePixelRatio = window.devicePixelRatio || 1;
-      const doc = document.documentElement;
-      const body = document.body;
-      const targetWidth = Math.max(
-        innerWidth,
-        doc?.scrollWidth ?? 0,
-        body?.scrollWidth ?? 0,
-      );
-      const targetHeight = Math.max(
-        window.innerHeight,
-        doc?.scrollHeight ?? 0,
-        body?.scrollHeight ?? 0,
-      );
+      const targetWidth = innerWidth;
+      const targetHeight = innerHeight;
       width = targetWidth;
       height = targetHeight;
 
@@ -219,18 +209,9 @@ export function BackgroundParticles() {
 
     window.addEventListener("resize", handleResize);
 
-    const resizeObserver = new ResizeObserver(() => {
-      handleResize();
-    });
-    resizeObserver.observe(document.documentElement);
-    if (document.body) {
-      resizeObserver.observe(document.body);
-    }
-
     return () => {
       clearAnimation();
       window.removeEventListener("resize", handleResize);
-      resizeObserver.disconnect();
     };
   }, [palette, prefersReducedMotion, isEnabled]);
 
@@ -246,7 +227,7 @@ export function BackgroundParticles() {
       ref={canvasRef}
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-0 z-0 h-full w-full transition-opacity duration-500",
+        "pointer-events-none fixed inset-0 z-0 h-screen w-screen transition-opacity duration-500",
         blendModeClass,
       )}
     />
