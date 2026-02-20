@@ -23,6 +23,7 @@ const cirmSettings = new URL("../assets/CIRM_settings.png", import.meta.url).hre
 const flowguardDashboard = new URL("../assets/flowguard_dashboard.png", import.meta.url).href;
 const flowguardExplore = new URL("../assets/flowguard_explore.png", import.meta.url).href;
 const flowguardSettings = new URL("../assets/flowguard_settings.png", import.meta.url).href;
+const flowguardLogo = new URL("../assets/flowguard_logo.png", import.meta.url).href;
 const sentinelLogin = new URL("../assets/sentinel_login.png", import.meta.url).href;
 const sentinelAdminDash = new URL("../assets/sentinel_admin_dash.png", import.meta.url).href;
 const sentinelUsers = new URL("../assets/sentinel_users.png", import.meta.url).href;
@@ -31,6 +32,8 @@ const sentinelAudit = new URL("../assets/sentinel_audit.png", import.meta.url).h
 const sentinelProfile = new URL("../assets/sentinel_profile.png", import.meta.url).href;
 const sentinelMySessions = new URL("../assets/sentinel_my_sessions.png", import.meta.url).href;
 const sentinelUserDash = new URL("../assets/sentinel_user_dash.png", import.meta.url).href;
+const sentinelauthLogo = new URL("../assets/sentinelauth_logo.png", import.meta.url).href;
+const autoscaleCirmLogo = new URL("../assets/autoscale-logo.png", import.meta.url).href;
 const giftperchDashboard = new URL("../assets/giftperch_dashboard.png", import.meta.url).href;
 const giftperchRecipients = new URL("../assets/giftperch_rec_profs.png", import.meta.url).href;
 const giftperchProfile = new URL("../assets/giftperch_edit_rec_profs.png", import.meta.url).href;
@@ -600,6 +603,7 @@ export const projects = [
     ],
     githubUrl: "https://github.com/jason-conklin/sentinelauth-access-control",
     liveUrl: "",
+    logo: sentinelauthLogo,
     featured: true,
     category: ["Web", "Tools"],
     statusNote: "Live link coming soon",
@@ -720,6 +724,7 @@ export const projects = [
     ],
     githubUrl: "https://github.com/jason-conklin/autoscale-cirm",
     liveUrl: "",
+    logo: autoscaleCirmLogo,
     featured: true,
     category: ["Tools", "Web"],
     statusNote: "Private beta — demo available upon request",
@@ -778,6 +783,7 @@ export const projects = [
     ],
     githubUrl: "https://github.com/jason-conklin/flowguard-monitor",
     liveUrl: "",
+    logo: flowguardLogo,
     featured: true,
     category: ["Tools", "Web"],
     statusNote: "Live link coming soon",
