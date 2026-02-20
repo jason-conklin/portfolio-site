@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink, FileText } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -82,24 +82,60 @@ function HomePage() {
                   Deployed Products
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">Live in production.</p>
-                <ul className="mt-3 space-y-2 sm:grid sm:grid-cols-3 sm:gap-3 sm:space-y-0">
+                <ul className="mt-3 grid gap-2 sm:grid-cols-3 sm:gap-3">
                   {liveProjects.map((project) => (
                     <li
                       key={project.name}
-                      className="flex flex-wrap items-center gap-x-1.5 text-sm text-foreground/95"
+                      className="rounded-xl border border-border/55 bg-background/45 p-3"
                     >
-                      <span className="font-semibold">{project.name}</span>
-                      <span aria-hidden className="text-muted-foreground">
-                        ·
-                      </span>
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground underline-offset-4 transition hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                      >
-                        {getProjectDomain(project.liveUrl)}
-                      </a>
+                      <div className="flex items-start gap-3">
+                        {project.icon ? (
+                          <img
+                            src={project.icon}
+                            alt={`${project.name} logo`}
+                            className="mt-0.5 h-8 w-8 shrink-0 rounded-md border border-border/60 bg-background/70 object-contain p-0.5"
+                            loading="lazy"
+                          />
+                        ) : null}
+                        <div className="min-w-0">
+                          <p className="flex flex-wrap items-center gap-x-1 text-sm font-semibold text-foreground">
+                            <span>{project.name}</span>
+                            <span aria-hidden className="text-muted-foreground">
+                              ·
+                            </span>
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-medium text-muted-foreground underline-offset-4 transition hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            >
+                              {getProjectDomain(project.liveUrl)}
+                            </a>
+                          </p>
+                          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                            {project.blurb}
+                          </p>
+                          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-primary/90 transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                              Live
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => openProjectCaseStudy(project.slug)}
+                              className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-foreground/85 transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            >
+                              <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                              Details
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </li>
                   ))}
                 </ul>
