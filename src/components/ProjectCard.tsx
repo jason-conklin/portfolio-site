@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/Tag";
 import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import { cn } from "@/lib/utils";
+import { getProjectCardTint } from "@/lib/project-card-tint";
 import peopleIconLight from "@/assets/people_icon_light.png";
 import peopleIconDark from "@/assets/people_icon_dark.png";
 import placeholder from "@/assets/placeholder.png";
@@ -176,6 +177,7 @@ interface Project {
   githubUrl?: string;
   liveUrl?: string;
   featured?: boolean;
+  category?: readonly string[];
   statusNote?: string;
   gallery?: readonly {
     title: string;
@@ -200,11 +202,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
     githubUrl,
     liveUrl,
     featured,
+    category,
     statusNote,
     gallery,
     teamSize,
     slug,
   } = project;
+  const cardTintClass = getProjectCardTint(category);
   // Always ensure gallery is safe to render
   const safeGallery = gallery && gallery.length > 0 ? gallery : [{
     title: "Coming soon",
@@ -873,8 +877,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
           }
         }}
         className={cn(
-          "group flex h-full cursor-pointer flex-col justify-between rounded-2xl border border-border bg-card/80 p-6 shadow-sm backdrop-blur transition-all duration-300",
-          "hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+          "group flex h-full cursor-pointer flex-col justify-between rounded-2xl border border-border/60 p-6 shadow-md backdrop-blur transition-all duration-200 motion-reduce:transition-none",
+          cardTintClass,
+          "hover:-translate-y-0.5 hover:border-border/90 hover:shadow-lg hover:shadow-primary/12 hover:ring-1 hover:ring-primary/10 motion-reduce:hover:translate-y-0",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         )}
       >
         <div className="flex flex-col gap-4">
