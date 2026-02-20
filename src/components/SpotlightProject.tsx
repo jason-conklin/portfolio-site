@@ -36,7 +36,7 @@ export function SpotlightProject({
     <article
       className={cn(
         "flex h-full flex-col justify-between rounded-2xl border border-border/70 p-6 shadow-md backdrop-blur transition-all duration-200 motion-reduce:transition-none",
-        "bg-card/85 hover:-translate-y-0.5 hover:border-border hover:shadow-lg hover:shadow-primary/10 motion-reduce:hover:translate-y-0",
+        "bg-card/85 hover:border-border hover:shadow-lg hover:shadow-primary/10",
         prominence === "primary"
           ? "bg-gradient-to-br from-primary/10 via-card/90 to-card/90"
           : "bg-card/75",

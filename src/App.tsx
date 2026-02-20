@@ -20,9 +20,11 @@ export function App() {
   return (
     <div
       id="app-root"
-      className="relative flex min-h-[100svh] flex-col overflow-x-hidden bg-background text-foreground"
+      className="relative flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground"
     >
-      <BackgroundParticles />
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+        <BackgroundParticles />
+      </div>
       <a
         href="#app-main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
@@ -31,7 +33,7 @@ export function App() {
       </a>
       <Header />
       <div aria-hidden className="h-[var(--header-height)]" />
-      <main id="app-main" className="relative flex-1">
+      <main id="app-main" className="relative z-10 flex-1">
         <AppRoutes />
       </main>
       <Footer />
