@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { FilterBar } from "@/components/FilterBar";
-import { ProjectCard } from "@/components/ProjectCard";
+import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
 import { projectFilters, projects } from "@/data/profile";
@@ -80,18 +80,7 @@ function ProjectsPage() {
             searchQuery={searchQuery}
             onSearchQueryChange={setSearchQuery}
           />
-          {filteredProjects.length ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredProjects.map((project) => (
-                <ProjectCard key={project.slug} project={project} />
-              ))}
-            </div>
-          ) : (
-            <p className="rounded-2xl border border-dashed border-border bg-muted/40 p-10 text-center text-sm text-muted-foreground">
-              No projects matched those filters just yet — try a different keyword
-              or filter.
-            </p>
-          )}
+          <ProjectsGrid projects={filteredProjects} />
         </motion.div>
       </Section>
     </>

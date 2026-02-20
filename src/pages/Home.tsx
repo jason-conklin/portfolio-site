@@ -4,21 +4,37 @@ import { ArrowRight, ExternalLink, FileText } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
-import { SpotlightProject } from "@/components/SpotlightProject";
+import { ProjectsGrid } from "@/components/ProjectsGrid";
+import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
-const spotlightProjects = homeContent.spotlightProjects
-  .map((spotlight) => {
-    const project = projectsBySlug.get(spotlight.slug);
-    if (!project) return null;
-    return { ...spotlight, project };
-  })
-  .filter((spotlight): spotlight is (typeof homeContent.spotlightProjects)[number] & {
-    project: (typeof projects)[number];
-  } => spotlight !== null)
-  .slice(0, 3);
+const homeFeaturedProjects = (() => {
+  const selected: (typeof projects)[number][] = [];
+  const seen = new Set<string>();
+
+  const pushProject = (project?: (typeof projects)[number]) => {
+    if (!project || seen.has(project.slug)) return;
+    seen.add(project.slug);
+    selected.push(project);
+  };
+
+  for (const spotlight of homeContent.spotlightProjects) {
+    pushProject(projectsBySlug.get(spotlight.slug));
+  }
+
+  for (const project of projects) {
+    if (!project.featured) continue;
+    pushProject(project);
+  }
+
+  for (const project of projects) {
+    pushProject(project);
+  }
+
+  return selected.slice(0, 6);
+})();
 
 function getProjectDomain(url: string) {
   try {
@@ -171,86 +187,23 @@ function HomePage() {
         </div>
       </section>
 
-      <section id="featured" className="relative z-10 py-16 sm:py-20">
-        <div className="mx-auto w-full max-w-6xl px-6">
-          <header className="mb-12 max-w-3xl">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Spotlight projects
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Curated builds that best represent my production engineering, applied AI, and data platform work.
-            </p>
-          </header>
-
-          {spotlightProjects.length ? (
-            <div className="space-y-8">
-              <div className="grid gap-6 lg:grid-cols-12">
-                {spotlightProjects[0] ? (
-                  <SpotlightProject
-                    project={spotlightProjects[0].project}
-                    outcome={spotlightProjects[0].outcome}
-                    highlights={spotlightProjects[0].highlights}
-                    tech={spotlightProjects[0].tech}
-                    prominence="primary"
-                    className="lg:col-span-7"
-                    onOpenCaseStudy={openProjectCaseStudy}
-                  />
-                ) : null}
-                <div className="space-y-6 lg:col-span-5">
-                  {spotlightProjects.slice(1).map((spotlight) => (
-                    <SpotlightProject
-                      key={spotlight.slug}
-                      project={spotlight.project}
-                      outcome={spotlight.outcome}
-                      highlights={spotlight.highlights}
-                      tech={spotlight.tech}
-                      onOpenCaseStudy={openProjectCaseStudy}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="flex justify-start sm:justify-end">
-                <Button asChild variant="link" className="min-h-0 px-0 py-0 text-base">
-                  <Link to="/projects" className="inline-flex items-center gap-1.5">
-                    View all projects
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <p className="rounded-2xl border border-dashed border-border bg-muted/40 p-8 text-sm text-muted-foreground">
-              Spotlight projects are being curated.
-            </p>
-          )}
-        </div>
-      </section>
-
-      <section id="engineering-focus" className="relative z-10 py-16 sm:py-20">
-        <div className="mx-auto w-full max-w-6xl px-6">
-          <header className="mb-12 max-w-3xl">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Engineering Focus
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Core capabilities I apply across production web products and AI-enabled systems.
-            </p>
-          </header>
-          <div className="grid gap-4 md:grid-cols-2">
-            {homeContent.engineeringFocus.map((capability) => (
-              <article
-                key={capability.title}
-                className="rounded-2xl bg-card/60 p-6 shadow-sm ring-1 ring-border/45 transition-colors duration-200 hover:bg-card/80"
-              >
-                <h3 className="text-lg font-semibold tracking-tight">{capability.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {capability.description}
-                </p>
-              </article>
-            ))}
+      <Section
+        id="featured-projects"
+        title="Featured Projects"
+        description="A quick look at a few builds — see Projects for the full list."
+      >
+        <div className="space-y-8">
+          <ProjectsGrid projects={homeFeaturedProjects} />
+          <div className="flex justify-start sm:justify-end">
+            <Button asChild variant="link" className="min-h-0 px-0 py-0 text-base">
+              <Link to="/projects" className="inline-flex items-center gap-1.5">
+                View all projects
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
         </div>
-      </section>
+      </Section>
     </>
   );
 }
