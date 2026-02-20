@@ -172,6 +172,7 @@ interface Project {
   slug: string;
   logo?: string;
   cardSummary?: string;
+  cardHighlights?: readonly string[];
   summary: string;
   highlights: readonly string[];
   tech: readonly string[];
@@ -224,6 +225,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     title,
     logo,
     cardSummary,
+    cardHighlights,
     summary,
     highlights,
     tech,
@@ -273,6 +275,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     githubUrl.trim().startsWith("(Private repository");
   const projectName = getProjectName(title);
   const projectMonogram = getProjectMonogram(projectName);
+  const cardHighlightItems = (cardHighlights?.length ? cardHighlights : highlights).slice(0, 2);
 
   const resetZoomState = useCallback(() => {
     if (dragRef.current.pointerId !== undefined && containerRef.current) {
@@ -914,8 +917,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
         )}
       >
         <div className="flex flex-col gap-4">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex min-w-0 items-start gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex min-w-0 flex-1 items-start gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-10 sm:w-10 sm:p-1.5">
                 {logo ? (
                   <img
@@ -933,13 +936,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   </span>
                 )}
               </div>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{cardSummary ?? summary}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground line-clamp-2 sm:line-clamp-3">
+                  {cardSummary ?? summary}
+                </p>
               </div>
             </div>
             {(featured || hasTeamSize) ? (
-              <div className="flex shrink-0 items-center gap-2">
+              <div className="flex shrink-0 flex-wrap items-center gap-2 self-start sm:pl-2">
                 {hasTeamSize ? renderTeamSizeBadge("self-start") : null}
                 {featured ? (
                   <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
@@ -950,10 +955,26 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </div>
             ) : null}
           </div>
-          <div className="flex flex-wrap gap-2">
-            {tech.map((stack) => (
-              <Tag key={stack}>{stack}</Tag>
-            ))}
+
+          {cardHighlightItems.length ? (
+            <ul className="space-y-1.5 pl-4">
+              {cardHighlightItems.map((item, index) => (
+                <li
+                  key={`${slug}-highlight-${index}`}
+                  className="list-disc text-xs text-muted-foreground line-clamp-1 sm:text-sm"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          <div className="max-h-[3.9rem] overflow-hidden">
+            <div className="flex flex-wrap gap-2">
+              {tech.map((stack) => (
+                <Tag key={stack}>{stack}</Tag>
+              ))}
+            </div>
           </div>
         </div>
         <footer className="mt-6 flex flex-col gap-3">

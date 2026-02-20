@@ -368,6 +368,10 @@ export const projects = [
     slug: "giftperch-recipient-profiles",
     summary:
       "AI-powered gifting workspace with reusable recipient profiles, an occasion calendar, and PerchPal chat for gift ideas.",
+    cardHighlights: [
+      "Recipient profiles and occasion tracking keep gifting context structured and reusable.",
+      "PerchPal chat produces budget-aware ideas with rationale for faster decisions.",
+    ],
     highlights: [
       "Recipient profiles capture interests, budgets, anti-gifts, and relationship context to avoid repeat or misfit ideas",
       "PerchPal AI chat suggests budget-aware gifts with rationales and batching for a single prompt",
@@ -447,6 +451,10 @@ export const projects = [
     slug: "applictus",
     cardSummary:
       "Production job application tracker that connects to Gmail and automatically organizes confirmations, rejections, and status updates into a clean dashboard.",
+    cardHighlights: [
+      "Gmail OAuth ingestion classifies updates and deduplicates signals by provider message IDs.",
+      "Explainable status inference shows confidence, reasoning, and a full event timeline.",
+    ],
     summary:
       "Production web application that connects to Gmail via OAuth, detects job-related updates, deduplicates events, and keeps application status pipelines current with explainable inference.",
     highlights: [
@@ -507,6 +515,10 @@ export const projects = [
     slug: "statestats-data-explorer",
     summary:
       "Interactive state-level data explorer with choropleth maps, metric comparisons, and responsive time-series charts.",
+    cardHighlights: [
+      "Interactive U.S. choropleth map with metric and year controls for fast exploration.",
+      "Multi-state comparison charts surface trends with transparent public-data sourcing.",
+    ],
     highlights: [
       "Interactive U.S. map with dynamic metric selection and adjustable year slider",
       "Fast, scalable backend powered by Supabase and PostgreSQL",
