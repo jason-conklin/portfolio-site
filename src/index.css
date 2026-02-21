@@ -490,7 +490,7 @@ html {
   }
 }
 
-@media (max-height: 800px) {
+@media (max-height: 820px) {
   .hero-short-viewport {
     align-items: flex-start;
     padding-top: 0.35rem;
@@ -510,7 +510,7 @@ html {
   .hero-short-viewport .hero-name-frame {
     height: clamp(86px, 22svh, 162px);
     max-height: 22svh;
-    width: min(900px, 92vw);
+    width: min(840px, 92vw);
   }
 
   .hero-short-viewport .hero-tagline {
@@ -548,8 +548,59 @@ html {
   }
 
   .hero-short-viewport .hero-cta-row {
-    padding-top: 0;
+    margin-top: 0.25rem;
     gap: 0.5rem;
+  }
+}
+
+@media (max-height: 760px) {
+  .hero-short-viewport {
+    padding-top: 0.25rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .hero-short-viewport .hero-content {
+    gap: 0.34rem;
+  }
+
+  .hero-short-viewport .hero-name-frame {
+    height: clamp(78px, 20svh, 148px);
+    max-height: 20svh;
+    width: min(760px, 92vw);
+  }
+
+  .hero-short-viewport .hero-tagline {
+    margin-top: 0.26rem;
+  }
+
+  .hero-short-viewport .hero-tagline-primary {
+    font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+  }
+
+  .hero-short-viewport .hero-tagline-secondary {
+    margin-top: 0.16rem;
+    font-size: 0.8rem;
+  }
+
+  .hero-short-viewport .hero-live-panel-inner {
+    padding: 0.65rem;
+  }
+
+  .hero-short-viewport .hero-live-panel ul {
+    gap: 0.42rem;
+  }
+
+  .hero-short-viewport .hero-live-tile {
+    padding: 0.46rem;
+  }
+
+  .hero-short-viewport .hero-live-tile-header {
+    padding: 0.46rem;
+  }
+
+  .hero-short-viewport .hero-cta-row {
+    margin-top: 0.15rem;
+    gap: 0.35rem;
   }
 }
 
