@@ -78,10 +78,10 @@ export function Header() {
                 key={item.href}
                 to={item.href}
                 className={cn(
-                  "rounded-full px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  "rounded-full px-3 py-1.5 text-sm font-medium transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                   isActive
-                    ? "bg-gradient-to-b from-primary/35 to-primary/20 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_16px_-12px_hsl(var(--primary)/0.8)] ring-1 ring-primary/35 dark:from-primary/45 dark:to-primary/25 dark:text-primary-foreground dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_16px_-12px_hsl(var(--primary)/0.6)]"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    ? "bg-primary/15 text-foreground font-semibold ring-1 ring-border/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] dark:bg-white/10 dark:text-white dark:ring-white/10 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.14)]"
+                    : "text-foreground/70 hover:bg-muted/70 hover:text-foreground dark:text-foreground/70 dark:hover:bg-white/5 dark:hover:text-white",
                 )}
               >
                 {item.name}
@@ -127,10 +127,10 @@ export function Header() {
                   <Link
                     to={item.href}
                     className={cn(
-                      "flex w-full items-center rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+                      "flex w-full items-center rounded-xl px-3 py-2 text-sm font-semibold transition-colors duration-200 ease-out",
                       isActive
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                        ? "bg-primary/15 text-foreground ring-1 ring-border/60 dark:bg-white/10 dark:text-white dark:ring-white/10"
+                        : "text-foreground/70 hover:bg-muted hover:text-foreground dark:text-foreground/70 dark:hover:bg-white/5 dark:hover:text-white",
                     )}
                   >
                     {item.name}
