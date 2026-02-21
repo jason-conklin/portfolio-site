@@ -242,16 +242,18 @@ function HomePage() {
                   <span className="sr-only">{hero.name}</span>
                   <span
                     aria-hidden="true"
-                    className="hero-name-frame relative mx-auto block h-[clamp(108px,25svh,232px)] w-[min(980px,94vw)] max-h-[28svh] max-w-full select-none max-[height:820px]:w-[min(840px,92vw)] max-[height:820px]:max-h-[24svh] max-[height:760px]:w-[min(760px,92vw)] max-[height:760px]:max-h-[21svh]"
+                    className="hero-name-frame pointer-events-none relative mx-auto block h-[clamp(108px,25svh,232px)] w-[min(980px,94vw)] max-h-[28svh] max-w-full select-none max-[height:820px]:w-[min(840px,92vw)] max-[height:820px]:max-h-[24svh] max-[height:760px]:w-[min(760px,92vw)] max-[height:760px]:max-h-[21svh]"
                   >
                     <img
                       src={NameLightLogo}
                       alt=""
                       aria-hidden="true"
+                      draggable={false}
+                      onDragStart={(event) => event.preventDefault()}
                       loading="eager"
                       fetchPriority="high"
                       decoding="async"
-                      className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ease-out motion-reduce:transition-none ${
+                      className={`hero-name-image pointer-events-none absolute inset-0 h-full w-full select-none object-contain transition-opacity duration-300 ease-out motion-reduce:transition-none ${
                         resolvedTheme === "dark" ? "opacity-0" : "opacity-100"
                       }`}
                     />
@@ -259,10 +261,12 @@ function HomePage() {
                       src={NameDarkLogo}
                       alt=""
                       aria-hidden="true"
+                      draggable={false}
+                      onDragStart={(event) => event.preventDefault()}
                       loading="eager"
                       fetchPriority="high"
                       decoding="async"
-                      className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ease-out motion-reduce:transition-none ${
+                      className={`hero-name-image pointer-events-none absolute inset-0 h-full w-full select-none object-contain transition-opacity duration-300 ease-out motion-reduce:transition-none ${
                         resolvedTheme === "dark" ? "opacity-100" : "opacity-0"
                       }`}
                     />
