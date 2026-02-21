@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -20,7 +20,8 @@ import { useIntroOnce } from "@/lib/useIntroOnce";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
 import peopleIconLight from "@/assets/people_icon_light.png";
 import peopleIconDark from "@/assets/people_icon_dark.png";
-import NameImage from "@/assets/name.png";
+import NameLightImage from "@/assets/name-light.png";
+import NameDarkImage from "@/assets/name-dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 const HOME_INTRO_SESSION_KEY = "home_intro_seen";
@@ -182,6 +183,16 @@ function HomePage() {
   const navigate = useNavigate();
   const shouldPlayIntro = useIntroOnce(HOME_INTRO_SESSION_KEY, !prefersReducedMotion);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const lightImage = new window.Image();
+    lightImage.src = NameLightImage;
+
+    const darkImage = new window.Image();
+    darkImage.src = NameDarkImage;
+  }, []);
+
   const openProjectCaseStudy = useCallback(
     (slug?: string) => {
       if (!slug) return;
@@ -229,15 +240,30 @@ function HomePage() {
                 className="max-w-[min(90vw,900px)] leading-[0.95]"
               >
                 <span className="sr-only">{hero.name}</span>
-                <img
-                  src={NameImage}
-                  alt=""
-                  aria-hidden="true"
-                  width={1104}
-                  height={358}
-                  loading="eager"
-                  className="block h-auto w-full drop-shadow-[0_8px_30px_rgba(0,0,0,0.15)]"
-                />
+                <span aria-hidden="true" className="relative block w-full aspect-[1104/358]">
+                  <img
+                    src={NameLightImage}
+                    alt=""
+                    aria-hidden="true"
+                    width={1091}
+                    height={319}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-contain opacity-100 transition-opacity duration-300 ease-out motion-reduce:transition-none dark:opacity-0"
+                  />
+                  <img
+                    src={NameDarkImage}
+                    alt=""
+                    aria-hidden="true"
+                    width={1104}
+                    height={358}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-300 ease-out motion-reduce:transition-none dark:opacity-100"
+                  />
+                </span>
               </motion.h1>
             </div>
             <motion.p
