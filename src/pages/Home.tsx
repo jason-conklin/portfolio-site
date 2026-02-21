@@ -285,36 +285,59 @@ function HomePage() {
               <motion.section
                 variants={proofPanelVariants}
                 aria-label="Live systems"
-                className="hero-live-panel relative overflow-hidden rounded-3xl shadow-[0_22px_60px_-45px_rgba(15,23,42,0.45)] before:pointer-events-none before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:shadow-[0_26px_70px_-55px_rgba(0,0,0,0.85)]"
               >
-                <div className="hero-live-panel-inner relative m-px rounded-[calc(1.5rem-1px)] bg-background/65 p-[clamp(0.9rem,1.5vw,1.3rem)] ring-1 ring-border/60 backdrop-blur-xl max-[height:820px]:p-[0.8rem] max-[height:760px]:p-[0.65rem] dark:bg-background/20">
-                  <header className="flex flex-wrap items-start justify-between gap-3 max-[height:820px]:gap-2">
-                    <div className="space-y-1">
-                      <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
-                        <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
-                        Live Systems
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Deployed products running in production.
-                      </p>
-                    </div>
-                    <div className="hero-live-header-chips flex flex-wrap gap-1.5 max-[height:820px]:hidden">
-                      <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                        3 live deployments
-                      </span>
-                      <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                        Vercel + Supabase
-                      </span>
-                      <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                        Solo-built
-                      </span>
-                    </div>
-                  </header>
-                  <div
-                    aria-hidden="true"
-                    className="mt-3 h-px bg-gradient-to-r from-border/70 via-border/30 to-transparent max-[height:820px]:mt-2"
-                  />
-                  <motion.ul variants={deploymentGridVariants} className="mt-[clamp(0.6rem,1.3vh,1rem)] grid gap-3 max-[height:820px]:mt-[0.56rem] max-[height:820px]:gap-2.5 max-[height:760px]:gap-2 sm:grid-cols-3 sm:gap-3.5">
+                <motion.div
+                  animate={
+                    prefersReducedMotion
+                      ? undefined
+                      : {
+                          y: [0, -2, 0],
+                          boxShadow: [
+                            "0 20px 52px -40px rgba(15,23,42,0.36)",
+                            "0 24px 58px -42px rgba(15,23,42,0.46)",
+                            "0 20px 52px -40px rgba(15,23,42,0.36)",
+                          ],
+                        }
+                  }
+                  transition={
+                    prefersReducedMotion
+                      ? undefined
+                      : {
+                          duration: 5,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }
+                  }
+                  className="hero-live-panel relative overflow-hidden rounded-3xl shadow-[0_22px_60px_-45px_rgba(15,23,42,0.45)] before:pointer-events-none before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:shadow-[0_26px_70px_-55px_rgba(0,0,0,0.85)]"
+                >
+                  <div className="hero-live-panel-inner relative m-px rounded-[calc(1.5rem-1px)] bg-background/65 p-[clamp(0.9rem,1.5vw,1.3rem)] ring-1 ring-border/60 backdrop-blur-xl max-[height:820px]:p-[0.8rem] max-[height:760px]:p-[0.65rem] dark:bg-background/20">
+                    <header className="flex flex-wrap items-start justify-between gap-3 max-[height:820px]:gap-2">
+                      <div className="space-y-1">
+                        <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
+                          <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
+                          Live Systems
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Deployed products running in production.
+                        </p>
+                      </div>
+                      <div className="hero-live-header-chips flex flex-wrap gap-1.5 max-[height:820px]:hidden">
+                        <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                          3 live deployments
+                        </span>
+                        <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                          Vercel + Supabase
+                        </span>
+                        <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                          Solo-built
+                        </span>
+                      </div>
+                    </header>
+                    <div
+                      aria-hidden="true"
+                      className="mt-3 h-px bg-gradient-to-r from-border/70 via-border/30 to-transparent max-[height:820px]:mt-2"
+                    />
+                    <motion.ul variants={deploymentGridVariants} className="mt-[clamp(0.6rem,1.3vh,1rem)] grid gap-3 max-[height:820px]:mt-[0.56rem] max-[height:820px]:gap-2.5 max-[height:760px]:gap-2 sm:grid-cols-3 sm:gap-3.5">
                     {liveProjects.map((project) => (
                       <motion.li
                         key={project.name}
@@ -389,8 +412,9 @@ function HomePage() {
                         </div>
                       </motion.li>
                     ))}
-                  </motion.ul>
-                </div>
+                    </motion.ul>
+                  </div>
+                </motion.div>
               </motion.section>
             ) : null}
 
