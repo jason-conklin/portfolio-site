@@ -87,13 +87,15 @@ function SkillsPage() {
                     transition={{ duration: 0.35, delay: prefersReducedMotion ? 0 : index * 0.05 }}
                     className="rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm transition-shadow duration-200 hover:shadow-md motion-reduce:transition-none"
                   >
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/12 text-primary">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <h4 className="mt-4 text-base font-semibold leading-tight text-foreground">
-                      {strength.title}
-                    </h4>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    <div className="flex items-start gap-3">
+                      <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/12 text-primary">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <h4 className="pt-0.5 text-base font-semibold leading-tight text-foreground">
+                        {strength.title}
+                      </h4>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                       {strength.description}
                     </p>
                   </motion.li>
