@@ -20,11 +20,6 @@ import NameDarkImage from "@/assets/name-dark.png";
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 const heroTaglinePrimary = "shipping production web systems.";
 const heroTaglineSecondary = "Applied AI, measurable evaluation, and clean architecture.";
-const liveProofChipsBySlug: Record<string, readonly string[]> = {
-  "giftperch-recipient-profiles": ["Auth: Supabase", "Storage/RLS", "Deployed: Vercel"],
-  applictus: ["OAuth: Google", "Postgres", "Webhook ingest"],
-  "statestats-data-explorer": ["ETL pipeline", "Postgres", "Charting"],
-};
 
 const heroSequenceVariants: Variants = {
   hidden: { opacity: 1 },
@@ -172,11 +167,6 @@ function getTeamSizeLabel(slug?: string) {
   return `Team of ${teamSize}`;
 }
 
-function getLiveProofChips(slug?: string) {
-  if (!slug) return [];
-  return liveProofChipsBySlug[slug] ?? [];
-}
-
 function HomePage() {
   const prefersReducedMotion = useReducedMotion();
   const navigate = useNavigate();
@@ -204,7 +194,7 @@ function HomePage() {
       <PageSEO path="/" />
       <section
         id="home"
-        className="hero-short-viewport relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-[clamp(0.75rem,2vh,1.5rem)] sm:py-[clamp(0.9rem,2.4vh,1.75rem)]"
+        className="hero-short-viewport relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-x-hidden py-[clamp(0.7rem,1.8vh,1.4rem)] sm:py-[clamp(0.85rem,2.2vh,1.6rem)]"
       >
         <motion.div
           variants={backgroundWakeVariants}
@@ -220,17 +210,17 @@ function HomePage() {
             variants={heroSequenceVariants}
             initial={prefersReducedMotion ? false : "hidden"}
             animate="show"
-            className="hero-content mx-auto flex max-w-4xl flex-col gap-[clamp(0.6rem,1.6vh,1rem)]"
+            className="hero-content mx-auto flex w-full max-w-[min(70rem,100%)] flex-col gap-[clamp(0.5rem,1.35vh,0.9rem)]"
           >
             <motion.p
               variants={locationVariants}
-              className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/40 px-3 py-1 font-display text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground backdrop-blur-sm"
+              className="hero-location-pill mx-auto inline-flex w-auto max-w-[min(520px,92vw)] min-w-0 items-center gap-2 rounded-full border border-border/50 bg-background/40 px-3 py-1 font-display text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground backdrop-blur-sm"
             >
               <MapPin
                 className="h-3.5 w-3.5 shrink-0 opacity-80"
                 aria-hidden="true"
               />
-              <span>{hero.location}</span>
+              <span className="truncate whitespace-nowrap">{hero.location}</span>
             </motion.p>
             <div className="hero-title-block mx-auto max-w-3xl text-center">
               <div className="relative">
@@ -245,12 +235,12 @@ function HomePage() {
                 ) : null}
                 <motion.h1
                   variants={titleRevealVariants}
-                  className="mx-auto w-full max-w-[min(90vw,900px)] leading-[0.95]"
+                  className="mx-auto w-full max-w-[min(94vw,980px)] leading-[0.95]"
                 >
                   <span className="sr-only">{hero.name}</span>
                   <span
                     aria-hidden="true"
-                    className="hero-name-frame relative mx-auto block h-[clamp(120px,28svh,260px)] w-[min(860px,92vw)] max-h-[30svh]"
+                    className="hero-name-frame relative mx-auto block h-[clamp(108px,25svh,232px)] w-[min(980px,94vw)] max-h-[28svh] max-w-full select-none"
                   >
                     <img
                       src={NameLightImage}
@@ -297,7 +287,7 @@ function HomePage() {
                 aria-label="Live systems"
                 className="hero-live-panel relative overflow-hidden rounded-3xl shadow-[0_22px_60px_-45px_rgba(15,23,42,0.45)] before:pointer-events-none before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:shadow-[0_26px_70px_-55px_rgba(0,0,0,0.85)]"
               >
-                <div className="hero-live-panel-inner relative m-px rounded-[calc(1.5rem-1px)] bg-background/65 p-4 ring-1 ring-border/60 backdrop-blur-xl dark:bg-background/20 sm:p-5 lg:p-6">
+                <div className="hero-live-panel-inner relative m-px rounded-[calc(1.5rem-1px)] bg-background/65 p-[clamp(0.9rem,1.5vw,1.3rem)] ring-1 ring-border/60 backdrop-blur-xl dark:bg-background/20">
                   <header className="flex flex-wrap items-start justify-between gap-3">
                     <div className="space-y-1">
                       <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
@@ -322,21 +312,21 @@ function HomePage() {
                   </header>
                   <div
                     aria-hidden="true"
-                    className="mt-4 h-px bg-gradient-to-r from-border/70 via-border/30 to-transparent"
+                    className="mt-3 h-px bg-gradient-to-r from-border/70 via-border/30 to-transparent"
                   />
-                  <motion.ul variants={deploymentGridVariants} className="mt-[clamp(0.7rem,1.5vh,1.2rem)] grid gap-3 sm:grid-cols-3 sm:gap-4">
+                  <motion.ul variants={deploymentGridVariants} className="mt-[clamp(0.6rem,1.3vh,1rem)] grid gap-3 sm:grid-cols-3 sm:gap-3.5">
                     {liveProjects.map((project) => (
                       <motion.li
                         key={project.name}
                         variants={deploymentTileVariants}
-                        className="hero-live-tile group relative overflow-hidden rounded-2xl border border-border/55 bg-background/55 p-3 shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-border/80 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-background/18 sm:p-3.5"
+                        className="hero-live-tile group relative overflow-hidden rounded-2xl border border-border/55 bg-background/55 p-2.5 shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-border/80 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-background/18 sm:p-3"
                       >
                         <span
                           aria-hidden="true"
                           className="absolute inset-y-3 left-0 w-[3px] rounded-r-full bg-primary/35 dark:bg-primary/25"
                         />
-                        <div className="space-y-3 pl-1">
-                          <div className="hero-live-tile-header relative rounded-2xl bg-muted/35 p-2.5 ring-1 ring-border/60 transition-colors duration-200 group-hover:bg-muted/45 dark:bg-muted/15 dark:group-hover:bg-muted/22 sm:p-3">
+                        <div className="space-y-2.5 pl-1">
+                          <div className="hero-live-tile-header relative rounded-2xl bg-muted/35 p-2.5 ring-1 ring-border/60 transition-colors duration-200 group-hover:bg-muted/45 dark:bg-muted/15 dark:group-hover:bg-muted/22">
                             <div className="flex min-w-0 items-start gap-2.5">
                               {project.icon ? (
                                 <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/65 p-1 sm:h-11 sm:w-11 sm:p-1.5">
@@ -369,22 +359,12 @@ function HomePage() {
                           <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                             {project.blurb}
                           </p>
-                          <div className="hero-live-proof flex flex-wrap gap-1.5">
-                            {getLiveProofChips(project.slug).map((chip) => (
-                              <span
-                                key={`${project.slug}-${chip}`}
-                                className="rounded-full bg-background/60 px-2 py-1 text-[11px] text-muted-foreground ring-1 ring-border/50 dark:bg-background/20"
-                              >
-                                {chip}
-                              </span>
-                            ))}
-                          </div>
-                          <div className="flex flex-wrap items-center gap-2">
+                          <div className="flex flex-wrap items-center gap-1.5">
                             <Button
                               asChild
                               variant="soft"
                               size="sm"
-                              className="h-8 rounded-full px-3 text-xs shadow-none transition-transform duration-200 hover:-translate-y-px motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                              className="h-8 rounded-full px-2.5 text-xs shadow-none transition-transform duration-200 hover:-translate-y-px motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                             >
                               <a
                                 href={project.liveUrl}
@@ -400,7 +380,7 @@ function HomePage() {
                               variant="ghost"
                               size="sm"
                               onClick={() => openProjectCaseStudy(project.slug)}
-                              className="h-8 rounded-full px-3 text-xs text-muted-foreground transition-transform duration-200 hover:-translate-y-px hover:text-foreground motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                              className="h-8 rounded-full px-2.5 text-xs text-muted-foreground transition-transform duration-200 hover:-translate-y-px hover:text-foreground motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                             >
                               <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                               Case study
@@ -414,15 +394,15 @@ function HomePage() {
               </motion.section>
             ) : null}
 
-            <motion.div variants={ctaRowVariants} className="hero-cta-row flex flex-wrap items-center gap-3 pt-[clamp(0.1rem,0.6vh,0.4rem)]">
-              <Button asChild size="lg">
+            <motion.div variants={ctaRowVariants} className="hero-cta-row flex flex-wrap items-center gap-2.5 pt-[clamp(0.05rem,0.45vh,0.3rem)]">
+              <Button asChild size="lg" className="max-[height:800px]:h-10 max-[height:800px]:min-h-10 max-[height:800px]:px-4">
                 <Link to={hero.cta.primary.href}>{hero.cta.primary.label}</Link>
               </Button>
-              <Button asChild variant="soft" size="lg">
+              <Button asChild variant="soft" size="lg" className="max-[height:800px]:h-10 max-[height:800px]:min-h-10 max-[height:800px]:px-4">
                 <Link to={hero.cta.secondary.href}>{hero.cta.secondary.label}</Link>
               </Button>
               {hero.cta.tertiary ? (
-                <Button asChild variant="link" className="min-h-0 px-2 py-1 text-sm sm:text-base">
+                <Button asChild variant="link" className="min-h-0 px-2 py-1 text-sm max-[height:800px]:py-0.5 sm:text-base">
                   {hero.cta.tertiary.external ? (
                     <a href={hero.cta.tertiary.href} target="_blank" rel="noopener noreferrer">
                       {hero.cta.tertiary.label}
