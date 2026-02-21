@@ -7,29 +7,43 @@ import {
   MapPin,
   Workflow,
 } from "lucide-react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
-import { useIntroOnce } from "@/lib/useIntroOnce";
+import { useFirstVisitAnimation } from "@/lib/useFirstVisitAnimation";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
 import NameLightImage from "@/assets/name-light.png";
 import NameDarkImage from "@/assets/name-dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
-const HOME_INTRO_SESSION_KEY = "home_intro_seen";
+const HOME_INTRO_SESSION_KEY = "jc_intro_v1";
 const heroTaglinePrimary = "shipping production web systems.";
 const heroTaglineSecondary = "Applied AI, measurable evaluation, and clean architecture.";
+const liveProofChipsBySlug: Record<string, readonly string[]> = {
+  "giftperch-recipient-profiles": ["Auth: Supabase", "Storage/RLS", "Deployed: Vercel"],
+  applictus: ["OAuth: Google", "Postgres", "Webhook ingest"],
+  "statestats-data-explorer": ["ETL pipeline", "Postgres", "Charting"],
+};
 
 const heroSequenceVariants: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.11,
-      delayChildren: 0.02,
+      staggerChildren: 0.09,
+      delayChildren: 0.12,
     },
+  },
+};
+
+const backgroundWakeVariants: Variants = {
+  hidden: { opacity: 0, filter: "blur(6px)" },
+  show: {
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.78, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -38,35 +52,61 @@ const locationVariants: Variants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const titleRevealVariants: Variants = {
-  hidden: { opacity: 0.2, clipPath: "inset(0 100% 0 0)" },
+  hidden: { opacity: 0, y: 10, clipPath: "inset(0 100% 0 0)" },
   show: {
     opacity: 1,
+    y: 0,
     clipPath: "inset(0 0% 0 0)",
-    transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const subheadlineVariants: Variants = {
-  hidden: { opacity: 0, x: -20 },
+  hidden: { opacity: 0, y: 8 },
   show: {
     opacity: 1,
-    x: 0,
-    transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+    y: 0,
+    transition: { duration: 0.26, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const proofPanelVariants: Variants = {
-  hidden: { opacity: 0, y: 16, scale: 0.99 },
+  hidden: {
+    opacity: 0,
+    y: 12,
+    scale: 0.985,
+    clipPath: "inset(0 0 100% 0 round 1.5rem)",
+  },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.33, ease: [0.22, 1, 0.36, 1] },
+    clipPath: "inset(0 0 0% 0 round 1.5rem)",
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const deploymentGridVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.06,
+      delayChildren: 0.14,
+    },
+  },
+};
+
+const deploymentTileVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -75,7 +115,7 @@ const ctaRowVariants: Variants = {
   show: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -134,10 +174,14 @@ function getTeamSizeLabel(slug?: string) {
   return `Team of ${teamSize}`;
 }
 
+function getLiveProofChips(slug?: string) {
+  if (!slug) return [];
+  return liveProofChipsBySlug[slug] ?? [];
+}
+
 function HomePage() {
-  const prefersReducedMotion = useReducedMotion();
   const navigate = useNavigate();
-  const shouldPlayIntro = useIntroOnce(HOME_INTRO_SESSION_KEY, !prefersReducedMotion);
+  const shouldPlayIntro = useFirstVisitAnimation(HOME_INTRO_SESSION_KEY);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -164,10 +208,15 @@ function HomePage() {
         id="home"
         className="relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-4 sm:py-6"
       >
-        <div className="pointer-events-none absolute inset-0 z-0">
+        <motion.div
+          variants={backgroundWakeVariants}
+          initial={shouldPlayIntro ? "hidden" : false}
+          animate="show"
+          className="pointer-events-none absolute inset-0 z-0"
+        >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.2)_0,rgba(59,130,246,0.08)_32%,rgba(59,130,246,0)_62%)]" />
           <div className="absolute inset-x-0 top-0 h-[560px] bg-[linear-gradient(to_bottom,rgba(59,130,246,0.2)_0,rgba(59,130,246,0.1)_240px,rgba(59,130,246,0.04)_420px,rgba(59,130,246,0)_560px)]" />
-        </div>
+        </motion.div>
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           <motion.div
             variants={heroSequenceVariants}
@@ -190,10 +239,10 @@ function HomePage() {
                 {shouldPlayIntro ? (
                   <motion.span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-y-1 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-primary/25 to-transparent blur-xl"
-                    initial={{ x: "-120%", opacity: 0 }}
-                    animate={{ x: "240%", opacity: [0, 0.5, 0] }}
-                    transition={{ duration: 0.75, ease: "easeInOut", delay: 0.14 }}
+                    className="pointer-events-none absolute inset-y-2 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-white/45 to-transparent mix-blend-soft-light blur-xl dark:via-white/20"
+                    initial={{ x: "-110%", opacity: 0 }}
+                    animate={{ x: "235%", opacity: [0, 0.4, 0] }}
+                    transition={{ duration: 0.62, ease: "easeInOut", delay: 0.2 }}
                   />
                 ) : null}
                 <motion.h1
@@ -244,100 +293,123 @@ function HomePage() {
             {liveProjects.length ? (
               <motion.section
                 variants={proofPanelVariants}
-                aria-label="Proof of work live systems"
-                className="relative overflow-hidden rounded-3xl bg-background/70 p-5 shadow-[0_16px_40px_-22px_rgba(0,0,0,0.35)] ring-1 ring-border/60 backdrop-blur-xl before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:bg-background/25 dark:shadow-[0_18px_50px_-28px_rgba(0,0,0,0.65)] sm:p-6"
+                aria-label="Live systems"
+                className="relative overflow-hidden rounded-3xl shadow-[0_22px_60px_-45px_rgba(15,23,42,0.45)] before:pointer-events-none before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:shadow-[0_26px_70px_-55px_rgba(0,0,0,0.85)]"
               >
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div className="space-y-1">
-                    <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
-                      <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
-                      Live Systems
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Deployed products running in production.
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                      3 live deployments
-                    </span>
-                    <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                      Vercel + Supabase
-                    </span>
-                    <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                      Solo-built
-                    </span>
-                  </div>
-                </div>
-                <ul className="mt-4 grid gap-4 sm:grid-cols-3">
-                  {liveProjects.map((project) => (
-                    <li
-                      key={project.name}
-                      className="group relative rounded-2xl border border-border/50 bg-background/55 p-3.5 shadow-sm ring-1 ring-border/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:ring-primary/20 focus-within:ring-2 focus-within:ring-primary/25 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                    >
-                      <div className="space-y-2.5">
-                        <div className="relative overflow-hidden rounded-xl bg-muted/35 px-3 py-2.5 ring-1 ring-border/60 dark:bg-muted/20">
-                          <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-b from-primary/[0.08] to-transparent dark:from-primary/[0.12]"
-                          />
-                          <div className="relative flex min-w-0 items-start gap-2.5">
-                            {project.icon ? (
-                              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-11 sm:w-11 sm:p-1.5">
-                                <img
-                                  src={project.icon}
-                                  alt={`${project.name} logo`}
-                                  className="h-full w-full object-contain"
-                                  loading="lazy"
-                                />
+                <div className="relative m-px rounded-[calc(1.5rem-1px)] bg-background/65 p-6 ring-1 ring-border/60 backdrop-blur-xl dark:bg-background/20 sm:p-7">
+                  <header className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="space-y-1">
+                      <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
+                        <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
+                        Live Systems
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Deployed products running in production.
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                        3 live deployments
+                      </span>
+                      <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                        Vercel + Supabase
+                      </span>
+                      <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                        Solo-built
+                      </span>
+                    </div>
+                  </header>
+                  <div
+                    aria-hidden="true"
+                    className="mt-4 h-px bg-gradient-to-r from-border/70 via-border/30 to-transparent"
+                  />
+                  <motion.ul variants={deploymentGridVariants} className="mt-5 grid gap-5 sm:grid-cols-3">
+                    {liveProjects.map((project) => (
+                      <motion.li
+                        key={project.name}
+                        variants={deploymentTileVariants}
+                        className="group relative overflow-hidden rounded-2xl border border-border/55 bg-background/55 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-border/80 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-background/18"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="absolute inset-y-3 left-0 w-[3px] rounded-r-full bg-primary/35 dark:bg-primary/25"
+                        />
+                        <div className="space-y-3 pl-1">
+                          <div className="relative rounded-2xl bg-muted/35 p-3 ring-1 ring-border/60 transition-colors duration-200 group-hover:bg-muted/45 dark:bg-muted/15 dark:group-hover:bg-muted/22">
+                            <div className="flex min-w-0 items-start gap-2.5">
+                              {project.icon ? (
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/65 p-1 sm:h-11 sm:w-11 sm:p-1.5">
+                                  <img
+                                    src={project.icon}
+                                    alt={`${project.name} logo`}
+                                    className="h-full w-full object-contain"
+                                    loading="lazy"
+                                  />
+                                </div>
+                              ) : null}
+                              <div className="min-w-0 flex-1">
+                                <p className="min-w-0 text-sm font-semibold tracking-tight text-foreground">
+                                  {project.name}
+                                </p>
+                                <p className="mt-1 flex min-w-0 flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                                  <span
+                                    className="h-2 w-2 shrink-0 rounded-full bg-emerald-500/80 motion-safe:animate-pulse motion-reduce:animate-none"
+                                    aria-hidden="true"
+                                  />
+                                  <span>Live</span>
+                                  <span aria-hidden>·</span>
+                                  <span className="truncate max-w-[120px]">{getProjectDomain(project.liveUrl)}</span>
+                                  <span aria-hidden>·</span>
+                                  <span>{getTeamSizeLabel(project.slug)}</span>
+                                </p>
                               </div>
-                            ) : null}
-                            <div className="min-w-0 flex-1">
-                              <p className="min-w-0 text-sm font-semibold tracking-tight text-foreground">
-                                {project.name}
-                              </p>
-                              <p className="mt-1 inline-flex min-w-0 flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-                                <span
-                                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500/75"
-                                  aria-hidden="true"
-                                />
-                                <span>Live</span>
-                                <span aria-hidden>·</span>
-                                <span className="truncate max-w-[120px]">{getProjectDomain(project.liveUrl)}</span>
-                                <span aria-hidden>·</span>
-                                <span>{getTeamSizeLabel(project.slug)}</span>
-                              </p>
                             </div>
                           </div>
-                          <div aria-hidden="true" className="relative mt-2 border-t border-border/45" />
+                          <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+                            {project.blurb}
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {getLiveProofChips(project.slug).map((chip) => (
+                              <span
+                                key={`${project.slug}-${chip}`}
+                                className="rounded-full bg-background/60 px-2 py-1 text-[11px] text-muted-foreground ring-1 ring-border/50 dark:bg-background/20"
+                              >
+                                {chip}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Button
+                              asChild
+                              variant="soft"
+                              size="sm"
+                              className="h-8 rounded-full px-3 text-xs shadow-none transition-transform duration-200 hover:-translate-y-px motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                            >
+                              <a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                                Open live
+                              </a>
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => openProjectCaseStudy(project.slug)}
+                              className="h-8 rounded-full px-3 text-xs text-muted-foreground transition-transform duration-200 hover:-translate-y-px hover:text-foreground motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                            >
+                              <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                              Case study
+                            </Button>
+                          </div>
                         </div>
-
-                        <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
-                          {project.blurb}
-                        </p>
-                        <div className="flex flex-wrap items-center gap-2">
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex h-8 items-center gap-1.5 rounded-full bg-primary/12 px-3 text-xs font-medium text-primary ring-1 ring-primary/20 transition hover:bg-primary/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                          >
-                            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                            Live
-                          </a>
-                          <button
-                            type="button"
-                            onClick={() => openProjectCaseStudy(project.slug)}
-                            className="inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-medium text-muted-foreground transition hover:bg-muted/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                          >
-                            <FileText className="h-3.5 w-3.5" aria-hidden="true" />
-                            Details
-                          </button>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                </div>
               </motion.section>
             ) : null}
 
