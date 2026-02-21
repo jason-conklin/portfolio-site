@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -20,6 +20,7 @@ import { useIntroOnce } from "@/lib/useIntroOnce";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
 import peopleIconLight from "@/assets/people_icon_light.png";
 import peopleIconDark from "@/assets/people_icon_dark.png";
+import NameImage from "@/assets/name.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 const HOME_INTRO_SESSION_KEY = "home_intro_seen";
@@ -181,12 +182,6 @@ function HomePage() {
   const navigate = useNavigate();
   const shouldPlayIntro = useIntroOnce(HOME_INTRO_SESSION_KEY, !prefersReducedMotion);
 
-  const commandHint = useMemo(() => {
-    if (typeof window === "undefined") return "Ctrl/Cmd+K";
-    const isMacLike = /(Mac|iPhone|iPad|iPod)/i.test(window.navigator.platform);
-    return `${isMacLike ? "Cmd" : "Ctrl"}+K`;
-  }, []);
-
   const openProjectCaseStudy = useCallback(
     (slug?: string) => {
       if (!slug) return;
@@ -231,11 +226,18 @@ function HomePage() {
               ) : null}
               <motion.h1
                 variants={titleRevealVariants}
-                className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-6xl lg:text-7xl"
+                className="max-w-[min(90vw,900px)] leading-[0.95]"
               >
-                <span className="bg-gradient-to-b from-foreground via-foreground to-foreground/80 bg-clip-text text-transparent">
-                  {hero.name}
-                </span>
+                <span className="sr-only">{hero.name}</span>
+                <img
+                  src={NameImage}
+                  alt=""
+                  aria-hidden="true"
+                  width={1104}
+                  height={358}
+                  loading="eager"
+                  className="block h-auto w-full drop-shadow-[0_8px_30px_rgba(0,0,0,0.15)]"
+                />
               </motion.h1>
             </div>
             <motion.p
@@ -386,9 +388,6 @@ function HomePage() {
               <Button asChild variant="soft" size="lg">
                 <Link to={hero.cta.secondary.href}>{hero.cta.secondary.label}</Link>
               </Button>
-              <span className="inline-flex min-h-10 items-center rounded-full border border-border/60 bg-background/55 px-3 text-xs font-medium text-muted-foreground backdrop-blur-sm">
-                Press {commandHint} to jump
-              </span>
               {hero.cta.tertiary ? (
                 <Button asChild variant="link" className="min-h-0 px-2 py-1 text-sm sm:text-base">
                   {hero.cta.tertiary.external ? (
