@@ -4,6 +4,7 @@ import {
   ArrowRight,
   ExternalLink,
   FileText,
+  MapPin,
   Rocket,
   ShieldCheck,
   Sparkles,
@@ -301,9 +302,13 @@ function HomePage() {
           >
             <motion.p
               variants={locationVariants}
-              className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground"
+              className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/40 px-3 py-1 font-display text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground backdrop-blur-sm"
             >
-              {hero.location}
+              <MapPin
+                className="h-3.5 w-3.5 shrink-0 opacity-80"
+                aria-hidden="true"
+              />
+              <span>{hero.location}</span>
             </motion.p>
             <div className="mx-auto max-w-3xl text-center">
               <div className="relative">
