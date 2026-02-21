@@ -98,7 +98,7 @@ export const hero = {
   statement: "Full-stack engineer building production-grade web systems and applied AI tools.",
   location: "New Jersey, USA · Open to Remote (US)",
   cta: {
-    primary: { label: "View Projects", href: "/projects" },
+    primary: { label: "View All Projects", href: "/projects" },
     secondary: { label: "Get in Touch", href: "/contact" },
     tertiary: {
       label: "GitHub",

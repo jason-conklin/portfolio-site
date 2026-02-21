@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { navigation, site } from "@/data/profile";
 import { cn } from "@/lib/utils";
 import { CommandPalette } from "@/components/CommandPalette";
-import logoMark from "@/assets/logo.png";
+import logoLight from "@/assets/logo-light.png";
+import logoDark from "@/assets/logo-dark.png";
 
 export function Header() {
   const { pathname } = useLocation();
@@ -59,12 +60,26 @@ export function Header() {
             to="/"
             className="flex items-center gap-2 text-lg font-semibold tracking-tight transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            <img
-              src={logoMark}
-              alt="Jason Conklin monogram"
-              className="h-10 w-10 rounded-full object-cover shadow-soft"
-            />
-            <span className="hidden sm:inline">Jason Conklin</span>
+            <span
+              aria-hidden="true"
+              className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full shadow-soft"
+            >
+              <img
+                src={logoLight}
+                alt=""
+                loading="eager"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover opacity-100 transition-opacity duration-200 ease-out dark:opacity-0"
+              />
+              <img
+                src={logoDark}
+                alt=""
+                loading="eager"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-200 ease-out dark:opacity-100"
+              />
+            </span>
+            <span className="sr-only sm:not-sr-only">Jason Conklin</span>
           </Link>
         </div>
         <nav className="hidden items-center gap-1 rounded-full border border-border/70 bg-background/65 p-1 shadow-sm ring-1 ring-border/50 backdrop-blur-md md:flex">
