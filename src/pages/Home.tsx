@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, type ReactNode } from "react";
+import { useCallback, useEffect } from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -12,51 +12,16 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { Section } from "@/components/Section";
-import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import { PageSEO } from "@/app/seo";
 import { useIntroOnce } from "@/lib/useIntroOnce";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
-import peopleIconLight from "@/assets/people_icon_light.png";
-import peopleIconDark from "@/assets/people_icon_dark.png";
 import NameLightImage from "@/assets/name-light.png";
 import NameDarkImage from "@/assets/name-dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 const HOME_INTRO_SESSION_KEY = "home_intro_seen";
-
-function renderHeroTagline(statement: string): ReactNode {
-  const lead = "Full-stack engineer";
-  const focus = "production-grade";
-  const startsWithLead = statement.toLowerCase().startsWith(lead.toLowerCase());
-
-  if (!startsWithLead) return statement;
-
-  const remainder = statement.slice(lead.length).trimStart();
-  const focusIndex = remainder.toLowerCase().indexOf(focus);
-
-  if (focusIndex === -1) {
-    return (
-      <>
-        <span className="font-semibold text-foreground">Full-stack engineer</span>{" "}
-        <span>{remainder}</span>
-      </>
-    );
-  }
-
-  const beforeFocus = remainder.slice(0, focusIndex);
-  const afterFocus = remainder.slice(focusIndex + focus.length);
-
-  return (
-    <>
-      <span className="font-semibold text-foreground">Full-stack engineer</span>{" "}
-      <span>{beforeFocus}</span>
-      <span className="rounded-md bg-primary/10 px-1.5 py-0.5 dark:bg-primary/15">
-        {focus}
-      </span>
-      <span>{afterFocus}</span>
-    </>
-  );
-}
+const heroTaglinePrimary = "shipping production web systems.";
+const heroTaglineSecondary = "Applied AI, measurable evaluation, and clean architecture.";
 
 const heroSequenceVariants: Variants = {
   hidden: {},
@@ -197,7 +162,7 @@ function HomePage() {
       <PageSEO path="/" />
       <section
         id="home"
-        className="relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-6 sm:py-8"
+        className="relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-4 sm:py-6"
       >
         <div className="pointer-events-none absolute inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.2)_0,rgba(59,130,246,0.08)_32%,rgba(59,130,246,0)_62%)]" />
@@ -208,7 +173,7 @@ function HomePage() {
             variants={heroSequenceVariants}
             initial={shouldPlayIntro ? "hidden" : false}
             animate="show"
-            className="mx-auto max-w-4xl space-y-4 sm:space-y-5"
+            className="mx-auto max-w-4xl space-y-3 sm:space-y-4"
           >
             <motion.p
               variants={locationVariants}
@@ -264,9 +229,15 @@ function HomePage() {
               </div>
               <motion.p
                 variants={subheadlineVariants}
-                className="mx-auto mt-4 max-w-3xl text-center text-lg leading-snug text-foreground/90 sm:mt-5 sm:text-xl md:text-2xl"
+                className="mx-auto mt-4 max-w-3xl text-center sm:mt-5"
               >
-                {renderHeroTagline(hero.statement)}
+                <span className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                  <span className="font-bold">Full-stack engineer</span>{" "}
+                  {heroTaglinePrimary}
+                </span>
+                <span className="mt-2 block text-base text-muted-foreground sm:text-lg">
+                  {heroTaglineSecondary}
+                </span>
               </motion.p>
             </div>
 
@@ -274,32 +245,38 @@ function HomePage() {
               <motion.section
                 variants={proofPanelVariants}
                 aria-label="Proof of work live systems"
-                className="relative overflow-hidden rounded-2xl border border-border/70 bg-background/60 p-4 shadow-lg shadow-black/[0.08] ring-1 ring-border/70 backdrop-blur-md dark:bg-background/40 dark:shadow-black/30 sm:p-5"
+                className="relative overflow-hidden rounded-3xl bg-background/70 p-5 shadow-[0_16px_40px_-22px_rgba(0,0,0,0.35)] ring-1 ring-border/60 backdrop-blur-xl before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:bg-background/25 dark:shadow-[0_18px_50px_-28px_rgba(0,0,0,0.65)] sm:p-6"
               >
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent"
-                />
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
-                    <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
-                    Proof of Work
-                  </p>
-                  <span className="inline-flex items-center rounded-full border border-border/60 bg-background/60 px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground">
-                    Live Systems
-                  </span>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="space-y-1">
+                    <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
+                      <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
+                      Live Systems
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Deployed products running in production.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                      3 live deployments
+                    </span>
+                    <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                      Vercel + Supabase
+                    </span>
+                    <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
+                      Solo-built
+                    </span>
+                  </div>
                 </div>
-                <p className="mt-0.5 text-sm text-muted-foreground">
-                  Deployed products running in production.
-                </p>
-                <ul className="mt-3 grid gap-2 sm:grid-cols-3 sm:gap-3">
+                <ul className="mt-4 grid gap-4 sm:grid-cols-3">
                   {liveProjects.map((project) => (
                     <li
                       key={project.name}
-                      className="group relative rounded-xl border border-border/45 bg-background/60 p-3 shadow-sm ring-1 ring-border/55 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:ring-primary/20 focus-within:ring-2 focus-within:ring-primary/25 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                      className="group relative rounded-2xl border border-border/50 bg-background/55 p-3.5 shadow-sm ring-1 ring-border/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:ring-primary/20 focus-within:ring-2 focus-within:ring-primary/25 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                     >
-                      <div className="space-y-3">
-                        <div className="relative overflow-hidden rounded-xl border border-border/60 bg-background/70 px-3 py-2.5">
+                      <div className="space-y-2.5">
+                        <div className="relative overflow-hidden rounded-xl bg-muted/35 px-3 py-2.5 ring-1 ring-border/60 dark:bg-muted/20">
                           <div
                             aria-hidden="true"
                             className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-b from-primary/[0.08] to-transparent dark:from-primary/[0.12]"
@@ -319,64 +296,43 @@ function HomePage() {
                               <p className="min-w-0 text-sm font-semibold tracking-tight text-foreground">
                                 {project.name}
                               </p>
-                              <div className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
-                                <ThemedIconCSS
-                                  lightThemeSrc={peopleIconDark}
-                                  darkThemeSrc={peopleIconLight}
-                                  alt=""
-                                  className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
-                                />
-                                <span>{getTeamSizeLabel(project.slug)}</span>
-                              </div>
-                              <p className="mt-1 inline-flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+                              <p className="mt-1 inline-flex min-w-0 flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
                                 <span
                                   className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500/75"
                                   aria-hidden="true"
                                 />
                                 <span>Live</span>
+                                <span aria-hidden>·</span>
+                                <span className="truncate max-w-[120px]">{getProjectDomain(project.liveUrl)}</span>
+                                <span aria-hidden>·</span>
+                                <span>{getTeamSizeLabel(project.slug)}</span>
                               </p>
-                              <a
-                                href={project.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-1 block truncate text-xs text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                              >
-                                {getProjectDomain(project.liveUrl)}
-                              </a>
                             </div>
                           </div>
                           <div aria-hidden="true" className="relative mt-2 border-t border-border/45" />
                         </div>
 
-                        <p className="text-xs leading-relaxed text-muted-foreground">
+                        <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                           {project.blurb}
                         </p>
-                        <div className="flex flex-wrap items-center gap-1.5">
-                          <Button
-                            asChild
-                            variant="soft"
-                            size="sm"
-                            className="h-8 min-h-8 rounded-full px-2.5 text-xs shadow-none"
+                        <div className="flex flex-wrap items-center gap-2">
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex h-8 items-center gap-1.5 rounded-full bg-primary/12 px-3 text-xs font-medium text-primary ring-1 ring-primary/20 transition hover:bg-primary/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                           >
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                              Live
-                            </a>
-                          </Button>
-                          <Button
+                            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                            Live
+                          </a>
+                          <button
                             type="button"
-                            variant="ghost"
-                            size="sm"
                             onClick={() => openProjectCaseStudy(project.slug)}
-                            className="h-8 min-h-8 rounded-full px-2.5 text-xs shadow-none"
+                            className="inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-medium text-muted-foreground transition hover:bg-muted/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                           >
                             <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                             Details
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     </li>
