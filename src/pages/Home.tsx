@@ -289,13 +289,14 @@ function HomePage() {
                 <motion.div
                   animate={
                     prefersReducedMotion
-                      ? undefined
+                      ? {}
                       : {
-                          y: [0, -2, 0],
+                          y: [0, -5, 0],
+                          scale: [1, 1.008, 1],
                           boxShadow: [
-                            "0 20px 52px -40px rgba(15,23,42,0.36)",
-                            "0 24px 58px -42px rgba(15,23,42,0.46)",
-                            "0 20px 52px -40px rgba(15,23,42,0.36)",
+                            "0 10px 30px rgba(0,0,0,0.25)",
+                            "0 20px 50px rgba(0,0,0,0.35)",
+                            "0 10px 30px rgba(0,0,0,0.25)",
                           ],
                         }
                   }
@@ -303,7 +304,7 @@ function HomePage() {
                     prefersReducedMotion
                       ? undefined
                       : {
-                          duration: 5,
+                          duration: 3,
                           repeat: Infinity,
                           ease: "easeInOut",
                         }
