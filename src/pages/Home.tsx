@@ -5,11 +5,7 @@ import {
   ExternalLink,
   FileText,
   MapPin,
-  Rocket,
-  ShieldCheck,
-  Sparkles,
   Workflow,
-  type LucideIcon,
 } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
@@ -27,69 +23,6 @@ import NameDarkImage from "@/assets/name-dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 const HOME_INTRO_SESSION_KEY = "home_intro_seen";
-
-type HeroCapability = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  metric?: string;
-};
-
-const heroKpis: readonly HeroCapability[] = [
-  {
-    icon: Rocket,
-    title: "Deployed products",
-    description: "Running in production",
-    metric: "3",
-  },
-  {
-    icon: Sparkles,
-    title: "Applied AI + evaluation",
-    description: "Measurable outputs, explainable flows",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Secure auth + data systems",
-    description: "OAuth, RBAC, schema-first design",
-  },
-] as const;
-
-type HeroCapabilityTileProps = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  metric?: string;
-};
-
-function HeroCapabilityTile({
-  icon: Icon,
-  title,
-  description,
-  metric,
-}: HeroCapabilityTileProps) {
-  return (
-    <div className="relative overflow-hidden rounded-xl bg-background/60 p-3 shadow-sm ring-1 ring-border/60 backdrop-blur-md dark:bg-background/30 dark:shadow-none before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-primary/40 before:via-primary/15 before:to-transparent">
-      <div className="relative flex min-w-0 items-start gap-2.5">
-        <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15">
-          <Icon className="h-4 w-4" aria-hidden="true" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="flex items-center gap-1.5 text-sm font-semibold tracking-tight text-foreground">
-            {metric ? (
-              <span className="inline-flex min-w-5 items-center justify-center rounded-md bg-primary/12 px-1.5 py-0.5 text-xs font-bold leading-none text-primary">
-                {metric}
-              </span>
-            ) : null}
-            <span className="truncate">{title}</span>
-          </p>
-          <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs text-muted-foreground sm:text-[13px]">
-            {description}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function renderHeroTagline(statement: string): ReactNode {
   const lead = "Full-stack engineer";
@@ -159,29 +92,6 @@ const subheadlineVariants: Variants = {
     opacity: 1,
     x: 0,
     transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const kpiContainerVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.24,
-      ease: [0.22, 1, 0.36, 1],
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
-    },
-  },
-};
-
-const kpiCardVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -298,7 +208,7 @@ function HomePage() {
             variants={heroSequenceVariants}
             initial={shouldPlayIntro ? "hidden" : false}
             animate="show"
-            className="mx-auto max-w-4xl space-y-3 sm:space-y-3.5"
+            className="mx-auto max-w-4xl space-y-4 sm:space-y-5"
           >
             <motion.p
               variants={locationVariants}
@@ -360,26 +270,11 @@ function HomePage() {
               </motion.p>
             </div>
 
-            <motion.ul variants={kpiContainerVariants} className="grid gap-2 sm:grid-cols-3">
-              {heroKpis.map((item) => {
-                return (
-                  <motion.li key={item.title} variants={kpiCardVariants} className="min-w-0">
-                    <HeroCapabilityTile
-                      icon={item.icon}
-                      title={item.title}
-                      description={item.description}
-                      metric={item.metric}
-                    />
-                  </motion.li>
-                );
-              })}
-            </motion.ul>
-
             {liveProjects.length ? (
               <motion.section
                 variants={proofPanelVariants}
                 aria-label="Proof of work live systems"
-                className="relative overflow-hidden rounded-2xl border border-border/65 bg-background/55 p-4 shadow-lg shadow-black/[0.06] ring-1 ring-border/60 backdrop-blur-md dark:bg-background/35 dark:shadow-black/25 sm:p-5"
+                className="relative overflow-hidden rounded-2xl border border-border/70 bg-background/60 p-4 shadow-lg shadow-black/[0.08] ring-1 ring-border/70 backdrop-blur-md dark:bg-background/40 dark:shadow-black/30 sm:p-5"
               >
                 <div
                   aria-hidden="true"
