@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { BackgroundParticles } from "@/components/BackgroundParticles";
+import { TechnicalBlueprintBackground } from "@/components/TechnicalBlueprintBackground";
 import { AppRoutes } from "@/app/routes";
 
 function ScrollRestoration() {
@@ -23,7 +23,7 @@ export function App() {
       className="relative flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
-        <BackgroundParticles />
+        <TechnicalBlueprintBackground />
       </div>
       <a
         href="#app-main"

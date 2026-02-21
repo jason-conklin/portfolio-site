@@ -1,5 +1,6 @@
 import { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: ["class"],
@@ -51,6 +52,10 @@ export default {
       },
       boxShadow: {
         soft: "0 20px 40px -25px rgba(15, 23, 42, 0.45)",
+      },
+      fontFamily: {
+        sans: [...defaultTheme.fontFamily.sans],
+        display: ["Space Grotesk", ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {

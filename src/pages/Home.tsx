@@ -1,7 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback } from "react";
-import { ArrowRight, ExternalLink, FileText, Rocket } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  ArrowRight,
+  ExternalLink,
+  FileText,
+  Rocket,
+  ShieldCheck,
+  Sparkles,
+  Workflow,
+} from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
@@ -13,6 +21,26 @@ import peopleIconLight from "@/assets/people_icon_light.png";
 import peopleIconDark from "@/assets/people_icon_dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
+const BOOT_SEQUENCE_SESSION_KEY = "jc-home-boot-intro-seen";
+
+const heroKpis = [
+  {
+    icon: Rocket,
+    label: "3 Deployed Products",
+    caption: "Running in production today",
+  },
+  {
+    icon: Sparkles,
+    label: "Applied AI + Evaluation",
+    caption: "Structured inference with measurable outputs",
+  },
+  {
+    icon: ShieldCheck,
+    label: "Secure Auth + Data Systems",
+    caption: "OAuth, RBAC, and schema-first backend design",
+  },
+] as const;
+
 const homeFeaturedProjects = (() => {
   const selected: (typeof projects)[number][] = [];
   const seen = new Set<string>();
@@ -71,6 +99,32 @@ function getTeamSizeLabel(slug?: string) {
 function HomePage() {
   const prefersReducedMotion = useReducedMotion();
   const navigate = useNavigate();
+  const [showBootSequence, setShowBootSequence] = useState(false);
+
+  const commandHint = useMemo(() => {
+    if (typeof window === "undefined") return "Ctrl/Cmd+K";
+    const isMacLike = /(Mac|iPhone|iPad|iPod)/i.test(window.navigator.platform);
+    return `${isMacLike ? "Cmd" : "Ctrl"}+K`;
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    if (typeof window === "undefined") return;
+
+    const hasSeenBootSequence = window.sessionStorage.getItem(BOOT_SEQUENCE_SESSION_KEY);
+    if (hasSeenBootSequence) return;
+
+    window.sessionStorage.setItem(BOOT_SEQUENCE_SESSION_KEY, "1");
+    setShowBootSequence(true);
+
+    const timeoutId = window.setTimeout(() => {
+      setShowBootSequence(false);
+    }, 2100);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [prefersReducedMotion]);
 
   const openProjectCaseStudy = useCallback(
     (slug?: string) => {
@@ -85,43 +139,97 @@ function HomePage() {
       <PageSEO path="/" />
       <section
         id="home"
-        className="relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden"
+        className="relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-6 sm:py-8"
       >
         <div className="pointer-events-none absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(59,130,246,0.12)_0,rgba(59,130,246,0.06)_30%,rgba(59,130,246,0)_56%)]" />
-          <div className="absolute inset-x-0 top-0 h-[520px] bg-[linear-gradient(to_bottom,rgba(59,130,246,0.16)_0,rgba(59,130,246,0.08)_220px,rgba(59,130,246,0.03)_360px,rgba(59,130,246,0)_520px)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.2)_0,rgba(59,130,246,0.08)_32%,rgba(59,130,246,0)_62%)]" />
+          <div className="absolute inset-x-0 top-0 h-[560px] bg-[linear-gradient(to_bottom,rgba(59,130,246,0.2)_0,rgba(59,130,246,0.1)_240px,rgba(59,130,246,0.04)_420px,rgba(59,130,246,0)_560px)]" />
         </div>
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           <motion.div
             initial={prefersReducedMotion ? undefined : { opacity: 0, y: 28 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
-            className="mx-auto max-w-4xl space-y-4 sm:space-y-5"
+            className="mx-auto max-w-4xl space-y-3.5 sm:space-y-4"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               {hero.location}
             </p>
-            <h1 className="text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="font-display text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
               {hero.name}
             </h1>
-            <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:text-[1.15rem]">
               {hero.statement}
             </p>
 
+            <ul className="grid gap-2 sm:grid-cols-3">
+              {heroKpis.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li
+                    key={item.label}
+                    className="rounded-xl border border-border/60 bg-background/55 p-3 shadow-sm backdrop-blur-sm"
+                  >
+                    <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground">
+                      <Icon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                      {item.label}
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.caption}</p>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <AnimatePresence>
+              {showBootSequence ? (
+                <motion.div
+                  initial={prefersReducedMotion ? undefined : { opacity: 0, y: 6 }}
+                  animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                  exit={prefersReducedMotion ? undefined : { opacity: 0, y: -6 }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
+                  className="max-w-md rounded-xl border border-primary/25 bg-background/75 p-3 shadow-md backdrop-blur-sm"
+                  aria-live="polite"
+                >
+                  <p className="font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/90">
+                    System initializing...
+                  </p>
+                  <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                    <p>Booting command palette index</p>
+                    <p>Syncing live systems telemetry</p>
+                  </div>
+                  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-primary/15">
+                    <motion.span
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                      className="block h-full rounded-full bg-primary/70"
+                    />
+                  </div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+
             {liveProjects.length ? (
               <section
-                aria-label="Deployed products"
+                aria-label="Proof of work live systems"
                 className="relative overflow-hidden rounded-2xl border border-border/65 bg-background/55 p-4 shadow-lg shadow-black/[0.06] ring-1 ring-border/60 backdrop-blur-md dark:bg-background/35 dark:shadow-black/25 sm:p-5"
               >
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent"
                 />
-                <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/90">
-                  <Rocket className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
-                  Deployed Products
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
+                    <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
+                    Proof of Work
+                  </p>
+                  <span className="inline-flex items-center rounded-full border border-border/60 bg-background/60 px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground">
+                    Live Systems
+                  </span>
+                </div>
+                <p className="mt-0.5 text-sm text-muted-foreground">
+                  Deployed products running in production.
                 </p>
-                <p className="mt-0.5 text-sm text-muted-foreground">Live in production.</p>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-3 sm:gap-3">
                   {liveProjects.map((project) => (
                     <li
@@ -222,6 +330,9 @@ function HomePage() {
               <Button asChild variant="soft" size="lg">
                 <Link to={hero.cta.secondary.href}>{hero.cta.secondary.label}</Link>
               </Button>
+              <span className="inline-flex min-h-10 items-center rounded-full border border-border/60 bg-background/55 px-3 text-xs font-medium text-muted-foreground backdrop-blur-sm">
+                Press {commandHint} to jump
+              </span>
               {hero.cta.tertiary ? (
                 <Button asChild variant="link" className="min-h-0 px-2 py-1 text-sm sm:text-base">
                   {hero.cta.tertiary.external ? (
