@@ -399,12 +399,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
     setOpen(false);
     setActiveMediaIndex(null);
     resetZoomState();
-  }, [resetZoomState]);
+  }, [resetZoomState, setOpen, setActiveMediaIndex]);
 
   const closeScreenshotModal = useCallback(() => {
     resetZoomState();
     setActiveMediaIndex(null);
-  }, [resetZoomState]);
+  }, [resetZoomState, setActiveMediaIndex]);
 
   useModalEffects(open, { disableHeaderPointerEvents: true });
   useModalEffects(Boolean(activeMedia));
@@ -498,7 +498,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                             <Button asChild variant="soft" size="sm" className="h-9 min-h-9 px-3">
                               <a href={liveUrl!} target="_blank" rel="noopener noreferrer">
                                 <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                                Live demo
+                                Live site
                               </a>
                             </Button>
                           ) : null}
@@ -566,7 +566,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                               className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                             >
                               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                              Live demo
+                              Live site
                             </a>
                           </li>
                         ) : null}

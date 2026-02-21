@@ -343,7 +343,22 @@ function HomePage() {
                       <motion.li
                         key={project.name}
                         variants={deploymentTileVariants}
-                        className="hero-live-tile group relative overflow-hidden rounded-2xl border border-border/55 bg-background/55 p-2.5 shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-border/80 hover:shadow-md max-[height:820px]:p-2 max-[height:760px]:p-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-background/18 sm:p-3"
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`View details for ${project.name}`}
+                        onClick={(event) => {
+                          const target = event.target as HTMLElement;
+                          if (target.closest("a,button")) return;
+                          openProjectCaseStudy(project.slug);
+                        }}
+                        onKeyDown={(event) => {
+                          const target = event.target as HTMLElement;
+                          if (target.closest("a,button")) return;
+                          if (event.key !== "Enter" && event.key !== " ") return;
+                          event.preventDefault();
+                          openProjectCaseStudy(project.slug);
+                        }}
+                        className="hero-live-tile group relative cursor-pointer overflow-hidden rounded-2xl border border-border/55 bg-background/55 p-2.5 shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-border/80 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background max-[height:820px]:p-2 max-[height:760px]:p-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-background/18 sm:p-3"
                       >
                         <span
                           aria-hidden="true"
@@ -407,7 +422,7 @@ function HomePage() {
                               className="h-8 rounded-full px-2.5 text-xs text-muted-foreground transition-transform duration-200 hover:-translate-y-px hover:text-foreground max-[height:820px]:h-8 max-[height:820px]:px-2 max-[height:760px]:h-7 max-[height:760px]:px-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                             >
                               <FileText className="h-3.5 w-3.5" aria-hidden="true" />
-                              Case study
+                              View Details
                             </Button>
                           </div>
                         </div>
