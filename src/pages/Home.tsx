@@ -4,6 +4,9 @@ import {
   ArrowRight,
   ExternalLink,
   FileText,
+  Github,
+  LayoutGrid,
+  Mail,
   MapPin,
   Workflow,
 } from "lucide-react";
@@ -442,19 +445,29 @@ function HomePage() {
 
             <motion.div variants={ctaRowVariants} className="hero-cta-row mt-[clamp(0.18rem,0.8vh,0.5rem)] flex flex-wrap items-center gap-2.5 max-[height:820px]:mt-1 max-[height:820px]:gap-2 max-[height:760px]:mt-0.5 max-[height:760px]:gap-1.5">
               <Button asChild size="lg" className="max-[height:820px]:h-9 max-[height:820px]:min-h-9 max-[height:820px]:px-3.5 max-[height:760px]:h-8 max-[height:760px]:min-h-8 max-[height:760px]:px-3">
-                <Link to={hero.cta.primary.href}>{hero.cta.primary.label}</Link>
+                <Link to={hero.cta.primary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                  <LayoutGrid className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                  {hero.cta.primary.label}
+                </Link>
               </Button>
               <Button asChild variant="soft" size="lg" className="max-[height:820px]:h-9 max-[height:820px]:min-h-9 max-[height:820px]:px-3.5 max-[height:760px]:h-8 max-[height:760px]:min-h-8 max-[height:760px]:px-3">
-                <Link to={hero.cta.secondary.href}>{hero.cta.secondary.label}</Link>
+                <Link to={hero.cta.secondary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                  <Mail className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                  {hero.cta.secondary.label}
+                </Link>
               </Button>
               {hero.cta.tertiary ? (
-                <Button asChild variant="link" className="min-h-0 px-2 py-1 text-sm max-[height:820px]:py-0.5 max-[height:760px]:px-1.5 max-[height:760px]:py-0 sm:text-base">
+                <Button asChild variant="ghost" size="md" className="h-10 min-h-10 rounded-full px-3.5 text-sm transition-transform duration-200 hover:-translate-y-[1px] hover:border-primary/25 hover:shadow-sm max-[height:820px]:h-9 max-[height:820px]:min-h-9 max-[height:820px]:px-3 max-[height:760px]:h-8 max-[height:760px]:min-h-8 max-[height:760px]:px-2.5">
                   {hero.cta.tertiary.external ? (
-                    <a href={hero.cta.tertiary.href} target="_blank" rel="noopener noreferrer">
+                    <a href={hero.cta.tertiary.href} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 whitespace-nowrap">
+                      <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
                       {hero.cta.tertiary.label}
                     </a>
                   ) : (
-                    <Link to={hero.cta.tertiary.href}>{hero.cta.tertiary.label}</Link>
+                    <Link to={hero.cta.tertiary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                      <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                      {hero.cta.tertiary.label}
+                    </Link>
                   )}
                 </Button>
               ) : null}

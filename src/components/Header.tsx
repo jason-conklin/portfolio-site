@@ -53,7 +53,7 @@ export function Header() {
         "data-[scrolled=true]:border-border/70 data-[scrolled=true]:bg-background/82 data-[scrolled=true]:shadow-md data-[scrolled=true]:shadow-black/[0.08] dark:data-[scrolled=true]:shadow-black/35",
       )}
     >
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-[var(--header-height)] w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <CommandPalette />
           <Link
