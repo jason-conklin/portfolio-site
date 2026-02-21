@@ -7,19 +7,17 @@ import {
   MapPin,
   Workflow,
 } from "lucide-react";
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
-import { useFirstVisitAnimation } from "@/lib/useFirstVisitAnimation";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
 import NameLightImage from "@/assets/name-light.png";
 import NameDarkImage from "@/assets/name-dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
-const HOME_INTRO_SESSION_KEY = "jc_intro_v1";
 const heroTaglinePrimary = "shipping production web systems.";
 const heroTaglineSecondary = "Applied AI, measurable evaluation, and clean architecture.";
 const liveProofChipsBySlug: Record<string, readonly string[]> = {
@@ -29,11 +27,11 @@ const liveProofChipsBySlug: Record<string, readonly string[]> = {
 };
 
 const heroSequenceVariants: Variants = {
-  hidden: {},
+  hidden: { opacity: 1 },
   show: {
     transition: {
-      staggerChildren: 0.09,
-      delayChildren: 0.12,
+      staggerChildren: 0.07,
+      delayChildren: 0.08,
     },
   },
 };
@@ -48,11 +46,11 @@ const backgroundWakeVariants: Variants = {
 };
 
 const locationVariants: Variants = {
-  hidden: { opacity: 0, y: -12 },
+  hidden: { opacity: 0, y: -14 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.45, ease: "easeOut" },
   },
 };
 
@@ -62,23 +60,23 @@ const titleRevealVariants: Variants = {
     opacity: 1,
     y: 0,
     clipPath: "inset(0 0% 0 0)",
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.65, ease: "easeOut" },
   },
 };
 
 const subheadlineVariants: Variants = {
-  hidden: { opacity: 0, y: 8 },
+  hidden: { opacity: 0, y: 14 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.26, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.45, ease: "easeOut" },
   },
 };
 
 const proofPanelVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 12,
+    y: 14,
     scale: 0.985,
     clipPath: "inset(0 0 100% 0 round 1.5rem)",
   },
@@ -87,7 +85,7 @@ const proofPanelVariants: Variants = {
     y: 0,
     scale: 1,
     clipPath: "inset(0 0 0% 0 round 1.5rem)",
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.5, ease: "easeOut" },
   },
 };
 
@@ -106,16 +104,16 @@ const deploymentTileVariants: Variants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.4, ease: "easeOut" },
   },
 };
 
 const ctaRowVariants: Variants = {
-  hidden: { opacity: 0, x: 20 },
+  hidden: { opacity: 0, y: 14 },
   show: {
     opacity: 1,
-    x: 0,
-    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
+    y: 0,
+    transition: { duration: 0.45, ease: "easeOut" },
   },
 };
 
@@ -180,8 +178,8 @@ function getLiveProofChips(slug?: string) {
 }
 
 function HomePage() {
+  const prefersReducedMotion = useReducedMotion();
   const navigate = useNavigate();
-  const shouldPlayIntro = useFirstVisitAnimation(HOME_INTRO_SESSION_KEY);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -206,11 +204,11 @@ function HomePage() {
       <PageSEO path="/" />
       <section
         id="home"
-        className="relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-4 sm:py-6"
+        className="hero-short-viewport relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-[clamp(0.75rem,2vh,1.5rem)] sm:py-[clamp(0.9rem,2.4vh,1.75rem)]"
       >
         <motion.div
           variants={backgroundWakeVariants}
-          initial={shouldPlayIntro ? "hidden" : false}
+          initial={prefersReducedMotion ? false : "hidden"}
           animate="show"
           className="pointer-events-none absolute inset-0 z-0"
         >
@@ -220,9 +218,9 @@ function HomePage() {
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           <motion.div
             variants={heroSequenceVariants}
-            initial={shouldPlayIntro ? "hidden" : false}
+            initial={prefersReducedMotion ? false : "hidden"}
             animate="show"
-            className="mx-auto max-w-4xl space-y-3 sm:space-y-4"
+            className="hero-content mx-auto flex max-w-4xl flex-col gap-[clamp(0.6rem,1.6vh,1rem)]"
           >
             <motion.p
               variants={locationVariants}
@@ -234,9 +232,9 @@ function HomePage() {
               />
               <span>{hero.location}</span>
             </motion.p>
-            <div className="mx-auto max-w-3xl text-center">
+            <div className="hero-title-block mx-auto max-w-3xl text-center">
               <div className="relative">
-                {shouldPlayIntro ? (
+                {!prefersReducedMotion ? (
                   <motion.span
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-y-2 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-white/45 to-transparent mix-blend-soft-light blur-xl dark:via-white/20"
@@ -250,7 +248,10 @@ function HomePage() {
                   className="mx-auto w-full max-w-[min(90vw,900px)] leading-[0.95]"
                 >
                   <span className="sr-only">{hero.name}</span>
-                  <span aria-hidden="true" className="relative block w-full aspect-[1104/358]">
+                  <span
+                    aria-hidden="true"
+                    className="hero-name-frame relative mx-auto block h-[clamp(120px,28svh,260px)] w-[min(860px,92vw)] max-h-[30svh]"
+                  >
                     <img
                       src={NameLightImage}
                       alt=""
@@ -278,13 +279,13 @@ function HomePage() {
               </div>
               <motion.p
                 variants={subheadlineVariants}
-                className="mx-auto mt-4 max-w-3xl text-center sm:mt-5"
+                className="hero-tagline mx-auto mt-[clamp(0.65rem,1.6vh,1.25rem)] max-w-3xl text-center"
               >
-                <span className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                <span className="hero-tagline-primary text-[clamp(1.05rem,2.1vw,1.5rem)] font-semibold tracking-tight text-foreground">
                   <span className="font-bold">Full-stack engineer</span>{" "}
                   {heroTaglinePrimary}
                 </span>
-                <span className="mt-2 block text-base text-muted-foreground sm:text-lg">
+                <span className="hero-tagline-secondary mt-2 block text-[clamp(0.92rem,1.25vw,1.1rem)] text-muted-foreground">
                   {heroTaglineSecondary}
                 </span>
               </motion.p>
@@ -294,9 +295,9 @@ function HomePage() {
               <motion.section
                 variants={proofPanelVariants}
                 aria-label="Live systems"
-                className="relative overflow-hidden rounded-3xl shadow-[0_22px_60px_-45px_rgba(15,23,42,0.45)] before:pointer-events-none before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:shadow-[0_26px_70px_-55px_rgba(0,0,0,0.85)]"
+                className="hero-live-panel relative overflow-hidden rounded-3xl shadow-[0_22px_60px_-45px_rgba(15,23,42,0.45)] before:pointer-events-none before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:shadow-[0_26px_70px_-55px_rgba(0,0,0,0.85)]"
               >
-                <div className="relative m-px rounded-[calc(1.5rem-1px)] bg-background/65 p-6 ring-1 ring-border/60 backdrop-blur-xl dark:bg-background/20 sm:p-7">
+                <div className="hero-live-panel-inner relative m-px rounded-[calc(1.5rem-1px)] bg-background/65 p-4 ring-1 ring-border/60 backdrop-blur-xl dark:bg-background/20 sm:p-5 lg:p-6">
                   <header className="flex flex-wrap items-start justify-between gap-3">
                     <div className="space-y-1">
                       <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
@@ -307,7 +308,7 @@ function HomePage() {
                         Deployed products running in production.
                       </p>
                     </div>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="hero-live-header-chips flex flex-wrap gap-1.5">
                       <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
                         3 live deployments
                       </span>
@@ -323,19 +324,19 @@ function HomePage() {
                     aria-hidden="true"
                     className="mt-4 h-px bg-gradient-to-r from-border/70 via-border/30 to-transparent"
                   />
-                  <motion.ul variants={deploymentGridVariants} className="mt-5 grid gap-5 sm:grid-cols-3">
+                  <motion.ul variants={deploymentGridVariants} className="mt-[clamp(0.7rem,1.5vh,1.2rem)] grid gap-3 sm:grid-cols-3 sm:gap-4">
                     {liveProjects.map((project) => (
                       <motion.li
                         key={project.name}
                         variants={deploymentTileVariants}
-                        className="group relative overflow-hidden rounded-2xl border border-border/55 bg-background/55 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-border/80 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-background/18"
+                        className="hero-live-tile group relative overflow-hidden rounded-2xl border border-border/55 bg-background/55 p-3 shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-border/80 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-background/18 sm:p-3.5"
                       >
                         <span
                           aria-hidden="true"
                           className="absolute inset-y-3 left-0 w-[3px] rounded-r-full bg-primary/35 dark:bg-primary/25"
                         />
                         <div className="space-y-3 pl-1">
-                          <div className="relative rounded-2xl bg-muted/35 p-3 ring-1 ring-border/60 transition-colors duration-200 group-hover:bg-muted/45 dark:bg-muted/15 dark:group-hover:bg-muted/22">
+                          <div className="hero-live-tile-header relative rounded-2xl bg-muted/35 p-2.5 ring-1 ring-border/60 transition-colors duration-200 group-hover:bg-muted/45 dark:bg-muted/15 dark:group-hover:bg-muted/22 sm:p-3">
                             <div className="flex min-w-0 items-start gap-2.5">
                               {project.icon ? (
                                 <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/65 p-1 sm:h-11 sm:w-11 sm:p-1.5">
@@ -368,7 +369,7 @@ function HomePage() {
                           <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                             {project.blurb}
                           </p>
-                          <div className="flex flex-wrap gap-1.5">
+                          <div className="hero-live-proof flex flex-wrap gap-1.5">
                             {getLiveProofChips(project.slug).map((chip) => (
                               <span
                                 key={`${project.slug}-${chip}`}
@@ -413,7 +414,7 @@ function HomePage() {
               </motion.section>
             ) : null}
 
-            <motion.div variants={ctaRowVariants} className="flex flex-wrap items-center gap-3 pt-1">
+            <motion.div variants={ctaRowVariants} className="hero-cta-row flex flex-wrap items-center gap-3 pt-[clamp(0.1rem,0.6vh,0.4rem)]">
               <Button asChild size="lg">
                 <Link to={hero.cta.primary.href}>{hero.cta.primary.label}</Link>
               </Button>

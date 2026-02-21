@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import HomePage from "../pages/Home";
 import AboutPage from "../pages/About";
@@ -29,10 +29,20 @@ export const routeConfig: RouteConfig[] = routesMeta.map((route) => ({
 }));
 
 export function AppRoutes() {
+  const location = useLocation();
+
   return (
     <Routes>
       {routeConfig.map((route) => (
-        <Route key={route.path} path={route.path} element={route.element} />
+        <Route
+          key={route.path}
+          path={route.path}
+          element={
+            route.path === "/"
+              ? <HomePage key={`home-${location.key}`} />
+              : route.element
+          }
+        />
       ))}
     </Routes>
   );
