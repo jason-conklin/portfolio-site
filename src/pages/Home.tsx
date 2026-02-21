@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { ArrowRight, ExternalLink, FileText } from "lucide-react";
+import { ArrowRight, ExternalLink, FileText, Rocket } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -111,20 +111,29 @@ function HomePage() {
             {liveProjects.length ? (
               <section
                 aria-label="Deployed products"
-                className="rounded-2xl border border-border/70 bg-card/70 p-4 shadow-sm backdrop-blur sm:p-5"
+                className="relative overflow-hidden rounded-2xl border border-border/65 bg-background/55 p-4 shadow-lg shadow-black/[0.06] ring-1 ring-border/60 backdrop-blur-md dark:bg-background/35 dark:shadow-black/25 sm:p-5"
               >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/90">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent"
+                />
+                <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/90">
+                  <Rocket className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
                   Deployed Products
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">Live in production.</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">Live in production.</p>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-3 sm:gap-3">
                   {liveProjects.map((project) => (
                     <li
                       key={project.name}
-                      className="group rounded-xl border border-border/55 bg-background/45 p-3 transition-shadow duration-200 hover:border-border/75 hover:shadow-sm motion-reduce:transition-none"
+                      className="group relative rounded-xl border border-border/45 bg-background/60 p-3 shadow-sm ring-1 ring-border/55 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:ring-primary/20 focus-within:ring-2 focus-within:ring-primary/25 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                     >
                       <div className="space-y-3">
-                        <div className="relative overflow-hidden rounded-xl border border-border/65 bg-background/75 px-3 py-2.5 shadow-sm ring-1 ring-border/70 backdrop-blur-sm before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-primary/35 before:content-[''] dark:bg-background/35 dark:ring-border/50">
+                        <div className="relative overflow-hidden rounded-xl border border-border/60 bg-background/70 px-3 py-2.5">
+                          <div
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-b from-primary/[0.08] to-transparent dark:from-primary/[0.12]"
+                          />
                           <div className="relative flex min-w-0 items-start gap-2.5">
                             {project.icon ? (
                               <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/60 p-1 sm:h-11 sm:w-11 sm:p-1.5">
@@ -166,7 +175,7 @@ function HomePage() {
                               </a>
                             </div>
                           </div>
-                          <div aria-hidden="true" className="relative mt-2 border-t border-border/50" />
+                          <div aria-hidden="true" className="relative mt-2 border-t border-border/45" />
                         </div>
 
                         <p className="text-xs leading-relaxed text-muted-foreground">
