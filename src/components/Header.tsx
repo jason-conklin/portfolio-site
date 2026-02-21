@@ -48,8 +48,8 @@ export function Header() {
     <header
       data-scrolled={scrolled ? "true" : "false"}
       className={cn(
-        "fixed inset-x-0 top-0 z-[55] border-b border-transparent bg-background/80 backdrop-blur transition-all duration-300",
-        "data-[scrolled=true]:border-border/40 data-[scrolled=true]:shadow-sm",
+        "fixed inset-x-0 top-0 z-[60] border-b border-border/60 bg-background/70 shadow-sm shadow-black/[0.04] backdrop-blur-md transition-all duration-300 supports-[backdrop-filter]:bg-background/60 dark:shadow-black/20",
+        "data-[scrolled=true]:border-border/70 data-[scrolled=true]:bg-background/82 data-[scrolled=true]:shadow-md data-[scrolled=true]:shadow-black/[0.08] dark:data-[scrolled=true]:shadow-black/35",
       )}
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
@@ -67,7 +67,7 @@ export function Header() {
             <span className="hidden sm:inline">Jason Conklin</span>
           </Link>
         </div>
-        <nav className="hidden items-center gap-1 rounded-full border border-border/70 bg-background/60 p-1 shadow-sm md:flex">
+        <nav className="hidden items-center gap-1 rounded-full border border-border/70 bg-background/65 p-1 shadow-sm ring-1 ring-border/50 backdrop-blur-md md:flex">
           {navigation.map((item) => {
             const isActive =
               item.href === "/"
@@ -80,7 +80,7 @@ export function Header() {
                 className={cn(
                   "rounded-full px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                   isActive
-                    ? "bg-primary text-primary-foreground shadow-soft"
+                    ? "bg-gradient-to-b from-primary/35 to-primary/20 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_16px_-12px_hsl(var(--primary)/0.8)] ring-1 ring-primary/35 dark:from-primary/45 dark:to-primary/25 dark:text-primary-foreground dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_16px_-12px_hsl(var(--primary)/0.6)]"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
                 )}
               >

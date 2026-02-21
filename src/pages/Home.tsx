@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -9,19 +9,20 @@ import {
   Sparkles,
   Workflow,
 } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { Section } from "@/components/Section";
 import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import { PageSEO } from "@/app/seo";
+import { useIntroOnce } from "@/lib/useIntroOnce";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
 import peopleIconLight from "@/assets/people_icon_light.png";
 import peopleIconDark from "@/assets/people_icon_dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
-const BOOT_SEQUENCE_SESSION_KEY = "jc-home-boot-intro-seen";
+const HOME_INTRO_SESSION_KEY = "home_intro_seen";
 
 const heroKpis = [
   {
@@ -40,6 +41,85 @@ const heroKpis = [
     caption: "OAuth, RBAC, and schema-first backend design",
   },
 ] as const;
+
+const heroSequenceVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.11,
+      delayChildren: 0.02,
+    },
+  },
+};
+
+const locationVariants: Variants = {
+  hidden: { opacity: 0, y: -12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const titleRevealVariants: Variants = {
+  hidden: { opacity: 0.2, clipPath: "inset(0 100% 0 0)" },
+  show: {
+    opacity: 1,
+    clipPath: "inset(0 0% 0 0)",
+    transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const subheadlineVariants: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const kpiContainerVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.24,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const kpiCardVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const proofPanelVariants: Variants = {
+  hidden: { opacity: 0, y: 16, scale: 0.99 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.33, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const ctaRowVariants: Variants = {
+  hidden: { opacity: 0, x: 20 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 const homeFeaturedProjects = (() => {
   const selected: (typeof projects)[number][] = [];
@@ -99,32 +179,13 @@ function getTeamSizeLabel(slug?: string) {
 function HomePage() {
   const prefersReducedMotion = useReducedMotion();
   const navigate = useNavigate();
-  const [showBootSequence, setShowBootSequence] = useState(false);
+  const shouldPlayIntro = useIntroOnce(HOME_INTRO_SESSION_KEY, !prefersReducedMotion);
 
   const commandHint = useMemo(() => {
     if (typeof window === "undefined") return "Ctrl/Cmd+K";
     const isMacLike = /(Mac|iPhone|iPad|iPod)/i.test(window.navigator.platform);
     return `${isMacLike ? "Cmd" : "Ctrl"}+K`;
   }, []);
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-    if (typeof window === "undefined") return;
-
-    const hasSeenBootSequence = window.sessionStorage.getItem(BOOT_SEQUENCE_SESSION_KEY);
-    if (hasSeenBootSequence) return;
-
-    window.sessionStorage.setItem(BOOT_SEQUENCE_SESSION_KEY, "1");
-    setShowBootSequence(true);
-
-    const timeoutId = window.setTimeout(() => {
-      setShowBootSequence(false);
-    }, 2100);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [prefersReducedMotion]);
 
   const openProjectCaseStudy = useCallback(
     (slug?: string) => {
@@ -147,27 +208,50 @@ function HomePage() {
         </div>
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           <motion.div
-            initial={prefersReducedMotion ? undefined : { opacity: 0, y: 28 }}
-            animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
+            variants={heroSequenceVariants}
+            initial={shouldPlayIntro ? "hidden" : false}
+            animate="show"
             className="mx-auto max-w-4xl space-y-3.5 sm:space-y-4"
           >
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            <motion.p
+              variants={locationVariants}
+              className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground"
+            >
               {hero.location}
-            </p>
-            <h1 className="font-display text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-              {hero.name}
-            </h1>
-            <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:text-[1.15rem]">
+            </motion.p>
+            <div className="relative">
+              {shouldPlayIntro ? (
+                <motion.span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-1 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-primary/25 to-transparent blur-xl"
+                  initial={{ x: "-120%", opacity: 0 }}
+                  animate={{ x: "240%", opacity: [0, 0.5, 0] }}
+                  transition={{ duration: 0.75, ease: "easeInOut", delay: 0.14 }}
+                />
+              ) : null}
+              <motion.h1
+                variants={titleRevealVariants}
+                className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-6xl lg:text-7xl"
+              >
+                <span className="bg-gradient-to-b from-foreground via-foreground to-foreground/80 bg-clip-text text-transparent">
+                  {hero.name}
+                </span>
+              </motion.h1>
+            </div>
+            <motion.p
+              variants={subheadlineVariants}
+              className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:text-[1.15rem]"
+            >
               {hero.statement}
-            </p>
+            </motion.p>
 
-            <ul className="grid gap-2 sm:grid-cols-3">
+            <motion.ul variants={kpiContainerVariants} className="grid gap-2 sm:grid-cols-3">
               {heroKpis.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <li
+                  <motion.li
                     key={item.label}
+                    variants={kpiCardVariants}
                     className="rounded-xl border border-border/60 bg-background/55 p-3 shadow-sm backdrop-blur-sm"
                   >
                     <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground">
@@ -175,42 +259,14 @@ function HomePage() {
                       {item.label}
                     </p>
                     <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.caption}</p>
-                  </li>
+                  </motion.li>
                 );
               })}
-            </ul>
-
-            <AnimatePresence>
-              {showBootSequence ? (
-                <motion.div
-                  initial={prefersReducedMotion ? undefined : { opacity: 0, y: 6 }}
-                  animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                  exit={prefersReducedMotion ? undefined : { opacity: 0, y: -6 }}
-                  transition={{ duration: 0.28, ease: "easeOut" }}
-                  className="max-w-md rounded-xl border border-primary/25 bg-background/75 p-3 shadow-md backdrop-blur-sm"
-                  aria-live="polite"
-                >
-                  <p className="font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/90">
-                    System initializing...
-                  </p>
-                  <div className="mt-2 space-y-1 text-xs text-muted-foreground">
-                    <p>Booting command palette index</p>
-                    <p>Syncing live systems telemetry</p>
-                  </div>
-                  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-primary/15">
-                    <motion.span
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 1.5, ease: "easeOut" }}
-                      className="block h-full rounded-full bg-primary/70"
-                    />
-                  </div>
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
+            </motion.ul>
 
             {liveProjects.length ? (
-              <section
+              <motion.section
+                variants={proofPanelVariants}
                 aria-label="Proof of work live systems"
                 className="relative overflow-hidden rounded-2xl border border-border/65 bg-background/55 p-4 shadow-lg shadow-black/[0.06] ring-1 ring-border/60 backdrop-blur-md dark:bg-background/35 dark:shadow-black/25 sm:p-5"
               >
@@ -320,10 +376,10 @@ function HomePage() {
                     </li>
                   ))}
                 </ul>
-              </section>
+              </motion.section>
             ) : null}
 
-            <div className="flex flex-wrap items-center gap-3 pt-1">
+            <motion.div variants={ctaRowVariants} className="flex flex-wrap items-center gap-3 pt-1">
               <Button asChild size="lg">
                 <Link to={hero.cta.primary.href}>{hero.cta.primary.label}</Link>
               </Button>
@@ -344,7 +400,7 @@ function HomePage() {
                   )}
                 </Button>
               ) : null}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
