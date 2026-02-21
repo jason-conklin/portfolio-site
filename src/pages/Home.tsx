@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, type ReactNode } from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Sparkles,
   Workflow,
+  type LucideIcon,
 } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
@@ -26,23 +27,102 @@ import NameDarkImage from "@/assets/name-dark.png";
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 const HOME_INTRO_SESSION_KEY = "home_intro_seen";
 
-const heroKpis = [
+type HeroCapability = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  metric?: string;
+};
+
+const heroKpis: readonly HeroCapability[] = [
   {
     icon: Rocket,
-    label: "3 Deployed Products",
-    caption: "Running in production today",
+    title: "Deployed products",
+    description: "Running in production",
+    metric: "3",
   },
   {
     icon: Sparkles,
-    label: "Applied AI + Evaluation",
-    caption: "Structured inference with measurable outputs",
+    title: "Applied AI + evaluation",
+    description: "Measurable outputs, explainable flows",
   },
   {
     icon: ShieldCheck,
-    label: "Secure Auth + Data Systems",
-    caption: "OAuth, RBAC, and schema-first backend design",
+    title: "Secure auth + data systems",
+    description: "OAuth, RBAC, schema-first design",
   },
 ] as const;
+
+type HeroCapabilityTileProps = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  metric?: string;
+};
+
+function HeroCapabilityTile({
+  icon: Icon,
+  title,
+  description,
+  metric,
+}: HeroCapabilityTileProps) {
+  return (
+    <div className="relative overflow-hidden rounded-xl bg-background/60 p-3 shadow-sm ring-1 ring-border/60 backdrop-blur-md dark:bg-background/30 dark:shadow-none before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-primary/40 before:via-primary/15 before:to-transparent">
+      <div className="relative flex min-w-0 items-start gap-2.5">
+        <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15">
+          <Icon className="h-4 w-4" aria-hidden="true" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="flex items-center gap-1.5 text-sm font-semibold tracking-tight text-foreground">
+            {metric ? (
+              <span className="inline-flex min-w-5 items-center justify-center rounded-md bg-primary/12 px-1.5 py-0.5 text-xs font-bold leading-none text-primary">
+                {metric}
+              </span>
+            ) : null}
+            <span className="truncate">{title}</span>
+          </p>
+          <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs text-muted-foreground sm:text-[13px]">
+            {description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function renderHeroTagline(statement: string): ReactNode {
+  const lead = "Full-stack engineer";
+  const focus = "production-grade";
+  const startsWithLead = statement.toLowerCase().startsWith(lead.toLowerCase());
+
+  if (!startsWithLead) return statement;
+
+  const remainder = statement.slice(lead.length).trimStart();
+  const focusIndex = remainder.toLowerCase().indexOf(focus);
+
+  if (focusIndex === -1) {
+    return (
+      <>
+        <span className="font-semibold text-foreground">Full-stack engineer</span>{" "}
+        <span>{remainder}</span>
+      </>
+    );
+  }
+
+  const beforeFocus = remainder.slice(0, focusIndex);
+  const afterFocus = remainder.slice(focusIndex + focus.length);
+
+  return (
+    <>
+      <span className="font-semibold text-foreground">Full-stack engineer</span>{" "}
+      <span>{beforeFocus}</span>
+      <span className="rounded-md bg-primary/10 px-1.5 py-0.5 dark:bg-primary/15">
+        {focus}
+      </span>
+      <span>{afterFocus}</span>
+    </>
+  );
+}
 
 const heroSequenceVariants: Variants = {
   hidden: {},
@@ -217,7 +297,7 @@ function HomePage() {
             variants={heroSequenceVariants}
             initial={shouldPlayIntro ? "hidden" : false}
             animate="show"
-            className="mx-auto max-w-4xl space-y-3.5 sm:space-y-4"
+            className="mx-auto max-w-4xl space-y-3 sm:space-y-3.5"
           >
             <motion.p
               variants={locationVariants}
@@ -225,68 +305,66 @@ function HomePage() {
             >
               {hero.location}
             </motion.p>
-            <div className="relative">
-              {shouldPlayIntro ? (
-                <motion.span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-y-1 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-primary/25 to-transparent blur-xl"
-                  initial={{ x: "-120%", opacity: 0 }}
-                  animate={{ x: "240%", opacity: [0, 0.5, 0] }}
-                  transition={{ duration: 0.75, ease: "easeInOut", delay: 0.14 }}
-                />
-              ) : null}
-              <motion.h1
-                variants={titleRevealVariants}
-                className="max-w-[min(90vw,900px)] leading-[0.95]"
+            <div className="mx-auto max-w-3xl text-center">
+              <div className="relative">
+                {shouldPlayIntro ? (
+                  <motion.span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-1 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-primary/25 to-transparent blur-xl"
+                    initial={{ x: "-120%", opacity: 0 }}
+                    animate={{ x: "240%", opacity: [0, 0.5, 0] }}
+                    transition={{ duration: 0.75, ease: "easeInOut", delay: 0.14 }}
+                  />
+                ) : null}
+                <motion.h1
+                  variants={titleRevealVariants}
+                  className="mx-auto w-full max-w-[min(90vw,900px)] leading-[0.95]"
+                >
+                  <span className="sr-only">{hero.name}</span>
+                  <span aria-hidden="true" className="relative block w-full aspect-[1104/358]">
+                    <img
+                      src={NameLightImage}
+                      alt=""
+                      aria-hidden="true"
+                      width={1091}
+                      height={319}
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-contain opacity-100 transition-opacity duration-300 ease-out motion-reduce:transition-none dark:opacity-0"
+                    />
+                    <img
+                      src={NameDarkImage}
+                      alt=""
+                      aria-hidden="true"
+                      width={1104}
+                      height={358}
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-300 ease-out motion-reduce:transition-none dark:opacity-100"
+                    />
+                  </span>
+                </motion.h1>
+              </div>
+              <motion.p
+                variants={subheadlineVariants}
+                className="mx-auto mt-4 max-w-3xl text-center text-lg leading-snug text-foreground/90 sm:mt-5 sm:text-xl md:text-2xl"
               >
-                <span className="sr-only">{hero.name}</span>
-                <span aria-hidden="true" className="relative block w-full aspect-[1104/358]">
-                  <img
-                    src={NameLightImage}
-                    alt=""
-                    aria-hidden="true"
-                    width={1091}
-                    height={319}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    className="absolute inset-0 h-full w-full object-contain opacity-100 transition-opacity duration-300 ease-out motion-reduce:transition-none dark:opacity-0"
-                  />
-                  <img
-                    src={NameDarkImage}
-                    alt=""
-                    aria-hidden="true"
-                    width={1104}
-                    height={358}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-300 ease-out motion-reduce:transition-none dark:opacity-100"
-                  />
-                </span>
-              </motion.h1>
+                {renderHeroTagline(hero.statement)}
+              </motion.p>
             </div>
-            <motion.p
-              variants={subheadlineVariants}
-              className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:text-[1.15rem]"
-            >
-              {hero.statement}
-            </motion.p>
 
             <motion.ul variants={kpiContainerVariants} className="grid gap-2 sm:grid-cols-3">
               {heroKpis.map((item) => {
-                const Icon = item.icon;
                 return (
-                  <motion.li
-                    key={item.label}
-                    variants={kpiCardVariants}
-                    className="rounded-xl border border-border/60 bg-background/55 p-3 shadow-sm backdrop-blur-sm"
-                  >
-                    <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground">
-                      <Icon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
-                      {item.label}
-                    </p>
-                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.caption}</p>
+                  <motion.li key={item.title} variants={kpiCardVariants} className="min-w-0">
+                    <HeroCapabilityTile
+                      icon={item.icon}
+                      title={item.title}
+                      description={item.description}
+                      metric={item.metric}
+                    />
                   </motion.li>
                 );
               })}
