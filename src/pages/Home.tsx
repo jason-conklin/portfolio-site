@@ -192,6 +192,10 @@ function HomePage() {
         id="home"
         className="hero-short-viewport relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-x-hidden py-[clamp(0.7rem,1.8vh,1.4rem)] max-[height:820px]:py-[0.55rem] max-[height:760px]:py-[0.35rem] sm:py-[clamp(0.85rem,2.2vh,1.6rem)]"
       >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[150vh] bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.24)_0,rgba(59,130,246,0.11)_34%,rgba(59,130,246,0)_68%),linear-gradient(to_bottom,rgba(59,130,246,0.18)_0,rgba(59,130,246,0.09)_30%,rgba(59,130,246,0.04)_55%,rgba(59,130,246,0)_100%)] dark:bg-[radial-gradient(circle_at_20%_10%,rgba(96,165,250,0.26)_0,rgba(96,165,250,0.12)_34%,rgba(96,165,250,0)_68%),linear-gradient(to_bottom,rgba(37,99,235,0.18)_0,rgba(37,99,235,0.09)_30%,rgba(37,99,235,0.04)_55%,rgba(37,99,235,0)_100%)]"
+        />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           <motion.div
             variants={heroSequenceVariants}
