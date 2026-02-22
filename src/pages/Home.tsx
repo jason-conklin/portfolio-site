@@ -190,11 +190,11 @@ function HomePage() {
       <PageSEO path="/" />
       <section
         id="home"
-        className="hero-short-viewport relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-x-hidden py-[clamp(0.7rem,1.8vh,1.4rem)] max-[height:820px]:py-[0.55rem] max-[height:760px]:py-[0.35rem] sm:py-[clamp(0.85rem,2.2vh,1.6rem)]"
+        className="hero-short-viewport relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-hidden py-[clamp(0.7rem,1.8vh,1.4rem)] max-[height:820px]:py-[0.55rem] max-[height:760px]:py-[0.35rem] sm:py-[clamp(0.85rem,2.2vh,1.6rem)]"
       >
         <div
           aria-hidden="true"
-          className="hero-page-gradient pointer-events-none absolute inset-x-0 top-0 z-0"
+          className="hero-page-gradient pointer-events-none absolute inset-0 z-0"
         />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           <motion.div
