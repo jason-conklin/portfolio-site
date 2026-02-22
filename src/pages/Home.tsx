@@ -35,15 +35,6 @@ const heroSequenceVariants: Variants = {
   },
 };
 
-const backgroundWakeVariants: Variants = {
-  hidden: { opacity: 0, filter: "blur(6px)" },
-  show: {
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: { duration: 0.78, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
 const locationVariants: Variants = {
   hidden: { opacity: 0, y: -14 },
   show: {
@@ -201,15 +192,6 @@ function HomePage() {
         id="home"
         className="hero-short-viewport relative z-10 flex min-h-[calc(100svh-var(--header-height))] items-center overflow-x-hidden py-[clamp(0.7rem,1.8vh,1.4rem)] max-[height:820px]:py-[0.55rem] max-[height:760px]:py-[0.35rem] sm:py-[clamp(0.85rem,2.2vh,1.6rem)]"
       >
-        <motion.div
-          variants={backgroundWakeVariants}
-          initial={prefersReducedMotion ? false : "hidden"}
-          animate="show"
-          className="pointer-events-none absolute inset-0 z-0"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.2)_0,rgba(59,130,246,0.08)_32%,rgba(59,130,246,0)_62%)]" />
-          <div className="absolute inset-x-0 top-0 h-[560px] bg-[linear-gradient(to_bottom,rgba(59,130,246,0.2)_0,rgba(59,130,246,0.1)_240px,rgba(59,130,246,0.04)_420px,rgba(59,130,246,0)_560px)]" />
-        </motion.div>
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           <motion.div
             variants={heroSequenceVariants}

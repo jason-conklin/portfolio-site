@@ -20,7 +20,7 @@ export function App() {
   return (
     <div
       id="app-root"
-      className="relative flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground"
+      className="relative flex min-h-screen flex-col overflow-x-hidden text-foreground"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
         <TechnicalBlueprintBackground />
