@@ -194,7 +194,7 @@ function HomePage() {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[150vh] bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.24)_0,rgba(59,130,246,0.11)_34%,rgba(59,130,246,0)_68%),linear-gradient(to_bottom,rgba(59,130,246,0.18)_0,rgba(59,130,246,0.09)_30%,rgba(59,130,246,0.04)_55%,rgba(59,130,246,0)_100%)] dark:bg-[radial-gradient(circle_at_20%_10%,rgba(96,165,250,0.26)_0,rgba(96,165,250,0.12)_34%,rgba(96,165,250,0)_68%),linear-gradient(to_bottom,rgba(37,99,235,0.18)_0,rgba(37,99,235,0.09)_30%,rgba(37,99,235,0.04)_55%,rgba(37,99,235,0)_100%)]"
+          className="hero-page-gradient pointer-events-none absolute inset-x-0 top-0 z-0"
         />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           <motion.div
