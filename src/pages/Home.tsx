@@ -278,9 +278,9 @@ function HomePage() {
               </div>
               <motion.p
                 variants={subheadlineVariants}
-                className="hero-tagline mx-auto mt-[clamp(0.65rem,1.6vh,1.25rem)] max-w-3xl text-center max-[height:820px]:mt-2 max-[height:760px]:mt-1.5"
+                className="hero-tagline mx-auto mt-[clamp(0.65rem,1.6vh,1.25rem)] max-w-4xl text-center max-[height:820px]:mt-2 max-[height:760px]:mt-1.5"
               >
-                <span className="hero-tagline-primary text-[clamp(1.05rem,2.1vw,1.5rem)] font-semibold tracking-tight text-foreground">
+                <span className="hero-tagline-primary block text-[clamp(1rem,1.75vw,1.4rem)] font-semibold tracking-tight text-foreground sm:whitespace-nowrap">
                   <span className="font-bold">Full-stack engineer</span>{" "}
                   {heroTaglinePrimary}
                 </span>
