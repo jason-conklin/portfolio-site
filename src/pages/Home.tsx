@@ -22,7 +22,7 @@ import NameLightLogo from "@/assets/name-light.svg";
 import NameDarkLogo from "@/assets/name-dark.svg";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
-const heroTaglinePrimary = "shipping production web systems.";
+const heroTaglinePrimary = "building and deploying production-grade web systems.";
 const heroTaglineSecondary = "Specializing in applied AI, evaluation pipelines, and scalable system architecture.";
 
 const heroSequenceVariants: Variants = {
@@ -327,9 +327,9 @@ function HomePage() {
                           <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
                           Live Systems
                         </p>
-                        <p className="text-sm text-muted-foreground">
-                          Deployed products running in production.
-                        </p>
+                      <p className="text-sm text-muted-foreground">
+                        Real-world systems deployed and publicly accessible.
+                      </p>
                       </div>
                       <div className="hero-live-header-chips flex flex-wrap gap-1.5 max-[height:820px]:hidden">
                         <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
