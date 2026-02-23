@@ -18,8 +18,8 @@ import { Section } from "@/components/Section";
 import { PageSEO } from "@/app/seo";
 import { hero, homeContent, liveProjects, projects } from "@/data/profile";
 import { useTheme } from "@/lib/theme";
-import NameLightLogo from "@/assets/name-light.svg";
-import NameDarkLogo from "@/assets/name-dark.svg";
+import NameLightImage from "@/assets/name-light.png";
+import NameDarkImage from "@/assets/name-dark.png";
 
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 const heroTaglinePrimary = "building and deploying production-grade web systems.";
@@ -171,10 +171,10 @@ function HomePage() {
     if (typeof window === "undefined") return;
 
     const lightImage = new window.Image();
-    lightImage.src = NameLightLogo;
+    lightImage.src = NameLightImage;
 
     const darkImage = new window.Image();
-    darkImage.src = NameDarkLogo;
+    darkImage.src = NameDarkImage;
   }, []);
 
   const openProjectCaseStudy = useCallback(
@@ -234,7 +234,7 @@ function HomePage() {
                     className="hero-name-frame pointer-events-none relative mx-auto block h-[clamp(108px,25svh,232px)] w-[min(980px,94vw)] max-h-[28svh] max-w-full select-none max-[height:820px]:w-[min(840px,92vw)] max-[height:820px]:max-h-[24svh] max-[height:760px]:w-[min(760px,92vw)] max-[height:760px]:max-h-[21svh]"
                   >
                     <img
-                      src={NameLightLogo}
+                      src={NameLightImage}
                       alt=""
                       aria-hidden="true"
                       draggable={false}
@@ -247,7 +247,7 @@ function HomePage() {
                       }`}
                     />
                     <img
-                      src={NameDarkLogo}
+                      src={NameDarkImage}
                       alt=""
                       aria-hidden="true"
                       draggable={false}
