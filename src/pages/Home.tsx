@@ -421,42 +421,42 @@ function HomePage() {
                         </motion.li>
                       ))}
                     </motion.ul>
-                    <motion.div
-                      variants={ctaRowVariants}
-                      className="hero-cta-row live-systems-cta-row mt-5 flex flex-wrap items-center gap-2.5 pt-4"
-                    >
-                      <Button asChild size="lg">
-                        <Link to={hero.cta.primary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
-                          <LayoutGrid className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
-                          {hero.cta.primary.label}
-                        </Link>
-                      </Button>
-                      <Button asChild variant="soft" size="lg">
-                        <Link to={hero.cta.secondary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
-                          <Mail className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
-                          {hero.cta.secondary.label}
-                        </Link>
-                      </Button>
-                      {hero.cta.tertiary ? (
-                        <Button asChild variant="ghost" size="md" className="h-10 min-h-10 rounded-full px-3.5 text-sm transition-transform duration-200 hover:-translate-y-[1px] hover:border-primary/25 hover:shadow-sm">
-                          {hero.cta.tertiary.external ? (
-                            <a href={hero.cta.tertiary.href} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 whitespace-nowrap">
-                              <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
-                              {hero.cta.tertiary.label}
-                            </a>
-                          ) : (
-                            <Link to={hero.cta.tertiary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
-                              <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
-                              {hero.cta.tertiary.label}
-                            </Link>
-                          )}
-                        </Button>
-                      ) : null}
-                    </motion.div>
                   </div>
                 </motion.div>
               </motion.section>
             ) : null}
+            <motion.div
+              variants={ctaRowVariants}
+              className="hero-cta-row mt-[clamp(0.35rem,1vh,0.65rem)] flex flex-wrap items-center gap-2.5"
+            >
+              <Button asChild size="lg">
+                <Link to={hero.cta.primary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                  <LayoutGrid className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                  {hero.cta.primary.label}
+                </Link>
+              </Button>
+              <Button asChild variant="soft" size="lg">
+                <Link to={hero.cta.secondary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                  <Mail className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                  {hero.cta.secondary.label}
+                </Link>
+              </Button>
+              {hero.cta.tertiary ? (
+                <Button asChild variant="ghost" size="md" className="h-10 min-h-10 rounded-full px-3.5 text-sm transition-transform duration-200 hover:-translate-y-[1px] hover:border-primary/25 hover:shadow-sm">
+                  {hero.cta.tertiary.external ? (
+                    <a href={hero.cta.tertiary.href} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 whitespace-nowrap">
+                      <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                      {hero.cta.tertiary.label}
+                    </a>
+                  ) : (
+                    <Link to={hero.cta.tertiary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                      <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                      {hero.cta.tertiary.label}
+                    </Link>
+                  )}
+                </Button>
+              ) : null}
+            </motion.div>
           </motion.div>
         </div>
       </section>

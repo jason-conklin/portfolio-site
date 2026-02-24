@@ -421,25 +421,6 @@ html {
     color: hsl(var(--muted-foreground) / 0.95);
   }
 
-  .live-systems-cta-row {
-    position: relative;
-  }
-
-  .live-systems-cta-row::before {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    top: 0;
-    height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      hsl(var(--border) / 0.75) 18%,
-      hsl(var(--border) / 0.36) 56%,
-      transparent 100%
-    );
-  }
-
   .dark .live-systems-band-shell::before {
     background: linear-gradient(
       115deg,
