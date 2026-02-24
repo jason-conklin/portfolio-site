@@ -312,7 +312,7 @@ function HomePage() {
                       <div className="space-y-1.5">
                         <h2 className="inline-flex items-center gap-2 text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
                           <Globe className="h-5 w-5 text-primary/85" aria-hidden="true" />
-                          Production Deployments
+                          Live Deployments
                         </h2>
                         <p className="text-sm text-muted-foreground">
                           Real-world systems deployed and publicly accessible.
