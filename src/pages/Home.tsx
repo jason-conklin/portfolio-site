@@ -280,18 +280,19 @@ function HomePage() {
               <motion.section
                 variants={proofPanelVariants}
                 aria-label="Live systems"
+                className="live-systems-band-wrap relative left-1/2 w-screen -translate-x-1/2 px-3 sm:px-6 lg:px-8"
               >
                 <motion.div
                   animate={
                     prefersReducedMotion
                       ? {}
                       : {
-                          y: [0, -5, 0],
-                          scale: [1, 1.008, 1],
+                          y: [0, -4, 0],
+                          scale: [1, 1.004, 1],
                           boxShadow: [
-                            "0 10px 30px rgba(0,0,0,0.25)",
-                            "0 20px 50px rgba(0,0,0,0.35)",
-                            "0 10px 30px rgba(0,0,0,0.25)",
+                            "0 18px 48px -36px rgba(15,23,42,0.38)",
+                            "0 24px 56px -38px rgba(15,23,42,0.48)",
+                            "0 18px 48px -36px rgba(15,23,42,0.38)",
                           ],
                         }
                   }
@@ -299,165 +300,163 @@ function HomePage() {
                     prefersReducedMotion
                       ? undefined
                       : {
-                          duration: 3,
+                          duration: 3.6,
                           repeat: Infinity,
                           ease: "easeInOut",
                         }
                   }
-                  className="hero-live-panel relative overflow-hidden rounded-3xl shadow-[0_22px_60px_-45px_rgba(15,23,42,0.45)] before:pointer-events-none before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-r before:from-primary/35 before:via-primary/10 before:to-transparent dark:shadow-[0_26px_70px_-55px_rgba(0,0,0,0.85)]"
+                  className="live-systems-band-shell relative mx-auto w-full max-w-7xl overflow-hidden rounded-[2rem]"
                 >
-                  <div className="hero-live-panel-inner relative m-px rounded-[calc(1.5rem-1px)] bg-background/65 p-[clamp(0.9rem,1.5vw,1.3rem)] ring-1 ring-border/60 backdrop-blur-xl max-[height:820px]:p-[0.8rem] max-[height:760px]:p-[0.65rem] dark:bg-background/20">
-                    <header className="flex flex-wrap items-start justify-between gap-3 max-[height:820px]:gap-2">
-                      <div className="space-y-1">
+                  <div className="live-systems-band-inner relative px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6">
+                    <header className="live-systems-header flex flex-col gap-4 pb-4 sm:gap-5 sm:pb-5 lg:flex-row lg:items-end lg:justify-between">
+                      <div className="space-y-1.5">
                         <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
                           <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
                           Live Systems
                         </p>
-                      <p className="text-sm text-muted-foreground">
-                        Real-world systems deployed and publicly accessible.
-                      </p>
+                        <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                          Production Deployments
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                          Real-world systems deployed and publicly accessible.
+                        </p>
                       </div>
-                      <div className="hero-live-header-chips flex flex-wrap gap-1.5 max-[height:820px]:hidden">
-                        <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                          3 live deployments
-                        </span>
-                        <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                          Vercel + Supabase
-                        </span>
-                        <span className="rounded-full bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground ring-1 ring-border/50">
-                          Solo-built
-                        </span>
+                      <div className="live-systems-header-chips flex flex-wrap gap-1.5 lg:justify-end">
+                        <span className="live-systems-chip">3 live deployments</span>
+                        <span className="live-systems-chip">Vercel + Supabase</span>
+                        <span className="live-systems-chip">Solo-built</span>
                       </div>
                     </header>
-                    <div
-                      aria-hidden="true"
-                      className="mt-3 h-px bg-gradient-to-r from-border/70 via-border/30 to-transparent max-[height:820px]:mt-2"
-                    />
-                    <motion.ul variants={deploymentGridVariants} className="mt-[clamp(0.6rem,1.3vh,1rem)] grid gap-3 max-[height:820px]:mt-[0.56rem] max-[height:820px]:gap-2.5 max-[height:760px]:gap-2 sm:grid-cols-3 sm:gap-3.5">
-                    {liveProjects.map((project) => (
-                      <motion.li
-                        key={project.name}
-                        variants={deploymentTileVariants}
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`View details for ${project.name}`}
-                        onClick={(event) => {
-                          const target = event.target as HTMLElement;
-                          if (target.closest("a,button")) return;
-                          openProjectCaseStudy(project.slug);
-                        }}
-                        onKeyDown={(event) => {
-                          const target = event.target as HTMLElement;
-                          if (target.closest("a,button")) return;
-                          if (event.key !== "Enter" && event.key !== " ") return;
-                          event.preventDefault();
-                          openProjectCaseStudy(project.slug);
-                        }}
-                        className="hero-live-tile group relative cursor-pointer overflow-hidden rounded-2xl border border-border/55 bg-background/55 p-2.5 shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-border/80 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background max-[height:820px]:p-2 max-[height:760px]:p-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-background/18 sm:p-3"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="absolute inset-y-3 left-0 w-[3px] rounded-r-full bg-primary/35 dark:bg-primary/25"
-                        />
-                        <div className="space-y-2.5 pl-1 max-[height:760px]:space-y-2">
-                          <div className="hero-live-tile-header relative rounded-2xl bg-muted/35 p-2.5 ring-1 ring-border/60 transition-colors duration-200 group-hover:bg-muted/45 max-[height:820px]:p-2 max-[height:760px]:p-1.5 dark:bg-muted/15 dark:group-hover:bg-muted/22">
-                            <div className="flex min-w-0 items-start gap-2.5">
-                              {project.icon ? (
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/65 p-1 sm:h-11 sm:w-11 sm:p-1.5">
-                                  <img
-                                    src={project.icon}
-                                    alt={`${project.name} logo`}
-                                    className="h-full w-full object-contain"
-                                    loading="lazy"
-                                  />
+                    <motion.ul
+                      variants={deploymentGridVariants}
+                      className="live-systems-grid mt-4 grid gap-3.5 md:grid-cols-2 lg:grid-cols-3"
+                    >
+                      {liveProjects.map((project) => (
+                        <motion.li
+                          key={project.name}
+                          variants={deploymentTileVariants}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`View details for ${project.name}`}
+                          onClick={(event) => {
+                            const target = event.target as HTMLElement;
+                            if (target.closest("a,button")) return;
+                            openProjectCaseStudy(project.slug);
+                          }}
+                          onKeyDown={(event) => {
+                            const target = event.target as HTMLElement;
+                            if (target.closest("a,button")) return;
+                            if (event.key !== "Enter" && event.key !== " ") return;
+                            event.preventDefault();
+                            openProjectCaseStudy(project.slug);
+                          }}
+                          className="live-systems-tile group relative h-full cursor-pointer overflow-hidden p-3.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-y-3 left-0 w-[3px] rounded-r-full bg-primary/35 dark:bg-primary/25"
+                          />
+                          <div className="flex h-full flex-col gap-3 pl-1">
+                            <div className="live-systems-tile-header relative p-2.5">
+                              <div className="flex min-w-0 items-start gap-2.5">
+                                {project.icon ? (
+                                  <div className="live-systems-tile-logo flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden p-1 sm:h-11 sm:w-11 sm:p-1.5">
+                                    <img
+                                      src={project.icon}
+                                      alt={`${project.name} logo`}
+                                      className="h-full w-full object-contain"
+                                      loading="lazy"
+                                    />
+                                  </div>
+                                ) : null}
+                                <div className="min-w-0 flex-1">
+                                  <p className="min-w-0 text-sm font-semibold tracking-tight text-foreground">
+                                    {project.name}
+                                  </p>
+                                  <p className="live-systems-tile-meta mt-1 flex min-w-0 flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                                    <span
+                                      className="h-2 w-2 shrink-0 rounded-full bg-emerald-500/80 motion-safe:animate-pulse motion-reduce:animate-none"
+                                      aria-hidden="true"
+                                    />
+                                    <span>Live</span>
+                                    <span aria-hidden>·</span>
+                                    <span className="truncate max-w-[140px]">{getProjectDomain(project.liveUrl)}</span>
+                                    <span aria-hidden>·</span>
+                                    <span>{getTeamSizeLabel(project.slug)}</span>
+                                  </p>
                                 </div>
-                              ) : null}
-                              <div className="min-w-0 flex-1">
-                                <p className="min-w-0 text-sm font-semibold tracking-tight text-foreground">
-                                  {project.name}
-                                </p>
-                                <p className="mt-1 flex min-w-0 flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-                                  <span
-                                    className="h-2 w-2 shrink-0 rounded-full bg-emerald-500/80 motion-safe:animate-pulse motion-reduce:animate-none"
-                                    aria-hidden="true"
-                                  />
-                                  <span>Live</span>
-                                  <span aria-hidden>·</span>
-                                  <span className="truncate max-w-[120px]">{getProjectDomain(project.liveUrl)}</span>
-                                  <span aria-hidden>·</span>
-                                  <span>{getTeamSizeLabel(project.slug)}</span>
-                                </p>
                               </div>
                             </div>
-                          </div>
-                          <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
-                            {project.blurb}
-                          </p>
-                          <div className="flex flex-wrap items-center gap-1.5">
-                            <Button
-                              asChild
-                              variant="soft"
-                              size="sm"
-                              className="h-8 rounded-full px-2.5 text-xs shadow-none transition-transform duration-200 hover:-translate-y-px max-[height:820px]:h-8 max-[height:820px]:px-2 max-[height:760px]:h-7 max-[height:760px]:px-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                            >
-                              <a
-                                href={project.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                              {project.blurb}
+                            </p>
+                            <div className="live-systems-actions mt-auto flex flex-wrap items-center gap-2">
+                              <Button
+                                asChild
+                                variant="soft"
+                                size="sm"
+                                className="h-8 rounded-full px-3 text-xs shadow-none transition-transform duration-200 hover:-translate-y-px motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                               >
-                                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                                Open live
-                              </a>
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => openProjectCaseStudy(project.slug)}
-                              className="h-8 rounded-full px-2.5 text-xs text-muted-foreground transition-transform duration-200 hover:-translate-y-px hover:text-foreground max-[height:820px]:h-8 max-[height:820px]:px-2 max-[height:760px]:h-7 max-[height:760px]:px-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                            >
-                              <FileText className="h-3.5 w-3.5" aria-hidden="true" />
-                              View Details
-                            </Button>
+                                <a
+                                  href={project.liveUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                                  Open live
+                                </a>
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => openProjectCaseStudy(project.slug)}
+                                className="h-8 rounded-full px-3 text-xs text-muted-foreground transition-transform duration-200 hover:-translate-y-px hover:text-foreground motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                              >
+                                <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                                View Details
+                              </Button>
+                            </div>
                           </div>
-                        </div>
-                      </motion.li>
-                    ))}
+                        </motion.li>
+                      ))}
                     </motion.ul>
+                    <motion.div
+                      variants={ctaRowVariants}
+                      className="hero-cta-row live-systems-cta-row mt-5 flex flex-wrap items-center gap-2.5 pt-4"
+                    >
+                      <Button asChild size="lg">
+                        <Link to={hero.cta.primary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                          <LayoutGrid className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                          {hero.cta.primary.label}
+                        </Link>
+                      </Button>
+                      <Button asChild variant="soft" size="lg">
+                        <Link to={hero.cta.secondary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                          <Mail className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                          {hero.cta.secondary.label}
+                        </Link>
+                      </Button>
+                      {hero.cta.tertiary ? (
+                        <Button asChild variant="ghost" size="md" className="h-10 min-h-10 rounded-full px-3.5 text-sm transition-transform duration-200 hover:-translate-y-[1px] hover:border-primary/25 hover:shadow-sm">
+                          {hero.cta.tertiary.external ? (
+                            <a href={hero.cta.tertiary.href} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 whitespace-nowrap">
+                              <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                              {hero.cta.tertiary.label}
+                            </a>
+                          ) : (
+                            <Link to={hero.cta.tertiary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
+                              <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
+                              {hero.cta.tertiary.label}
+                            </Link>
+                          )}
+                        </Button>
+                      ) : null}
+                    </motion.div>
                   </div>
                 </motion.div>
               </motion.section>
             ) : null}
-
-            <motion.div variants={ctaRowVariants} className="hero-cta-row mt-[clamp(0.18rem,0.8vh,0.5rem)] flex flex-wrap items-center gap-2.5 max-[height:820px]:mt-1 max-[height:820px]:gap-2 max-[height:760px]:mt-0.5 max-[height:760px]:gap-1.5">
-              <Button asChild size="lg" className="max-[height:820px]:h-9 max-[height:820px]:min-h-9 max-[height:820px]:px-3.5 max-[height:760px]:h-8 max-[height:760px]:min-h-8 max-[height:760px]:px-3">
-                <Link to={hero.cta.primary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
-                  <LayoutGrid className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
-                  {hero.cta.primary.label}
-                </Link>
-              </Button>
-              <Button asChild variant="soft" size="lg" className="max-[height:820px]:h-9 max-[height:820px]:min-h-9 max-[height:820px]:px-3.5 max-[height:760px]:h-8 max-[height:760px]:min-h-8 max-[height:760px]:px-3">
-                <Link to={hero.cta.secondary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
-                  <Mail className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
-                  {hero.cta.secondary.label}
-                </Link>
-              </Button>
-              {hero.cta.tertiary ? (
-                <Button asChild variant="ghost" size="md" className="h-10 min-h-10 rounded-full px-3.5 text-sm transition-transform duration-200 hover:-translate-y-[1px] hover:border-primary/25 hover:shadow-sm max-[height:820px]:h-9 max-[height:820px]:min-h-9 max-[height:820px]:px-3 max-[height:760px]:h-8 max-[height:760px]:min-h-8 max-[height:760px]:px-2.5">
-                  {hero.cta.tertiary.external ? (
-                    <a href={hero.cta.tertiary.href} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 whitespace-nowrap">
-                      <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
-                      {hero.cta.tertiary.label}
-                    </a>
-                  ) : (
-                    <Link to={hero.cta.tertiary.href} className="group inline-flex items-center gap-2 whitespace-nowrap">
-                      <Github className="h-4 w-4 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" aria-hidden="true" />
-                      {hero.cta.tertiary.label}
-                    </Link>
-                  )}
-                </Button>
-              ) : null}
-            </motion.div>
           </motion.div>
         </div>
       </section>
