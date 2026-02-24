@@ -4,11 +4,11 @@ import {
   ArrowRight,
   ExternalLink,
   FileText,
+  Globe,
   Github,
   LayoutGrid,
   Mail,
   MapPin,
-  Workflow,
 } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
@@ -310,11 +310,8 @@ function HomePage() {
                   <div className="live-systems-band-inner relative px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6">
                     <header className="live-systems-header flex flex-col gap-4 pb-4 sm:gap-5 sm:pb-5 lg:flex-row lg:items-end lg:justify-between">
                       <div className="space-y-1.5">
-                        <p className="inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/95">
-                          <Workflow className="h-3.5 w-3.5 text-primary/90" aria-hidden="true" />
-                          Live Systems
-                        </p>
-                        <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                        <h2 className="inline-flex items-center gap-2 text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                          <Globe className="h-5 w-5 text-primary/85" aria-hidden="true" />
                           Production Deployments
                         </h2>
                         <p className="text-sm text-muted-foreground">
