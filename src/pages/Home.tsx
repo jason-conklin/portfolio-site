@@ -280,7 +280,7 @@ function HomePage() {
               <motion.section
                 variants={proofPanelVariants}
                 aria-label="Live systems"
-                className="live-systems-band-wrap relative left-1/2 w-screen -translate-x-1/2 px-3 sm:px-6 lg:px-8"
+                className="live-systems-band-wrap relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen px-3 sm:px-6 lg:px-8"
               >
                 <motion.div
                   animate={
