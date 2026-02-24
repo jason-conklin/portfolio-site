@@ -168,7 +168,7 @@ export const homeContent = {
 export const liveProjects = [
   {
     name: "GiftPerch",
-    blurb: "AI gifting workspace with user-made recipient profiles, tailored gift suggestions, PerchPal AI chat, and occasion tracking.",
+    blurb: "AI gifting workspace with user-made recipient profiles, tailored gift suggestions, PerchPal AI chat, and more.",
     description: "AI-powered gifting workspace with recipient profiles, PerchPal chat, and live occasion tracking.",
     liveUrl: "https://giftperch.com",
     slug: "giftperch-recipient-profiles",
