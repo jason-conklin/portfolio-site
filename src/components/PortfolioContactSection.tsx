@@ -1,4 +1,5 @@
-import { ArrowUpRight, Clock3, Github, Linkedin, Mail, RadioTower } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Check, Clock3, Copy, Github, Linkedin, Mail, RadioTower } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { contact } from "@/data/profile";
@@ -6,6 +7,46 @@ import { contact } from "@/data/profile";
 const emailAddress = contact.email.replace(/^mailto:/, "");
 
 export function PortfolioContactSection() {
+  const [copied, setCopied] = useState(false);
+  const copyResetRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyResetRef.current !== null) {
+        window.clearTimeout(copyResetRef.current);
+      }
+    };
+  }, []);
+
+  const handleCopyEmail = async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(emailAddress);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = emailAddress;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "absolute";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+
+      setCopied(true);
+      if (copyResetRef.current !== null) {
+        window.clearTimeout(copyResetRef.current);
+      }
+      copyResetRef.current = window.setTimeout(() => {
+        setCopied(false);
+        copyResetRef.current = null;
+      }, 1600);
+    } catch {
+      setCopied(false);
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -82,9 +123,25 @@ export function PortfolioContactSection() {
                   <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
                     Direct
                   </p>
-                  <p className="mt-3 break-all text-[1.12rem] font-medium tracking-[0.01em] cinematic-text-primary sm:text-[1.2rem]">
-                    {emailAddress}
-                  </p>
+                  <div className="mt-3 flex items-start gap-3">
+                    <p className="min-w-0 flex-1 break-all text-[1.12rem] font-medium tracking-[0.01em] cinematic-text-primary sm:text-[1.2rem]">
+                      {emailAddress}
+                    </p>
+                    <button
+                      type="button"
+                      data-cursor-interactive="true"
+                      onClick={handleCopyEmail}
+                      aria-label={copied ? "Email copied" : "Copy email address"}
+                      title={copied ? "Copied" : "Copy email"}
+                      className="cinematic-chip inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
+                    >
+                      {copied ? (
+                        <Check className="h-4.5 w-4.5 cinematic-text-primary" aria-hidden="true" />
+                      ) : (
+                        <Copy className="h-4.5 w-4.5 cinematic-text-tertiary" aria-hidden="true" />
+                      )}
+                    </button>
+                  </div>
                   <p className="mt-2 text-sm leading-6 cinematic-text-tertiary">
                     Email is the fastest path for serious opportunities, consulting, and deeper product conversations.
                   </p>

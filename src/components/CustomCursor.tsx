@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -7,16 +7,18 @@ const INTERACTIVE_SELECTOR = "[data-cursor-interactive]";
 const HIDDEN_POSITION = -100;
 
 type CursorVariant = "default" | "hover";
-type DisplayVariant = CursorVariant | "hidden";
 
 function getInteractiveTarget(target: EventTarget | null) {
   return target instanceof Element ? target.closest(INTERACTIVE_SELECTOR) : null;
 }
 
+function setShellPosition(node: HTMLDivElement | null, x: number, y: number) {
+  if (!node) return;
+  node.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+}
+
 export function CustomCursor() {
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const cursorX = useMotionValue(HIDDEN_POSITION);
-  const cursorY = useMotionValue(HIDDEN_POSITION);
 
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -26,6 +28,7 @@ export function CustomCursor() {
   const visibleRef = useRef(false);
   const variantRef = useRef<CursorVariant>("default");
   const hasPositionRef = useRef(false);
+  const shellRef = useRef<HTMLDivElement | null>(null);
 
   const setVisibleState = useCallback((nextVisible: boolean) => {
     if (visibleRef.current === nextVisible) return;
@@ -43,9 +46,8 @@ export function CustomCursor() {
     setVisibleState(false);
     setVariantState("default");
     hasPositionRef.current = false;
-    cursorX.set(HIDDEN_POSITION);
-    cursorY.set(HIDDEN_POSITION);
-  }, [cursorX, cursorY, setVariantState, setVisibleState]);
+    setShellPosition(shellRef.current, HIDDEN_POSITION, HIDDEN_POSITION);
+  }, [setVariantState, setVisibleState]);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -86,9 +88,10 @@ export function CustomCursor() {
       setVariantState(getInteractiveTarget(target) ? "hover" : "default");
     };
 
-    const handleMouseMove = (event: MouseEvent) => {
-      cursorX.set(event.clientX);
-      cursorY.set(event.clientY);
+    const handlePointerMove = (event: PointerEvent) => {
+      if (event.pointerType && event.pointerType !== "mouse") return;
+
+      setShellPosition(shellRef.current, event.clientX, event.clientY);
       hasPositionRef.current = true;
 
       if (!visibleRef.current) {
@@ -126,7 +129,7 @@ export function CustomCursor() {
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("pointermove", handlePointerMove, { passive: true });
     document.addEventListener("pointerover", handlePointerOver, { passive: true });
     document.addEventListener("pointerout", handlePointerOut, { passive: true });
     document.addEventListener("mouseenter", handleMouseEnter);
@@ -137,7 +140,7 @@ export function CustomCursor() {
     window.addEventListener("blur", hideCursor);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("pointermove", handlePointerMove);
       document.removeEventListener("pointerover", handlePointerOver);
       document.removeEventListener("pointerout", handlePointerOut);
       document.removeEventListener("mouseenter", handleMouseEnter);
@@ -147,39 +150,34 @@ export function CustomCursor() {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("blur", hideCursor);
     };
-  }, [cursorX, cursorY, enabled, hideCursor, setVariantState, setVisibleState]);
+  }, [enabled, hideCursor, setVariantState, setVisibleState]);
 
   if (!enabled || !portalTarget) {
     return null;
   }
 
-  const displayVariant: DisplayVariant = visible ? variant : "hidden";
-  const transition = prefersReducedMotion
-    ? { duration: 0 }
-    : { duration: 0.22, ease: [0.16, 1, 0.3, 1] as const };
-
   return createPortal(
     <div aria-hidden="true" className="custom-cursor-layer">
-      <motion.div
-        className="custom-cursor-shell"
-        data-variant={displayVariant}
-        style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-        variants={{
-          hidden: { opacity: 0, scale: 0 },
-          default: { opacity: 1, scale: 1 },
-          hover: { opacity: 1, scale: 1.7 },
-        }}
-        animate={displayVariant}
-        transition={transition}
-      >
-        <span className="custom-cursor-fill" />
-        <span className="custom-cursor-ring" />
-      </motion.div>
+      <div ref={shellRef} className="custom-cursor-shell">
+        <motion.div
+          className="custom-cursor-core"
+          data-variant={variant}
+          initial={false}
+          animate={visible ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0, scale: 0.72 },
+            visible: { opacity: 1, scale: 1 },
+          }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 0.14, ease: [0.16, 1, 0.3, 1] as const }
+          }
+        >
+          <span className="custom-cursor-fill" />
+          <span className="custom-cursor-ring" />
+        </motion.div>
+      </div>
     </div>,
     portalTarget,
   );

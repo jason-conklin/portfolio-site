@@ -548,7 +548,8 @@ html {
     pointer-events: none;
     user-select: none;
     backface-visibility: hidden;
-    will-change: transform, opacity;
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+    will-change: transform;
   }
 
   .custom-cursor-ring,
@@ -581,14 +582,14 @@ html {
     transform: scale(0.38);
   }
 
-  .custom-cursor-shell[data-variant="hover"] .custom-cursor-ring {
+  .custom-cursor-core[data-variant="hover"] .custom-cursor-ring {
     border-color: var(--cinematic-cursor-ring-strong);
     background: var(--cinematic-cursor-fill);
     box-shadow: 0 0 0 1px var(--cinematic-cursor-ring-strong), var(--cinematic-cursor-shadow);
     transform: scale(1.06);
   }
 
-  .custom-cursor-shell[data-variant="hover"] .custom-cursor-fill {
+  .custom-cursor-core[data-variant="hover"] .custom-cursor-fill {
     background: var(--cinematic-cursor-fill-strong);
     opacity: 1;
     transform: scale(1);
