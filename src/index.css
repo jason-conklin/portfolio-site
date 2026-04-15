@@ -125,6 +125,22 @@ html {
     radial-gradient(circle, rgba(74, 129, 255, 0.16) 0%, rgba(74, 129, 255, 0.05) 44%, transparent 72%);
   --cinematic-ribbon-core-halo:
     radial-gradient(circle, rgba(255, 255, 255, 0.58) 0%, rgba(189, 225, 255, 0.34) 18%, rgba(112, 180, 255, 0.11) 44%, transparent 70%);
+  --cinematic-ribbon-fold-top:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(63, 118, 206, 0.12) 34%, rgba(18, 48, 88, 0.05) 72%, transparent 100%);
+  --cinematic-ribbon-fold-mid:
+    linear-gradient(180deg, rgba(86, 154, 255, 0.04) 0%, rgba(31, 87, 171, 0.14) 38%, rgba(12, 34, 70, 0.06) 74%, transparent 100%);
+  --cinematic-ribbon-fold-low:
+    linear-gradient(180deg, rgba(58, 117, 227, 0.03) 0%, rgba(32, 72, 148, 0.12) 42%, rgba(11, 27, 58, 0.06) 76%, transparent 100%);
+  --cinematic-ribbon-sheen-top:
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.58) 26%, rgba(203, 232, 255, 0.36) 56%, rgba(105, 179, 255, 0.06) 100%);
+  --cinematic-ribbon-sheen-mid:
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(235, 247, 255, 0.48) 28%, rgba(157, 210, 255, 0.26) 58%, rgba(88, 156, 255, 0.05) 100%);
+  --cinematic-ribbon-sheen-low:
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(224, 242, 255, 0.4) 28%, rgba(132, 195, 255, 0.2) 60%, rgba(75, 143, 255, 0.04) 100%);
+  --cinematic-ribbon-hotspot-mid:
+    radial-gradient(circle, rgba(255, 255, 255, 0.42) 0%, rgba(205, 234, 255, 0.26) 22%, rgba(110, 182, 255, 0.1) 48%, transparent 72%);
+  --cinematic-ribbon-hotspot-low:
+    radial-gradient(circle, rgba(244, 251, 255, 0.32) 0%, rgba(188, 226, 255, 0.2) 24%, rgba(106, 175, 255, 0.08) 50%, transparent 74%);
   --cinematic-ribbon-stop-a1: rgba(255, 255, 255, 0.94);
   --cinematic-ribbon-stop-a2: rgba(214, 237, 255, 0.98);
   --cinematic-ribbon-stop-a3: rgba(108, 181, 255, 0.92);
@@ -259,6 +275,22 @@ html {
     radial-gradient(circle, rgba(255, 108, 0, 0.14) 0%, rgba(255, 92, 0, 0.04) 44%, transparent 72%);
   --cinematic-ribbon-core-halo:
     radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 218, 149, 0.16) 18%, rgba(255, 164, 55, 0.05) 44%, transparent 70%);
+  --cinematic-ribbon-fold-top:
+    linear-gradient(180deg, rgba(255, 231, 196, 0.02) 0%, rgba(170, 44, 10, 0.18) 34%, rgba(62, 6, 0, 0.14) 72%, transparent 100%);
+  --cinematic-ribbon-fold-mid:
+    linear-gradient(180deg, rgba(255, 186, 88, 0.04) 0%, rgba(176, 36, 8, 0.22) 38%, rgba(78, 4, 0, 0.16) 74%, transparent 100%);
+  --cinematic-ribbon-fold-low:
+    linear-gradient(180deg, rgba(255, 158, 66, 0.04) 0%, rgba(148, 22, 6, 0.18) 42%, rgba(54, 2, 0, 0.12) 76%, transparent 100%);
+  --cinematic-ribbon-sheen-top:
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 246, 228, 0.5) 26%, rgba(255, 211, 136, 0.32) 56%, rgba(255, 146, 36, 0.06) 100%);
+  --cinematic-ribbon-sheen-mid:
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 234, 192, 0.42) 28%, rgba(255, 180, 74, 0.24) 58%, rgba(255, 104, 18, 0.05) 100%);
+  --cinematic-ribbon-sheen-low:
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 220, 168, 0.38) 28%, rgba(255, 165, 62, 0.18) 60%, rgba(217, 44, 22, 0.04) 100%);
+  --cinematic-ribbon-hotspot-mid:
+    radial-gradient(circle, rgba(255, 247, 224, 0.26) 0%, rgba(255, 205, 118, 0.22) 22%, rgba(255, 129, 25, 0.08) 48%, transparent 72%);
+  --cinematic-ribbon-hotspot-low:
+    radial-gradient(circle, rgba(255, 236, 200, 0.2) 0%, rgba(255, 188, 92, 0.18) 24%, rgba(230, 74, 18, 0.07) 50%, transparent 74%);
   --cinematic-ribbon-stop-a1: rgba(255, 250, 237, 0.95);
   --cinematic-ribbon-stop-a2: rgba(255, 230, 165, 0.98);
   --cinematic-ribbon-stop-a3: rgba(255, 146, 27, 0.92);
