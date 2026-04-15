@@ -3,8 +3,15 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/lib/theme";
+import { cn } from "@/lib/utils";
 
-export function ThemeToggle() {
+type ThemeToggleProps = {
+  className?: string;
+  labelClassName?: string;
+  compact?: boolean;
+};
+
+export function ThemeToggle({ className, labelClassName, compact = false }: ThemeToggleProps) {
   const { resolvedTheme, toggleTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -21,7 +28,7 @@ export function ThemeToggle() {
     return (
       <Button
         variant="ghost"
-        className="h-10 w-10 px-0"
+        className={cn("h-10 w-10 px-0", className)}
         aria-label="Toggle theme"
       >
         <Sun className="h-4 w-4" aria-hidden="true" />
@@ -33,7 +40,11 @@ export function ThemeToggle() {
     <Button
       type="button"
       variant="ghost"
-      className="flex h-10 items-center gap-2 px-3 transition-colors hover:text-primary"
+      className={cn(
+        "flex h-10 items-center gap-2 px-3 transition-colors hover:text-primary",
+        compact ? "min-h-10 rounded-full px-3.5 text-sm" : undefined,
+        className,
+      )}
       aria-label="Toggle theme"
       onClick={() => {
         if (nextTheme === "light" || nextTheme === "dark") {
@@ -50,8 +61,17 @@ export function ThemeToggle() {
       ) : (
         <Moon className="h-4 w-4" aria-hidden="true" />
       )}
-      <span className="hidden text-xs font-medium text-muted-foreground sm:inline">
-        {isHovering
+      <span
+        className={cn(
+          compact
+            ? "text-xs font-medium text-muted-foreground"
+            : "hidden text-xs font-medium text-muted-foreground sm:inline",
+          labelClassName,
+        )}
+      >
+        {compact
+          ? `${resolvedTheme.charAt(0).toUpperCase()}${resolvedTheme.slice(1)}`
+          : isHovering
           ? `Switch to ${nextTheme.charAt(0).toUpperCase()}${nextTheme.slice(1)}`
           : `${resolvedTheme.charAt(0).toUpperCase()}${resolvedTheme.slice(1)}`}
       </span>
