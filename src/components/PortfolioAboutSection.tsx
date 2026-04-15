@@ -57,7 +57,7 @@ export function PortfolioAboutSection() {
                     {hero.name}
                   </p>
                   <p className="mt-2 max-w-md text-[0.76rem] font-medium uppercase tracking-[0.22em] cinematic-text-tertiary">
-                    Production-focused full-stack engineer and applied AI systems builder
+                    Full-stack developer with a strong interest in frontend engineering and design
                   </p>
                   <p className="mt-3 inline-flex items-center gap-2 text-sm cinematic-text-quaternary">
                     <MapPin className="h-4 w-4 shrink-0 cinematic-text-tertiary" aria-hidden="true" />
@@ -70,7 +70,7 @@ export function PortfolioAboutSection() {
                 id="about-title"
                 className="mt-7 max-w-[22ch] text-[clamp(1.8rem,3vw,2.75rem)] font-light leading-[1.04] tracking-[0.01em] cinematic-text-primary"
               >
-                Production-minded engineering with clean systems thinking.
+                Building thoughtful interfaces without losing sight of the system behind them.
               </h2>
 
               <div className="mt-6 space-y-5 text-[0.98rem] leading-8 cinematic-text-tertiary">

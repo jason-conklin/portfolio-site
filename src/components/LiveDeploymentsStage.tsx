@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { ExternalLink, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -42,6 +42,22 @@ function getProjectDomain(url: string) {
       .replace(/^www\./, "")
       .replace(/\/.*$/, "");
   }
+}
+
+function updateCardCursorHighlight(event: ReactPointerEvent<HTMLElement>) {
+  if (event.pointerType && event.pointerType !== "mouse") return;
+
+  const rect = event.currentTarget.getBoundingClientRect();
+  const x = ((event.clientX - rect.left) / rect.width) * 100;
+  const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+  event.currentTarget.style.setProperty("--cursor-x", `${x.toFixed(2)}%`);
+  event.currentTarget.style.setProperty("--cursor-y", `${y.toFixed(2)}%`);
+}
+
+function resetCardCursorHighlight(event: ReactPointerEvent<HTMLElement>) {
+  event.currentTarget.style.setProperty("--cursor-x", "50%");
+  event.currentTarget.style.setProperty("--cursor-y", "50%");
 }
 
 export function LiveDeploymentsStage({
@@ -96,6 +112,8 @@ export function LiveDeploymentsStage({
             const accent = accentStyles[project.slug] ?? accentStyles.applictus;
             const cardStyle = {
               "--deployment-rgb": accent.rgb,
+              "--cursor-x": "50%",
+              "--cursor-y": "50%",
               borderColor: `rgb(${accent.rgb} / 0.22)`,
               boxShadow: `0 0 0 1px rgb(${accent.rgb} / 0.08) inset, 0 18px 52px -36px rgb(${accent.rgb} / 0.42)`,
             } as CSSProperties;
@@ -120,6 +138,9 @@ export function LiveDeploymentsStage({
                   if (target.closest("a,button")) return;
                   onOpenProject(project.slug);
                 }}
+                onPointerMove={updateCardCursorHighlight}
+                onPointerEnter={updateCardCursorHighlight}
+                onPointerLeave={resetCardCursorHighlight}
                 onKeyDown={(event) => {
                   const target = event.target as HTMLElement;
                   if (target.closest("a,button")) return;
@@ -136,6 +157,27 @@ export function LiveDeploymentsStage({
                   style={{
                     background:
                       "linear-gradient(180deg, rgb(var(--deployment-rgb) / 0.14) 0%, transparent 28%), radial-gradient(circle at 10% 100%, rgb(var(--deployment-rgb) / 0.14), transparent 34%)",
+                  }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-[1px] rounded-[calc(1.35rem-1px)] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-within:opacity-100"
+                  style={{
+                    background:
+                      "radial-gradient(240px circle at var(--cursor-x) var(--cursor-y), rgb(var(--deployment-rgb) / 0.14), transparent 58%)",
+                  }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 rounded-[1.35rem] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-within:opacity-100"
+                  style={{
+                    padding: "1px",
+                    background:
+                      "radial-gradient(180px circle at var(--cursor-x) var(--cursor-y), rgb(var(--deployment-rgb) / 0.72), rgb(var(--deployment-rgb) / 0.18) 22%, transparent 56%)",
+                    WebkitMask:
+                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "xor",
+                    maskComposite: "exclude",
                   }}
                 />
                 <span

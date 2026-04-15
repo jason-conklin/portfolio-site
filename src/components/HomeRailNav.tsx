@@ -8,10 +8,10 @@ type HomeRailNavProps = {
 };
 
 const railLinkClass =
-  "group relative inline-flex items-center pl-5 text-[0.94rem] font-medium uppercase tracking-[0.24em] cinematic-text-quaternary transition-colors duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:[color:var(--cinematic-text-primary)]";
+  "relative inline-flex items-center pl-5 pb-2 text-[0.94rem] font-medium uppercase tracking-[0.24em] cinematic-text-quaternary transition-colors duration-300 ease-out hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:[color:var(--cinematic-text-primary)] after:absolute after:bottom-0 after:left-5 after:right-[-0.3rem] after:h-[1.5px] after:origin-left after:scale-x-0 after:rounded-full after:opacity-0 after:transition-[transform,opacity] after:duration-300 after:ease-out after:[background:linear-gradient(90deg,var(--cinematic-text-primary)_0%,var(--cinematic-text-secondary)_72%,transparent_100%)] hover:after:scale-x-100 hover:after:opacity-100 focus-visible:after:scale-x-100 focus-visible:after:opacity-100";
 
 const railIndicatorClass =
-  "before:absolute before:left-0 before:top-1/2 before:h-px before:-translate-y-1/2 before:bg-[color:var(--cinematic-divider)] before:transition-[width,background-color] before:duration-200";
+  "before:absolute before:left-0 before:top-[0.72rem] before:h-px before:w-0 before:bg-[color:var(--cinematic-divider)] before:transition-[width,background-color,opacity] before:duration-300 before:ease-out before:opacity-0 hover:before:w-8 hover:before:bg-[color:var(--cinematic-border-strong)] hover:before:opacity-100 focus-visible:before:w-8 focus-visible:before:bg-[color:var(--cinematic-border-strong)] focus-visible:before:opacity-100";
 
 export function HomeRailNav({ activeSection }: HomeRailNavProps) {
   return (
@@ -27,8 +27,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "home"
-                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.45rem] before:w-16 before:bg-[color:var(--cinematic-border-strong)]"
-                    : "before:w-0 group-hover:before:w-8 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
+                    ? "[color:var(--cinematic-text-primary)] before:w-10 before:bg-[color:var(--cinematic-text-secondary)] before:opacity-100 after:scale-x-100 after:opacity-100"
+                    : null,
                 )}
               >
                 Home
@@ -40,8 +40,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "works"
-                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.45rem] before:w-16 before:bg-[color:var(--cinematic-border-strong)]"
-                    : "before:w-0 group-hover:before:w-8 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
+                    ? "[color:var(--cinematic-text-primary)] before:w-10 before:bg-[color:var(--cinematic-text-secondary)] before:opacity-100 after:scale-x-100 after:opacity-100"
+                    : null,
                 )}
               >
                 Works
@@ -53,8 +53,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "about"
-                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.45rem] before:w-16 before:bg-[color:var(--cinematic-border-strong)]"
-                    : "before:w-0 group-hover:before:w-8 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
+                    ? "[color:var(--cinematic-text-primary)] before:w-10 before:bg-[color:var(--cinematic-text-secondary)] before:opacity-100 after:scale-x-100 after:opacity-100"
+                    : null,
                 )}
               >
                 About
@@ -66,8 +66,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "contact"
-                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.45rem] before:w-16 before:bg-[color:var(--cinematic-border-strong)]"
-                    : "before:w-0 group-hover:before:w-8 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
+                    ? "[color:var(--cinematic-text-primary)] before:w-10 before:bg-[color:var(--cinematic-text-secondary)] before:opacity-100 after:scale-x-100 after:opacity-100"
+                    : null,
                 )}
               >
                 Contact

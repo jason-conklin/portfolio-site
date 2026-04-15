@@ -162,7 +162,7 @@ function HomePage() {
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
                   animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.06, ease: "easeOut" }}
-                  className="mt-6 text-[clamp(3.15rem,8vw,6.4rem)] font-[300] uppercase leading-[0.9] tracking-[0.13em] cinematic-text-primary sm:tracking-[0.16em] lg:whitespace-nowrap"
+                  className="mt-6 text-[clamp(3.05rem,7.7vw,6.1rem)] font-[300] uppercase leading-[0.9] tracking-[0.09em] cinematic-text-primary sm:tracking-[0.12em] lg:whitespace-nowrap"
                 >
                   {hero.name}
                 </motion.h1>
@@ -173,7 +173,7 @@ function HomePage() {
                   transition={{ duration: 0.68, delay: 0.16, ease: "easeOut" }}
                   className="mt-5"
                 >
-                  <p className="text-[0.95rem] font-normal uppercase tracking-[0.11em] cinematic-text-secondary sm:text-[1rem] lg:whitespace-nowrap">
+                  <p className="text-[0.95rem] font-normal uppercase tracking-[0.08em] cinematic-text-secondary sm:text-[1rem] lg:whitespace-nowrap">
                     {heroLead}
                   </p>
                   <p className="mt-3 text-[0.94rem] leading-6 cinematic-text-tertiary sm:text-[0.98rem] sm:leading-7 lg:whitespace-nowrap">
