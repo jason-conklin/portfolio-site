@@ -4,15 +4,15 @@ import { createPortal } from "react-dom";
 
 const ENABLED_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
 const INTERACTIVE_SELECTOR = "[data-cursor-interactive]";
-const TRAIL_MAX = 4;
-const TRAIL_LIFETIME_MS = 260;
-const TRAIL_SPAWN_INTERVAL_MS = 40;
-const TRAIL_MIN_DISTANCE = 12;
+const TRAIL_MAX = 3;
+const TRAIL_LIFETIME_MS = 220;
+const TRAIL_SPAWN_INTERVAL_MS = 46;
+const TRAIL_MIN_DISTANCE = 14;
 const CURSOR_SIZE = 36;
 const CURSOR_OFFSET = CURSOR_SIZE / 2;
 const TRAIL_SIZE = 24;
 const TRAIL_OFFSET = TRAIL_SIZE / 2;
-const CURSOR_SMOOTHING = 0.46;
+const CURSOR_SMOOTHING = 0.82;
 const TRAIL_EASE_POWER = 1.45;
 const OFFSCREEN_POSITION = -9999;
 
@@ -95,6 +95,7 @@ export function CustomCursor() {
   }, []);
 
   const resetTrailNodes = useCallback(() => {
+    trailIndexRef.current = 0;
     lastTrailSpawnRef.current = { x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION, time: 0 };
     lastTrailSampleRef.current = { x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION, time: 0 };
 
@@ -116,6 +117,7 @@ export function CustomCursor() {
     setVisibleState(false);
     setVariantState("default");
     pointerInitializedRef.current = false;
+    frameTimeRef.current = null;
     targetRef.current = { x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION };
     currentRef.current = { x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION };
     hideCursorNode(cursorPositionRef.current);
@@ -216,7 +218,6 @@ export function CustomCursor() {
         const state = trailStatesRef.current[index];
 
         if (!state.active || !node) {
-          hideTrailNode(node);
           continue;
         }
 
@@ -238,6 +239,11 @@ export function CustomCursor() {
     };
 
     const frame = (now: number) => {
+      if (!pointerInitializedRef.current) {
+        rafIdRef.current = window.requestAnimationFrame(frame);
+        return;
+      }
+
       const previousFrameTime = frameTimeRef.current ?? now - 16.667;
       const deltaMs = Math.min(now - previousFrameTime, 34);
       frameTimeRef.current = now;
@@ -252,8 +258,6 @@ export function CustomCursor() {
 
       if (!prefersReducedMotion && visibleRef.current) {
         updateTrailNodes(deltaMs, now);
-      } else if (prefersReducedMotion || !visibleRef.current) {
-        resetTrailNodes();
       }
 
       rafIdRef.current = window.requestAnimationFrame(frame);
@@ -272,6 +276,12 @@ export function CustomCursor() {
   }, [enabled, prefersReducedMotion, resetTrailNodes]);
 
   useEffect(() => {
+    if (prefersReducedMotion) {
+      resetTrailNodes();
+    }
+  }, [prefersReducedMotion, resetTrailNodes]);
+
+  useEffect(() => {
     if (!enabled || typeof document === "undefined") return;
 
     const syncInteractiveState = (target: EventTarget | null) => {
@@ -284,6 +294,10 @@ export function CustomCursor() {
       const nextX = event.clientX - CURSOR_OFFSET;
       const nextY = event.clientY - CURSOR_OFFSET;
       targetRef.current = { x: nextX, y: nextY };
+
+      if (!visibleRef.current) {
+        setVisibleState(true);
+      }
 
       if (!pointerInitializedRef.current) {
         pointerInitializedRef.current = true;

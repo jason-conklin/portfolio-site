@@ -567,14 +567,18 @@ html {
     position: relative;
     height: 36px;
     width: 36px;
+    border-radius: 9999px;
     will-change: transform, opacity;
+    overflow: visible;
   }
 
   .custom-cursor-ring,
   .custom-cursor-fill {
     position: absolute;
     inset: 0;
-    border-radius: inherit;
+    height: 100%;
+    width: 100%;
+    border-radius: 9999px;
     transition:
       transform 220ms ease,
       opacity 180ms ease,
