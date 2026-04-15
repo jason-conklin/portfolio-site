@@ -20,6 +20,22 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 const STORAGE_KEY = "jc-theme";
+const THEME_META_COLOR: Record<ResolvedTheme, string> = {
+  dark: "#060607",
+  light: "#eef3f9",
+};
+
+function applyResolvedTheme(root: HTMLElement, resolved: ResolvedTheme) {
+  root.classList.remove("light", "dark");
+  root.classList.add(resolved);
+  root.dataset.theme = resolved;
+  root.style.colorScheme = resolved;
+
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  if (themeMeta) {
+    themeMeta.setAttribute("content", THEME_META_COLOR[resolved]);
+  }
+}
 
 function getPreferredTheme(): Theme {
   if (typeof window === "undefined") {
@@ -66,8 +82,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const root = window.document.documentElement;
     const next = getResolvedTheme(theme);
-    root.classList.remove("light", "dark");
-    root.classList.add(next);
+    applyResolvedTheme(root, next);
     setResolvedTheme(next);
 
     if (theme === "system") {
@@ -114,5 +129,5 @@ export function initializeTheme() {
   if (typeof document === "undefined") return;
   const theme = getPreferredTheme();
   const resolved = getResolvedTheme(theme);
-  document.documentElement.classList.add(resolved);
+  applyResolvedTheme(document.documentElement, resolved);
 }

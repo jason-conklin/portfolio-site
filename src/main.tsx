@@ -26,3 +26,9 @@ createRoot(container).render(
     </HelmetProvider>
   </StrictMode>,
 );
+
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    window.dispatchEvent(new Event("jc:app-mounted"));
+  });
+});
