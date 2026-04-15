@@ -5,12 +5,13 @@ import { cn } from "@/lib/utils";
 
 type HomeRailNavProps = {
   activeSection: "home" | "works" | "about" | "contact";
+  onNavigate: (sectionId: "home" | "works" | "about" | "contact") => void;
 };
 
 const railLinkClass =
   "relative inline-flex items-center pl-5 pb-2 text-[0.94rem] font-medium uppercase tracking-[0.24em] cinematic-text-quaternary transition-colors duration-300 ease-out hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:[color:var(--cinematic-text-primary)] after:absolute after:bottom-0 after:left-5 after:right-[-0.3rem] after:h-[1.5px] after:origin-left after:scale-x-0 after:rounded-full after:opacity-0 after:transition-[transform,opacity] after:duration-300 after:ease-out after:[background:linear-gradient(90deg,var(--cinematic-text-primary)_0%,var(--cinematic-text-secondary)_72%,transparent_100%)] hover:after:scale-x-100 hover:after:opacity-100 focus-visible:after:scale-x-100 focus-visible:after:opacity-100";
 
-export function HomeRailNav({ activeSection }: HomeRailNavProps) {
+export function HomeRailNav({ activeSection, onNavigate }: HomeRailNavProps) {
   return (
     <>
       <aside className="pointer-events-none fixed inset-y-0 left-0 z-40 hidden w-[10.5rem] lg:block">
@@ -20,6 +21,10 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
               <a
                 href="#home"
                 data-cursor-interactive="true"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onNavigate("home");
+                }}
                 className={cn(
                   railLinkClass,
                   activeSection === "home"
@@ -32,6 +37,10 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
               <a
                 href="#works"
                 data-cursor-interactive="true"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onNavigate("works");
+                }}
                 className={cn(
                   railLinkClass,
                   activeSection === "works"
@@ -44,6 +53,10 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
               <a
                 href="#about"
                 data-cursor-interactive="true"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onNavigate("about");
+                }}
                 className={cn(
                   railLinkClass,
                   activeSection === "about"
@@ -56,6 +69,10 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
               <a
                 href="#contact"
                 data-cursor-interactive="true"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onNavigate("contact");
+                }}
                 className={cn(
                   railLinkClass,
                   activeSection === "contact"
@@ -101,11 +118,15 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
         </div>
       </aside>
 
-      <nav className="fixed inset-x-4 top-4 z-40 lg:hidden">
+      <nav className="fixed inset-x-4 top-4 z-40 lg:hidden" data-home-mobile-nav="true">
         <div className="cinematic-panel flex items-center justify-center gap-4 rounded-full px-4 py-2.5">
           <a
             href="#home"
             data-cursor-interactive="true"
+            onClick={(event) => {
+              event.preventDefault();
+              onNavigate("home");
+            }}
             className={cn(
               "text-[0.62rem] font-medium uppercase tracking-[0.24em] transition-colors duration-200",
               activeSection === "home"
@@ -118,6 +139,10 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
           <a
             href="#works"
             data-cursor-interactive="true"
+            onClick={(event) => {
+              event.preventDefault();
+              onNavigate("works");
+            }}
             className={cn(
               "text-[0.62rem] font-medium uppercase tracking-[0.24em] transition-colors duration-200",
               activeSection === "works"
@@ -130,6 +155,10 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
           <a
             href="#about"
             data-cursor-interactive="true"
+            onClick={(event) => {
+              event.preventDefault();
+              onNavigate("about");
+            }}
             className={cn(
               "text-[0.62rem] font-medium uppercase tracking-[0.24em] transition-colors duration-200",
               activeSection === "about"
@@ -142,6 +171,10 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
           <a
             href="#contact"
             data-cursor-interactive="true"
+            onClick={(event) => {
+              event.preventDefault();
+              onNavigate("contact");
+            }}
             className={cn(
               "text-[0.62rem] font-medium uppercase tracking-[0.24em] transition-colors duration-200",
               activeSection === "contact"

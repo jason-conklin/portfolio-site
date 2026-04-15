@@ -12,7 +12,7 @@ export function PortfolioContactSection() {
       className="scroll-mt-[var(--section-scroll-offset)] px-6 pb-20 pt-[4.5rem] sm:px-8 sm:pb-24 sm:pt-20 lg:px-14 lg:pb-28 lg:pt-24 lg:pl-[12rem] lg:pr-16 xl:pl-[14rem]"
       aria-labelledby="contact-title"
     >
-      <div className="mx-auto w-full max-w-[92rem]">
+      <div className="mx-auto w-full max-w-[92rem]" data-section-anchor="contact">
         <div className="cinematic-panel-strong relative overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-10">
           <div
             aria-hidden="true"

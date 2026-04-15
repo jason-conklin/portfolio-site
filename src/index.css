@@ -546,7 +546,7 @@ html {
     opacity: 1;
   }
 
-  .custom-cursor-core,
+  .custom-cursor-positioner,
   .custom-cursor-trail {
     position: fixed;
     left: 0;
@@ -554,11 +554,20 @@ html {
     border-radius: 9999px;
     will-change: transform, opacity;
     pointer-events: none;
+    backface-visibility: hidden;
+  }
+
+  .custom-cursor-positioner {
+    height: 36px;
+    width: 36px;
+    transform: translate3d(-9999px, -9999px, 0);
   }
 
   .custom-cursor-core {
+    position: relative;
     height: 36px;
     width: 36px;
+    will-change: transform, opacity;
   }
 
   .custom-cursor-ring,

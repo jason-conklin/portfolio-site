@@ -28,6 +28,29 @@ function HomePage() {
   const [activeSection, setActiveSection] = useState<HomeSectionId>("home");
   const openedProjectRef = useRef<string | null>(null);
 
+  const scrollToSection = useCallback((sectionId: HomeSectionId) => {
+    const anchorTarget =
+      document.querySelector<HTMLElement>(`[data-section-anchor="${sectionId}"]`) ??
+      document.getElementById(sectionId);
+
+    if (!anchorTarget) return;
+
+    const mobileNav = document.querySelector<HTMLElement>("[data-home-mobile-nav='true']");
+    const mobileNavVisible =
+      mobileNav && window.getComputedStyle(mobileNav).display !== "none";
+    const offset = mobileNavVisible
+      ? mobileNav.getBoundingClientRect().bottom + 12
+      : window.innerWidth >= 1024
+        ? 20
+        : 72;
+
+    const nextTop = anchorTarget.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({
+      top: Math.max(0, nextTop),
+      behavior: "smooth",
+    });
+  }, []);
+
   const openProjectCaseStudy = useCallback((slug?: string) => {
     if (!slug) return;
 
@@ -119,7 +142,7 @@ function HomePage() {
       <PageSEO path="/" />
       <div className="home-cinematic-page cinematic-page relative isolate overflow-hidden">
         <CinematicEnergyBackground />
-        <HomeRailNav activeSection={activeSection} />
+        <HomeRailNav activeSection={activeSection} onNavigate={scrollToSection} />
 
         <div
           className="pointer-events-none fixed inset-x-0 top-0 z-30 hidden h-28 lg:block"
@@ -151,7 +174,10 @@ function HomePage() {
             id="home"
             className="scroll-mt-[var(--section-scroll-offset)] px-6 pb-8 pt-20 sm:px-8 sm:pb-10 sm:pt-22 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:px-14 lg:pb-6 lg:pl-[12rem] lg:pr-16 lg:pt-4 xl:pl-[14rem]"
           >
-            <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-4 sm:gap-5 lg:flex-1 lg:justify-center lg:gap-4">
+            <div
+              className="mx-auto flex w-full max-w-[92rem] flex-col gap-4 sm:gap-5 lg:flex-1 lg:justify-center lg:gap-4"
+              data-section-anchor="home"
+            >
               <motion.div
                 initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
                 animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
@@ -200,7 +226,14 @@ function HomePage() {
                     asChild
                     className="cinematic-btn-primary h-9 min-h-9 rounded-full px-4 text-[0.88rem] font-medium hover:-translate-y-px"
                   >
-                    <a href="#works" className="inline-flex items-center gap-2 whitespace-nowrap">
+                    <a
+                      href="#works"
+                      className="inline-flex items-center gap-2 whitespace-nowrap"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        scrollToSection("works");
+                      }}
+                    >
                       <LayoutGrid className="h-4 w-4" aria-hidden="true" />
                       View Works
                     </a>
@@ -211,7 +244,14 @@ function HomePage() {
                     variant="ghost"
                     className="cinematic-btn-ghost h-9 min-h-9 rounded-full px-4 text-[0.88rem] font-medium hover:-translate-y-px"
                   >
-                    <a href="#contact" className="inline-flex items-center gap-2 whitespace-nowrap">
+                    <a
+                      href="#contact"
+                      className="inline-flex items-center gap-2 whitespace-nowrap"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        scrollToSection("contact");
+                      }}
+                    >
                       <Mail className="h-4 w-4" aria-hidden="true" />
                       Get in Touch
                     </a>

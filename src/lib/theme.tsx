@@ -23,7 +23,7 @@ const STORAGE_KEY = "jc-theme";
 
 function getPreferredTheme(): Theme {
   if (typeof window === "undefined") {
-    return "system";
+    return "dark";
   }
 
   const stored = window.localStorage.getItem(STORAGE_KEY);
@@ -31,7 +31,7 @@ function getPreferredTheme(): Theme {
     return stored;
   }
 
-  return "system";
+  return "dark";
 }
 
 function getResolvedTheme(theme: Theme): ResolvedTheme {
@@ -41,7 +41,7 @@ function getResolvedTheme(theme: Theme): ResolvedTheme {
         ? "dark"
         : "light";
     }
-    return "light";
+    return "dark";
   }
   return theme;
 }

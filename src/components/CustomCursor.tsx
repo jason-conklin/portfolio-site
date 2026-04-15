@@ -1,29 +1,56 @@
-import { motion, useMotionValue, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 const ENABLED_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
 const INTERACTIVE_SELECTOR = "[data-cursor-interactive]";
 const TRAIL_MAX = 4;
-const TRAIL_LIFETIME_MS = 280;
-const TRAIL_SPAWN_INTERVAL_MS = 42;
-const TRAIL_MIN_DISTANCE = 14;
+const TRAIL_LIFETIME_MS = 260;
+const TRAIL_SPAWN_INTERVAL_MS = 40;
+const TRAIL_MIN_DISTANCE = 12;
 const CURSOR_SIZE = 36;
 const CURSOR_OFFSET = CURSOR_SIZE / 2;
 const TRAIL_SIZE = 24;
 const TRAIL_OFFSET = TRAIL_SIZE / 2;
+const CURSOR_SMOOTHING = 0.46;
+const TRAIL_EASE_POWER = 1.45;
+const OFFSCREEN_POSITION = -9999;
 
 type CursorVariant = "default" | "hover";
 type DisplayVariant = CursorVariant | "hidden";
+
+type TrailState = {
+  x: number;
+  y: number;
+  life: number;
+  duration: number;
+  startOpacity: number;
+  startScale: number;
+  endScale: number;
+  active: boolean;
+};
 
 function getInteractiveTarget(target: EventTarget | null) {
   return target instanceof Element ? target.closest(INTERACTIVE_SELECTOR) : null;
 }
 
+function getFrameAlpha(deltaMs: number) {
+  return 1 - Math.pow(1 - CURSOR_SMOOTHING, deltaMs / 16.667);
+}
+
+function hideTrailNode(node: HTMLSpanElement | null) {
+  if (!node) return;
+  node.style.opacity = "0";
+  node.style.transform = `translate3d(${OFFSCREEN_POSITION}px, ${OFFSCREEN_POSITION}px, 0) scale(0.82)`;
+}
+
+function hideCursorNode(node: HTMLDivElement | null) {
+  if (!node) return;
+  node.style.transform = `translate3d(${OFFSCREEN_POSITION}px, ${OFFSCREEN_POSITION}px, 0)`;
+}
+
 export function CustomCursor() {
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const cursorX = useMotionValue(-CURSOR_SIZE * 2);
-  const cursorY = useMotionValue(-CURSOR_SIZE * 2);
 
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -32,19 +59,68 @@ export function CustomCursor() {
 
   const visibleRef = useRef(false);
   const variantRef = useRef<CursorVariant>("default");
+  const pointerInitializedRef = useRef(false);
+  const cursorPositionRef = useRef<HTMLDivElement | null>(null);
   const trailRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const rafIdRef = useRef<number | null>(null);
+  const frameTimeRef = useRef<number | null>(null);
+  const targetRef = useRef({ x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION });
+  const currentRef = useRef({ x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION });
   const trailIndexRef = useRef(0);
-  const lastSpawnRef = useRef({ x: -100, y: -100, time: 0 });
-  const lastMoveTimeRef = useRef(0);
+  const lastTrailSpawnRef = useRef({ x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION, time: 0 });
+  const lastTrailSampleRef = useRef({ x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION, time: 0 });
+  const trailStatesRef = useRef<TrailState[]>(
+    Array.from({ length: TRAIL_MAX }, () => ({
+      x: OFFSCREEN_POSITION,
+      y: OFFSCREEN_POSITION,
+      life: 0,
+      duration: TRAIL_LIFETIME_MS,
+      startOpacity: 0,
+      startScale: 0.82,
+      endScale: 1,
+      active: false,
+    })),
+  );
 
-  const resetTrailNodes = () => {
-    for (const node of trailRefs.current) {
-      if (!node) continue;
-      node.getAnimations().forEach((animation) => animation.cancel());
-      node.style.opacity = "0";
-      node.style.transform = "translate3d(-9999px, -9999px, 0) scale(0.8)";
+  const setVisibleState = useCallback((nextVisible: boolean) => {
+    if (visibleRef.current === nextVisible) return;
+    visibleRef.current = nextVisible;
+    setVisible(nextVisible);
+  }, []);
+
+  const setVariantState = useCallback((nextVariant: CursorVariant) => {
+    if (variantRef.current === nextVariant) return;
+    variantRef.current = nextVariant;
+    setVariant(nextVariant);
+  }, []);
+
+  const resetTrailNodes = useCallback(() => {
+    lastTrailSpawnRef.current = { x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION, time: 0 };
+    lastTrailSampleRef.current = { x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION, time: 0 };
+
+    for (let index = 0; index < TRAIL_MAX; index += 1) {
+      const state = trailStatesRef.current[index];
+      state.x = OFFSCREEN_POSITION;
+      state.y = OFFSCREEN_POSITION;
+      state.life = 0;
+      state.duration = TRAIL_LIFETIME_MS;
+      state.startOpacity = 0;
+      state.startScale = 0.82;
+      state.endScale = 1;
+      state.active = false;
+      hideTrailNode(trailRefs.current[index]);
     }
-  };
+  }, []);
+
+  const hideCursor = useCallback(() => {
+    setVisibleState(false);
+    setVariantState("default");
+    pointerInitializedRef.current = false;
+    targetRef.current = { x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION };
+    currentRef.current = { x: OFFSCREEN_POSITION, y: OFFSCREEN_POSITION };
+    hideCursorNode(cursorPositionRef.current);
+    resetTrailNodes();
+  }, [resetTrailNodes, setVariantState, setVisibleState]);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -70,133 +146,162 @@ export function CustomCursor() {
       root.classList.add("has-custom-cursor");
     } else {
       root.classList.remove("has-custom-cursor");
-      visibleRef.current = false;
-      variantRef.current = "default";
-      setVisible(false);
-      setVariant("default");
-      resetTrailNodes();
+      hideCursor();
     }
 
     return () => {
       root.classList.remove("has-custom-cursor");
     };
-  }, [enabled]);
+  }, [enabled, hideCursor]);
 
   useEffect(() => {
-    visibleRef.current = visible;
-  }, [visible]);
+    if (!enabled) return;
 
-  useEffect(() => {
-    variantRef.current = variant;
-  }, [variant]);
+    const spawnTrail = (x: number, y: number, now: number, speedFactor: number) => {
+      const index = trailIndexRef.current % TRAIL_MAX;
+      trailIndexRef.current += 1;
 
-  useEffect(() => {
-    return () => resetTrailNodes();
-  }, []);
+      const state = trailStatesRef.current[index];
+      const startOpacity = 0.12 + speedFactor * 0.14;
+      const startScale = 0.84 + speedFactor * 0.08;
 
-  useEffect(() => {
-    if (!enabled || typeof window === "undefined") return;
+      state.x = x;
+      state.y = y;
+      state.life = TRAIL_LIFETIME_MS;
+      state.duration = TRAIL_LIFETIME_MS;
+      state.startOpacity = startOpacity;
+      state.startScale = startScale;
+      state.endScale = startScale + 0.2;
+      state.active = true;
 
-    const setVisibleState = (nextVisible: boolean) => {
-      if (visibleRef.current === nextVisible) return;
-      visibleRef.current = nextVisible;
-      setVisible(nextVisible);
+      const node = trailRefs.current[index];
+      if (node) {
+        node.style.opacity = startOpacity.toFixed(3);
+        node.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${startScale.toFixed(3)})`;
+      }
+
+      lastTrailSpawnRef.current = { x, y, time: now };
     };
 
-    const setVariantState = (nextVariant: CursorVariant) => {
-      if (variantRef.current === nextVariant) return;
-      variantRef.current = nextVariant;
-      setVariant(nextVariant);
+    const updateTrailNodes = (deltaMs: number, now: number) => {
+      const cursorCenterX = currentRef.current.x + CURSOR_OFFSET - TRAIL_OFFSET;
+      const cursorCenterY = currentRef.current.y + CURSOR_OFFSET - TRAIL_OFFSET;
+
+      const lastSample = lastTrailSampleRef.current;
+      const distanceSinceSample =
+        lastSample.time <= 0
+          ? 0
+          : Math.hypot(cursorCenterX - lastSample.x, cursorCenterY - lastSample.y);
+      const speedFactor =
+        lastSample.time <= 0
+          ? 0
+          : Math.min(distanceSinceSample / Math.max(deltaMs, 1) / 0.8, 1);
+
+      if (
+        pointerInitializedRef.current &&
+        visibleRef.current &&
+        Math.hypot(
+          cursorCenterX - lastTrailSpawnRef.current.x,
+          cursorCenterY - lastTrailSpawnRef.current.y,
+        ) >= TRAIL_MIN_DISTANCE &&
+        now - lastTrailSpawnRef.current.time >= TRAIL_SPAWN_INTERVAL_MS
+      ) {
+        spawnTrail(cursorCenterX, cursorCenterY, now, speedFactor);
+      }
+
+      lastTrailSampleRef.current = { x: cursorCenterX, y: cursorCenterY, time: now };
+
+      for (let index = 0; index < TRAIL_MAX; index += 1) {
+        const node = trailRefs.current[index];
+        const state = trailStatesRef.current[index];
+
+        if (!state.active || !node) {
+          hideTrailNode(node);
+          continue;
+        }
+
+        state.life = Math.max(0, state.life - deltaMs);
+
+        if (state.life <= 0) {
+          state.active = false;
+          hideTrailNode(node);
+          continue;
+        }
+
+        const progress = 1 - state.life / state.duration;
+        const opacity = state.startOpacity * Math.pow(1 - progress, TRAIL_EASE_POWER);
+        const scale = state.startScale + (state.endScale - state.startScale) * progress;
+
+        node.style.opacity = opacity.toFixed(3);
+        node.style.transform = `translate3d(${state.x}px, ${state.y}px, 0) scale(${scale.toFixed(3)})`;
+      }
     };
 
-    const hideCursor = () => {
-      setVisibleState(false);
-      setVariantState("default");
+    const frame = (now: number) => {
+      const previousFrameTime = frameTimeRef.current ?? now - 16.667;
+      const deltaMs = Math.min(now - previousFrameTime, 34);
+      frameTimeRef.current = now;
+
+      const alpha = getFrameAlpha(deltaMs);
+      currentRef.current.x += (targetRef.current.x - currentRef.current.x) * alpha;
+      currentRef.current.y += (targetRef.current.y - currentRef.current.y) * alpha;
+
+      if (cursorPositionRef.current) {
+        cursorPositionRef.current.style.transform = `translate3d(${currentRef.current.x}px, ${currentRef.current.y}px, 0)`;
+      }
+
+      if (!prefersReducedMotion && visibleRef.current) {
+        updateTrailNodes(deltaMs, now);
+      } else if (prefersReducedMotion || !visibleRef.current) {
+        resetTrailNodes();
+      }
+
+      rafIdRef.current = window.requestAnimationFrame(frame);
+    };
+
+    rafIdRef.current = window.requestAnimationFrame(frame);
+
+    return () => {
+      if (rafIdRef.current !== null) {
+        window.cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+      frameTimeRef.current = null;
       resetTrailNodes();
     };
+  }, [enabled, prefersReducedMotion, resetTrailNodes]);
+
+  useEffect(() => {
+    if (!enabled || typeof document === "undefined") return;
 
     const syncInteractiveState = (target: EventTarget | null) => {
       setVariantState(getInteractiveTarget(target) ? "hover" : "default");
     };
 
-    const spawnTrail = (x: number, y: number, speedFactor: number) => {
-      const node = trailRefs.current[trailIndexRef.current % TRAIL_MAX];
-      trailIndexRef.current += 1;
-      if (!node) return;
-
-      node.getAnimations().forEach((animation) => animation.cancel());
-
-      const startOpacity = 0.2 + speedFactor * 0.16;
-      const startScale = 0.84 + speedFactor * 0.16;
-      const endScale = startScale + 0.22;
-      const translate = `translate3d(${x}px, ${y}px, 0)`;
-
-      node.style.opacity = "0";
-      node.style.transform = `${translate} scale(${startScale})`;
-
-      node.animate(
-        [
-          {
-            opacity: startOpacity,
-            transform: `${translate} scale(${startScale})`,
-          },
-          {
-            opacity: 0,
-            transform: `${translate} scale(${endScale})`,
-          },
-        ],
-        {
-          duration: TRAIL_LIFETIME_MS,
-          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-          fill: "forwards",
-        },
-      );
-    };
-
     const handlePointerMove = (event: PointerEvent) => {
       if (event.pointerType && event.pointerType !== "mouse") return;
 
-      const cursorLeft = event.clientX - CURSOR_OFFSET;
-      const cursorTop = event.clientY - CURSOR_OFFSET;
-      cursorX.set(cursorLeft);
-      cursorY.set(cursorTop);
+      const nextX = event.clientX - CURSOR_OFFSET;
+      const nextY = event.clientY - CURSOR_OFFSET;
+      targetRef.current = { x: nextX, y: nextY };
 
-      if (!visibleRef.current) {
-        setVisibleState(true);
+      if (!pointerInitializedRef.current) {
+        pointerInitializedRef.current = true;
+        currentRef.current = { x: nextX, y: nextY };
+        if (cursorPositionRef.current) {
+          cursorPositionRef.current.style.transform = `translate3d(${nextX}px, ${nextY}px, 0)`;
+        }
+
+        const trailX = event.clientX - TRAIL_OFFSET;
+        const trailY = event.clientY - TRAIL_OFFSET;
+        lastTrailSpawnRef.current = { x: trailX, y: trailY, time: event.timeStamp };
+        lastTrailSampleRef.current = { x: trailX, y: trailY, time: event.timeStamp };
       }
-
-      syncInteractiveState(event.target);
-
-      if (prefersReducedMotion) {
-        lastMoveTimeRef.current = event.timeStamp;
-        return;
-      }
-
-      const trailLeft = event.clientX - TRAIL_OFFSET;
-      const trailTop = event.clientY - TRAIL_OFFSET;
-      const distance = Math.hypot(
-        trailLeft - lastSpawnRef.current.x,
-        trailTop - lastSpawnRef.current.y,
-      );
-      const deltaTime = Math.max(event.timeStamp - lastMoveTimeRef.current, 1);
-      const speedFactor = Math.min(distance / deltaTime / 0.75, 1);
-
-      if (
-        distance >= TRAIL_MIN_DISTANCE &&
-        event.timeStamp - lastSpawnRef.current.time >= TRAIL_SPAWN_INTERVAL_MS
-      ) {
-        spawnTrail(trailLeft, trailTop, speedFactor);
-        lastSpawnRef.current = { x: trailLeft, y: trailTop, time: event.timeStamp };
-      }
-
-      lastMoveTimeRef.current = event.timeStamp;
     };
 
     const handlePointerOver = (event: PointerEvent) => {
       if (event.pointerType && event.pointerType !== "mouse") return;
-      if (!visibleRef.current) {
-        setVisibleState(true);
-      }
+      setVisibleState(true);
       syncInteractiveState(event.target);
     };
 
@@ -237,63 +342,71 @@ export function CustomCursor() {
       document.documentElement.removeEventListener("mouseleave", hideCursor);
       window.removeEventListener("blur", hideCursor);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      resetTrailNodes();
     };
-  }, [cursorX, cursorY, enabled, prefersReducedMotion]);
+  }, [enabled, hideCursor, setVariantState, setVisibleState]);
 
-  if (!enabled) {
+  if (!enabled || !portalTarget) {
     return null;
   }
 
   const displayVariant: DisplayVariant = visible ? variant : "hidden";
-  if (!portalTarget) {
-    return null;
-  }
 
   return createPortal(
     <div aria-hidden="true" className="custom-cursor-layer" data-visible={visible ? "true" : "false"}>
-      {!prefersReducedMotion ? (
-        Array.from({ length: TRAIL_MAX }).map((_, index) => (
-          <span
-            key={index}
-            ref={(node) => {
-              trailRefs.current[index] = node;
-            }}
-            className="custom-cursor-trail"
-          />
-        ))
-      ) : null}
+      {!prefersReducedMotion
+        ? Array.from({ length: TRAIL_MAX }).map((_, index) => (
+            <span
+              key={index}
+              ref={(node) => {
+                trailRefs.current[index] = node;
+              }}
+              className="custom-cursor-trail"
+            />
+          ))
+        : null}
 
-      <motion.div
-        className="custom-cursor-core"
-        style={{ x: cursorX, y: cursorY }}
-        animate={visible ? "visible" : "hidden"}
-        variants={{
-          hidden: { opacity: 0, scale: 0.72 },
-          visible: { opacity: 1, scale: 1, transition: { duration: 0.14, ease: [0.16, 1, 0.3, 1] } },
-        }}
-      >
-        <motion.span
-          className="custom-cursor-fill"
-          data-variant={displayVariant}
-          animate={displayVariant}
+      <div ref={cursorPositionRef} className="custom-cursor-positioner">
+        <motion.div
+          className="custom-cursor-core"
+          initial={false}
+          animate={visible ? "visible" : "hidden"}
           variants={{
-            hidden: { opacity: 0, scale: 0.38 },
-            default: { opacity: 0, scale: 0.5, transition: { duration: 0.16, ease: "easeOut" } },
-            hover: { opacity: 1, scale: 1.05, transition: { duration: 0.18, ease: [0.16, 1, 0.3, 1] } },
+            hidden: {
+              opacity: 0,
+              scale: 0.72,
+              transition: { duration: 0.12, ease: [0.16, 1, 0.3, 1] },
+            },
+            visible: {
+              opacity: 1,
+              scale: 1,
+              transition: { duration: 0.14, ease: [0.16, 1, 0.3, 1] },
+            },
           }}
-        />
-        <motion.span
-          className="custom-cursor-ring"
-          data-variant={displayVariant}
-          animate={displayVariant}
-          variants={{
-            hidden: { opacity: 0, scale: 0.62 },
-            default: { opacity: 1, scale: 1, transition: { duration: 0.16, ease: "easeOut" } },
-            hover: { opacity: 1, scale: 1.62, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } },
-          }}
-        />
-      </motion.div>
+        >
+          <motion.span
+            className="custom-cursor-fill"
+            data-variant={displayVariant}
+            initial={false}
+            animate={displayVariant}
+            variants={{
+              hidden: { opacity: 0, scale: 0.38 },
+              default: { opacity: 0, scale: 0.5, transition: { duration: 0.16, ease: "easeOut" } },
+              hover: { opacity: 1, scale: 1.05, transition: { duration: 0.18, ease: [0.16, 1, 0.3, 1] } },
+            }}
+          />
+          <motion.span
+            className="custom-cursor-ring"
+            data-variant={displayVariant}
+            initial={false}
+            animate={displayVariant}
+            variants={{
+              hidden: { opacity: 0, scale: 0.62 },
+              default: { opacity: 1, scale: 1, transition: { duration: 0.16, ease: "easeOut" } },
+              hover: { opacity: 1, scale: 1.62, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } },
+            }}
+          />
+        </motion.div>
+      </div>
     </div>,
     portalTarget,
   );

@@ -18,7 +18,7 @@ export function PortfolioWorksSection({
       className="scroll-mt-[var(--section-scroll-offset)] px-6 pb-[4.5rem] pt-8 sm:px-8 sm:pb-20 sm:pt-10 lg:px-14 lg:pb-24 lg:pl-[12rem] lg:pr-16 lg:pt-12 xl:pl-[14rem]"
       aria-labelledby="works-title"
     >
-      <div className="mx-auto w-full max-w-[92rem]">
+      <div className="mx-auto w-full max-w-[92rem]" data-section-anchor="works">
         <div className="cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-8 sm:px-7 sm:py-10 lg:px-10 lg:py-12">
           <div
             aria-hidden="true"

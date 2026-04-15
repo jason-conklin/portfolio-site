@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { ArrowUpRight, MapPin } from "lucide-react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import aboutPic1 from "@/assets/about-pic1.jpg";
@@ -75,9 +75,26 @@ export function PortfolioAboutSection() {
     target: sectionRef,
     offset: ["start end", "end start"],
   });
-  const primaryImageY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [-12, 12]);
-  const secondaryImageY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [14, -10]);
-  const secondaryImageX = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [-6, 8]);
+  const smoothScrollProgress = useSpring(scrollYProgress, {
+    stiffness: 72,
+    damping: 20,
+    mass: 0.55,
+  });
+  const primaryImageInnerY = useTransform(
+    smoothScrollProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [-56, 56],
+  );
+  const secondaryImageY = useTransform(
+    smoothScrollProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [18, -14],
+  );
+  const secondaryImageX = useTransform(
+    smoothScrollProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [-8, 10],
+  );
 
   return (
     <section
@@ -86,7 +103,7 @@ export function PortfolioAboutSection() {
       className="scroll-mt-[var(--section-scroll-offset)] px-6 py-16 sm:px-8 sm:py-20 lg:px-14 lg:py-22 lg:pl-[12rem] lg:pr-16 xl:pl-[14rem]"
       aria-labelledby="about-title"
     >
-      <div className="mx-auto w-full max-w-[92rem]">
+      <div className="mx-auto w-full max-w-[92rem]" data-section-anchor="about">
         <div className="grid grid-rows-[auto_auto] gap-6 lg:gap-8">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.02fr)_minmax(26rem,0.98fr)] lg:items-center lg:gap-10 xl:gap-12">
             <motion.div
@@ -110,15 +127,15 @@ export function PortfolioAboutSection() {
                   className="cinematic-divider pointer-events-none absolute inset-x-0 top-0 h-px"
                 />
 
-                <div className="relative min-h-[29rem] sm:min-h-[34rem] lg:min-h-[37rem]">
+                <div className="relative min-h-[31rem] sm:min-h-[36rem] lg:min-h-[39rem]">
                   <motion.div
-                    style={prefersReducedMotion ? undefined : { y: primaryImageY }}
-                    className="relative ml-auto h-[24rem] w-[92%] overflow-hidden rounded-[1.75rem] border border-[color:var(--cinematic-border)] bg-[color:var(--cinematic-surface-deep)] shadow-[var(--cinematic-shadow-strong)] sm:h-[28rem] sm:w-[91%] lg:h-[32rem] lg:w-[90%]"
+                    className="relative ml-auto h-[26rem] w-[92%] overflow-hidden rounded-[1.75rem] border border-[color:var(--cinematic-border)] bg-[color:var(--cinematic-surface-deep)] shadow-[var(--cinematic-shadow-strong)] sm:h-[31rem] sm:w-[91%] lg:h-[35rem] lg:w-[90%]"
                   >
-                    <img
+                    <motion.img
                       src={aboutPic2}
                       alt={`${hero.name} after graduating college`}
-                      className="h-full w-full object-cover"
+                      style={prefersReducedMotion ? undefined : { y: primaryImageInnerY }}
+                      className="absolute inset-x-0 top-[-12%] h-[126%] w-full object-cover object-[center_18%] will-change-transform"
                       loading="lazy"
                     />
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/58 via-black/16 to-transparent p-4 sm:p-5" />
