@@ -24,10 +24,10 @@ const NATIVE_CURSOR_SELECTOR = [
   ".cursor-zoom-out",
 ].join(",");
 
-const GHOST_COUNT = 6;
-const GHOST_LIFETIME_MS = 260;
-const GHOST_SPAWN_INTERVAL_MS = 34;
-const MOVEMENT_THRESHOLD = 10;
+const GHOST_COUNT = 8;
+const GHOST_LIFETIME_MS = 420;
+const GHOST_SPAWN_INTERVAL_MS = 18;
+const MOVEMENT_THRESHOLD = 3;
 const FOLLOW_EASING = 0.2;
 
 type GhostPoint = {
@@ -189,8 +189,8 @@ export function CustomCursor() {
             return;
           }
 
-          const opacity = (1 - progress) * 0.4;
-          const scale = 0.6 + progress * 0.75;
+          const opacity = (1 - progress) * 0.72;
+          const scale = 0.72 + progress * 0.92;
 
           node.style.opacity = opacity.toFixed(3);
           node.style.transform = `translate3d(${ghost.x}px, ${ghost.y}px, 0) translate(-50%, -50%) scale(${scale.toFixed(3)})`;

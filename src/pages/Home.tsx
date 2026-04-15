@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { PageSEO } from "@/app/seo";
 import { CinematicEnergyBackground } from "@/components/CinematicEnergyBackground";
 import { HomeRailNav } from "@/components/HomeRailNav";
+import { LiveDeploymentsStage } from "@/components/LiveDeploymentsStage";
 import { PortfolioAboutSection } from "@/components/PortfolioAboutSection";
 import { PortfolioContactSection } from "@/components/PortfolioContactSection";
 import { PortfolioWorksSection } from "@/components/PortfolioWorksSection";
@@ -139,9 +140,9 @@ function HomePage() {
         <main className="relative z-10">
           <section
             id="home"
-            className="scroll-mt-24 px-6 pb-16 pt-24 sm:px-8 lg:min-h-[100svh] lg:px-14 lg:pb-20 lg:pl-[12rem] lg:pr-16 lg:pt-10 xl:pl-[14rem]"
+            className="scroll-mt-24 px-6 pb-14 pt-24 sm:px-8 lg:px-14 lg:pb-16 lg:pl-[12rem] lg:pr-16 lg:pt-10 xl:pl-[14rem]"
           >
-            <div className="mx-auto flex w-full max-w-[92rem] lg:min-h-[calc(100svh-4rem)] lg:items-center">
+            <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-10 lg:gap-12">
               <motion.div
                 initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
                 animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
@@ -225,14 +226,37 @@ function HomePage() {
                   </Button>
                 </motion.div>
               </motion.div>
+
+              <div
+                id="works"
+                className="scroll-mt-24 cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-7 sm:px-7 sm:py-9 lg:px-10 lg:py-10"
+              >
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 8% 0%, var(--cinematic-band-accent-a), transparent 22%), radial-gradient(circle at 100% 100%, var(--cinematic-band-accent-b), transparent 28%)",
+                  }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="cinematic-divider pointer-events-none absolute inset-x-0 top-0 h-px"
+                />
+
+                <div className="relative z-10">
+                  <LiveDeploymentsStage
+                    projects={liveProjects}
+                    onOpenProject={openProjectCaseStudy}
+                    prefersReducedMotion={prefersReducedMotion}
+                  />
+                </div>
+              </div>
             </div>
           </section>
 
           <PortfolioWorksSection
-            liveProjects={liveProjects}
             projects={projects}
-            onOpenProject={openProjectCaseStudy}
-            prefersReducedMotion={prefersReducedMotion}
           />
           <PortfolioAboutSection />
           <PortfolioContactSection />

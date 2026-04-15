@@ -1,39 +1,20 @@
 import type { ComponentProps } from "react";
 import { BriefcaseBusiness } from "lucide-react";
 
-import { LiveDeploymentsStage } from "@/components/LiveDeploymentsStage";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
-
-type LiveProject = {
-  name: string;
-  blurb: string;
-  liveUrl: string;
-  slug: string;
-  icon?: string;
-};
 
 type Project = ComponentProps<typeof ProjectsGrid>["projects"][number];
 
 type PortfolioWorksSectionProps = {
-  liveProjects: readonly LiveProject[];
   projects: readonly Project[];
-  onOpenProject: (slug?: string) => void;
-  prefersReducedMotion: boolean;
 };
 
 export function PortfolioWorksSection({
-  liveProjects,
   projects,
-  onOpenProject,
-  prefersReducedMotion,
 }: PortfolioWorksSectionProps) {
-  const featuredLiveSlugs = new Set(liveProjects.map((project) => project.slug));
-  const projectIndex = projects.filter((project) => !featuredLiveSlugs.has(project.slug));
-
   return (
     <section
-      id="works"
-      className="scroll-mt-24 px-6 py-[4.5rem] sm:px-8 sm:py-20 lg:px-14 lg:py-24 lg:pl-[12rem] lg:pr-16 xl:pl-[14rem]"
+      className="px-6 pb-[4.5rem] pt-8 sm:px-8 sm:pb-20 sm:pt-10 lg:px-14 lg:pb-24 lg:pl-[12rem] lg:pr-16 lg:pt-12 xl:pl-[14rem]"
       aria-labelledby="works-title"
     >
       <div className="mx-auto w-full max-w-[92rem]">
@@ -58,23 +39,15 @@ export function PortfolioWorksSection({
                 id="works-title"
                 className="mt-5 text-[clamp(2.1rem,4vw,3.6rem)] font-light tracking-[0.01em] cinematic-text-primary"
               >
-                Production systems, AI tooling, and full-stack product builds.
+                Full project index across infrastructure, product engineering, and applied AI.
               </h2>
               <p className="mt-4 max-w-2xl text-[1rem] leading-7 cinematic-text-tertiary">
-                Featured deployments sit up front; the full index below stays compact and recruiter-friendly
+                The live deployment band now sits in the hero. This section stays compact and scan-friendly
                 while preserving deeper detail in the project modal.
               </p>
             </header>
 
-            <div className="mt-10">
-              <LiveDeploymentsStage
-                projects={liveProjects}
-                onOpenProject={onOpenProject}
-                prefersReducedMotion={prefersReducedMotion}
-              />
-            </div>
-
-            <div className="mt-14 border-t pt-10" style={{ borderColor: "var(--cinematic-border)" }}>
+            <div className="mt-10 border-t pt-10" style={{ borderColor: "var(--cinematic-border)" }}>
               <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                 <div>
                   <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] cinematic-text-quaternary">
@@ -88,15 +61,12 @@ export function PortfolioWorksSection({
                   <span className="cinematic-chip rounded-full px-3 py-1.5">
                     {projects.length} total projects
                   </span>
-                  <span className="cinematic-chip rounded-full px-3 py-1.5">
-                    {projectIndex.length} indexed below
-                  </span>
                 </div>
               </div>
 
               <div className="mt-8">
                 <ProjectsGrid
-                  projects={projectIndex}
+                  projects={projects}
                   variant="compact"
                   className="items-stretch"
                 />
