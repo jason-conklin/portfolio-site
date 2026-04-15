@@ -10,9 +10,6 @@ type HomeRailNavProps = {
 const railLinkClass =
   "relative inline-flex items-center pl-5 pb-2 text-[0.94rem] font-medium uppercase tracking-[0.24em] cinematic-text-quaternary transition-colors duration-300 ease-out hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:[color:var(--cinematic-text-primary)] after:absolute after:bottom-0 after:left-5 after:right-[-0.3rem] after:h-[1.5px] after:origin-left after:scale-x-0 after:rounded-full after:opacity-0 after:transition-[transform,opacity] after:duration-300 after:ease-out after:[background:linear-gradient(90deg,var(--cinematic-text-primary)_0%,var(--cinematic-text-secondary)_72%,transparent_100%)] hover:after:scale-x-100 hover:after:opacity-100 focus-visible:after:scale-x-100 focus-visible:after:opacity-100";
 
-const railIndicatorClass =
-  "before:absolute before:left-0 before:top-[0.72rem] before:h-px before:w-0 before:bg-[color:var(--cinematic-divider)] before:transition-[width,background-color,opacity] before:duration-300 before:ease-out before:opacity-0 hover:before:w-8 hover:before:bg-[color:var(--cinematic-border-strong)] hover:before:opacity-100 focus-visible:before:w-8 focus-visible:before:bg-[color:var(--cinematic-border-strong)] focus-visible:before:opacity-100";
-
 export function HomeRailNav({ activeSection }: HomeRailNavProps) {
   return (
     <>
@@ -25,9 +22,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                 data-cursor-interactive="true"
                 className={cn(
                   railLinkClass,
-                  railIndicatorClass,
                   activeSection === "home"
-                    ? "[color:var(--cinematic-text-primary)] before:w-0 before:opacity-0 after:scale-x-100 after:opacity-100"
+                    ? "[color:var(--cinematic-text-primary)] after:scale-x-100 after:opacity-100"
                     : null,
                 )}
               >
@@ -38,9 +34,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                 data-cursor-interactive="true"
                 className={cn(
                   railLinkClass,
-                  railIndicatorClass,
                   activeSection === "works"
-                    ? "[color:var(--cinematic-text-primary)] before:w-0 before:opacity-0 after:scale-x-100 after:opacity-100"
+                    ? "[color:var(--cinematic-text-primary)] after:scale-x-100 after:opacity-100"
                     : null,
                 )}
               >
@@ -51,9 +46,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                 data-cursor-interactive="true"
                 className={cn(
                   railLinkClass,
-                  railIndicatorClass,
                   activeSection === "about"
-                    ? "[color:var(--cinematic-text-primary)] before:w-0 before:opacity-0 after:scale-x-100 after:opacity-100"
+                    ? "[color:var(--cinematic-text-primary)] after:scale-x-100 after:opacity-100"
                     : null,
                 )}
               >
@@ -64,9 +58,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                 data-cursor-interactive="true"
                 className={cn(
                   railLinkClass,
-                  railIndicatorClass,
                   activeSection === "contact"
-                    ? "[color:var(--cinematic-text-primary)] before:w-0 before:opacity-0 after:scale-x-100 after:opacity-100"
+                    ? "[color:var(--cinematic-text-primary)] after:scale-x-100 after:opacity-100"
                     : null,
                 )}
               >

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Github, LayoutGrid, Mail, MapPin } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { PageSEO } from "@/app/seo";
 import { CinematicEnergyBackground } from "@/components/CinematicEnergyBackground";
@@ -125,9 +125,7 @@ function HomePage() {
               variant="ghost"
               className="cinematic-btn-ghost hidden h-9 min-h-9 rounded-full px-3.5 text-xs font-medium uppercase tracking-[0.16em] sm:inline-flex"
             >
-              <a href={site.links.resume} target="_blank" rel="noopener noreferrer">
-                Resume
-              </a>
+              <Link to={site.links.resume}>Resume</Link>
             </Button>
             <ThemeToggle
               compact
@@ -140,7 +138,7 @@ function HomePage() {
         <main className="relative z-10">
           <section
             id="home"
-            className="scroll-mt-24 px-6 pb-8 pt-20 sm:px-8 sm:pb-10 sm:pt-22 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:px-14 lg:pb-6 lg:pl-[12rem] lg:pr-16 lg:pt-4 xl:pl-[14rem]"
+            className="scroll-mt-[var(--section-scroll-offset)] px-6 pb-8 pt-20 sm:px-8 sm:pb-10 sm:pt-22 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:px-14 lg:pb-6 lg:pl-[12rem] lg:pr-16 lg:pt-4 xl:pl-[14rem]"
           >
             <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-4 sm:gap-5 lg:flex-1 lg:justify-center lg:gap-4">
               <motion.div
@@ -228,7 +226,7 @@ function HomePage() {
 
               <div
                 id="works"
-                className="scroll-mt-24 cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-4 sm:px-6 sm:py-5 lg:px-7 lg:py-5"
+                className="scroll-mt-[var(--section-scroll-offset)] cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-4 sm:px-6 sm:py-5 lg:px-7 lg:py-5"
               >
                 <div
                   aria-hidden="true"

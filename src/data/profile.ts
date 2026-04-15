@@ -982,9 +982,9 @@ export const metaByRoute = {
       "Connect with Jason Conklin for software engineering collaborations, AI-driven applications, and full-stack web projects.",
   },
   "/resume": {
-    title: "Jason Conklin's Resume",
+    title: "Resume | Jason Conklin",
     description:
-      "View or download Jason Conklin's resume highlighting experience, skills, and recent work.",
+      "Preview or download Jason Conklin's resume in a focused, portfolio-aligned document view.",
   },
   "/404": {
     title: "Page Not Found — Jason Conklin",

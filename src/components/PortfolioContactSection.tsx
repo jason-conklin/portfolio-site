@@ -9,7 +9,7 @@ export function PortfolioContactSection() {
   return (
     <section
       id="contact"
-      className="scroll-mt-24 px-6 pb-20 pt-[4.5rem] sm:px-8 sm:pb-24 sm:pt-20 lg:px-14 lg:pb-28 lg:pt-24 lg:pl-[12rem] lg:pr-16 xl:pl-[14rem]"
+      className="scroll-mt-[var(--section-scroll-offset)] px-6 pb-20 pt-[4.5rem] sm:px-8 sm:pb-24 sm:pt-20 lg:px-14 lg:pb-28 lg:pt-24 lg:pl-[12rem] lg:pr-16 xl:pl-[14rem]"
       aria-labelledby="contact-title"
     >
       <div className="mx-auto w-full max-w-[92rem]">
@@ -42,7 +42,7 @@ export function PortfolioContactSection() {
               <div className="mt-6">
                 <h2
                   id="contact-title"
-                  className="max-w-[15ch] text-[clamp(1.9rem,3.4vw,3.1rem)] font-light tracking-[0.01em] cinematic-text-primary"
+                  className="max-w-[21ch] text-[clamp(1.55rem,2.7vw,2.45rem)] font-light tracking-[0.01em] cinematic-text-primary"
                 >
                   Open to serious product work, strong teams, and production problems worth solving.
                 </h2>

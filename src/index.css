@@ -50,6 +50,9 @@ html {
   --header-height-mobile: 80px;
   --header-height-desktop: 72px;
   --header-height: var(--header-height-mobile);
+  --section-scroll-offset-mobile: 6.75rem;
+  --section-scroll-offset-desktop: 6.25rem;
+  --section-scroll-offset: var(--section-scroll-offset-mobile);
   --bg-base: #f8fafc;
   --bg-gradient-top: #eaf2ff;
   --bg-gradient-mid: #f4f8ff;
@@ -178,6 +181,7 @@ html {
 @media (min-width: 768px) {
   :root {
     --header-height: var(--header-height-desktop);
+    --section-scroll-offset: var(--section-scroll-offset-desktop);
   }
 }
 
@@ -330,7 +334,7 @@ html {
     @apply border-border;
   }
   html {
-    @apply scroll-p-6;
+    scroll-padding-top: var(--section-scroll-offset);
   }
   body {
     @apply font-sans text-foreground antialiased;

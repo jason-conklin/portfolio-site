@@ -112,13 +112,9 @@ export function Header() {
             asChild
             className="hidden sm:inline-flex"
           >
-            <a
-              href={site.links.resume}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link to={site.links.resume}>
               Resume
-            </a>
+            </Link>
           </Button>
           <ThemeToggle />
           <Button
@@ -160,14 +156,10 @@ export function Header() {
             })}
             <li className="mt-3">
               <Button asChild variant="secondary" className="w-full justify-between">
-                <a
-                  href={site.links.resume}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Resume (PDF)
-                  <span className="text-xs text-muted-foreground">opens in new tab</span>
-                </a>
+                <Link to={site.links.resume}>
+                  Resume
+                  <span className="text-xs text-muted-foreground">preview + download</span>
+                </Link>
               </Button>
             </li>
           </ul>

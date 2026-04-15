@@ -19,7 +19,7 @@ function ScrollRestoration() {
 
 export function App() {
   const { pathname } = useLocation();
-  const isHomeExperience = ["/", "/about", "/projects", "/contact", "/skills"].includes(pathname);
+  const isHomeExperience = ["/", "/about", "/projects", "/contact", "/skills", "/resume"].includes(pathname);
 
   return (
     <div
