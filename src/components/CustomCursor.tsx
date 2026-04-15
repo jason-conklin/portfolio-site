@@ -1,5 +1,6 @@
 import { AnimatePresence, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 const ENABLED_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
 const INTERACTIVE_SELECTOR = "[data-cursor-interactive]";
@@ -36,6 +37,7 @@ export function CustomCursor() {
   const [visible, setVisible] = useState(false);
   const [variant, setVariant] = useState<CursorVariant>("default");
   const [trail, setTrail] = useState<TrailEcho[]>([]);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
   const visibleRef = useRef(false);
   const variantRef = useRef<CursorVariant>("default");
@@ -43,6 +45,11 @@ export function CustomCursor() {
   const timeoutsRef = useRef<Map<number, number>>(new Map());
   const lastSpawnRef = useRef({ x: -100, y: -100, time: 0 });
   const lastMoveTimeRef = useRef(0);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    setPortalTarget(document.body);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -234,8 +241,11 @@ export function CustomCursor() {
   }
 
   const displayVariant: DisplayVariant = visible ? variant : "hidden";
+  if (!portalTarget) {
+    return null;
+  }
 
-  return (
+  return createPortal(
     <div aria-hidden="true" className="custom-cursor-layer" data-visible={visible ? "true" : "false"}>
       {!prefersReducedMotion ? (
         <AnimatePresence>
@@ -287,7 +297,8 @@ export function CustomCursor() {
           }}
         />
       </motion.div>
-    </div>
+    </div>,
+    portalTarget,
   );
 }
 

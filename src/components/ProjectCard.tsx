@@ -444,7 +444,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
           <div className="fixed inset-0 z-[90]">
             <div
               aria-hidden="true"
-              className="absolute inset-0 z-[80] bg-black/60 backdrop-blur-[3px]"
+              className="absolute inset-0 z-[80] bg-black/72 backdrop-blur-md"
               onClick={closeDetailModal}
             />
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
@@ -459,14 +459,14 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                 aria-labelledby={detailTitleId}
                 aria-describedby={detailDescriptionId}
                 tabIndex={-1}
-                className="relative mx-auto flex max-h-[min(92vh,940px)] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-border/70 bg-background/95 text-left shadow-2xl ring-1 ring-border/50 focus:outline-none"
+                className="cinematic-panel-strong relative mx-auto flex max-h-[min(92vh,940px)] w-full max-w-5xl flex-col overflow-hidden rounded-3xl text-left ring-1 ring-[color:var(--cinematic-border)] focus:outline-none"
               >
                 <div className="flex-1 overflow-y-auto">
-                  <header className="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur-md">
+                  <header className="cinematic-subpanel sticky top-0 z-20 rounded-none border-x-0 border-t-0 backdrop-blur-xl">
                     <div className="px-6 py-4 sm:px-8 sm:py-5">
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div className="flex min-w-0 items-start gap-3">
-                          <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/75 p-1.5 sm:h-[44px] sm:w-[44px]">
+                          <div className="cinematic-chip-strong flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1.5 sm:h-[44px] sm:w-[44px]">
                             {logo ? (
                               <img
                                 src={logo}
@@ -477,19 +477,22 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                             ) : (
                               <span
                                 aria-hidden="true"
-                                className="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+                                className="text-xs font-semibold uppercase tracking-wide cinematic-text-tertiary"
                               >
                                 {projectMonogram}
                               </span>
                             )}
                           </div>
                           <div className="min-w-0">
-                            <h2 id={detailTitleId} className="text-2xl font-semibold tracking-tight">
+                            <h2
+                              id={detailTitleId}
+                              className="text-2xl font-semibold tracking-tight cinematic-text-primary"
+                            >
                               {title}
                             </h2>
                             <p
                               id={detailDescriptionId}
-                              className="mt-1 text-sm text-muted-foreground line-clamp-2"
+                              className="mt-1 text-sm line-clamp-2 cinematic-text-tertiary"
                             >
                               {cardSummary ?? summary}
                             </p>
@@ -498,7 +501,11 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
 
                         <div className="flex shrink-0 items-center gap-2">
                           {hasLiveUrl ? (
-                            <Button asChild variant="soft" size="sm" className="h-9 min-h-9 px-3">
+                            <Button
+                              asChild
+                              size="sm"
+                              className="cinematic-btn-primary h-9 min-h-9 px-3"
+                            >
                               <a href={liveUrl!} target="_blank" rel="noopener noreferrer">
                                 <ExternalLink className="h-4 w-4" aria-hidden="true" />
                                 Live site
@@ -507,14 +514,24 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                           ) : null}
                           {hasRepoUrl ? (
                             isPrivateRepo ? (
-                              <Button asChild variant="secondary" size="sm" className="h-9 min-h-9 px-3">
+                              <Button
+                                asChild
+                                variant="ghost"
+                                size="sm"
+                                className="cinematic-btn-ghost h-9 min-h-9 px-3"
+                              >
                                 <Link to="/#contact">
                                   <Github className="h-4 w-4" aria-hidden="true" />
                                   Private repo
                                 </Link>
                               </Button>
                             ) : (
-                              <Button asChild variant="secondary" size="sm" className="h-9 min-h-9 px-3">
+                              <Button
+                                asChild
+                                variant="ghost"
+                                size="sm"
+                                className="cinematic-btn-ghost h-9 min-h-9 px-3"
+                              >
                                 <a href={githubUrl!} target="_blank" rel="noopener noreferrer">
                                   <Github className="h-4 w-4" aria-hidden="true" />
                                   Code
@@ -526,7 +543,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                             ref={detailCloseButtonRef}
                             type="button"
                             onClick={closeDetailModal}
-                            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/60 bg-background/80 text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            className="cinematic-btn-ghost inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full p-0 cinematic-text-tertiary hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
                             aria-label="Close project details"
                           >
                             <X className="h-4 w-4" aria-hidden="true" />
@@ -537,14 +554,17 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                   </header>
 
                   <div className="space-y-8 px-6 py-6 sm:px-8">
-                    <section aria-label="Quick facts" className="rounded-2xl border border-border/60 bg-muted/25 p-3">
+                    <section
+                      aria-label="Quick facts"
+                      className="cinematic-subpanel rounded-2xl p-3 sm:p-4"
+                    >
                       <ul className="flex flex-wrap gap-2">
                         <li className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
                           Status: {quickStatusLabel}
                         </li>
                         {teamSizeLabel ? (
-                          <li className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                          <li className="cinematic-chip inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs">
                             <ThemedIconCSS
                               lightThemeSrc={peopleIconDark}
                               darkThemeSrc={peopleIconLight}
@@ -555,8 +575,8 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                           </li>
                         ) : null}
                         {quickFactsStack.length ? (
-                          <li className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
-                            <span className="font-medium text-foreground/80">Stack:</span>{" "}
+                          <li className="cinematic-chip inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs">
+                            <span className="font-medium cinematic-text-secondary">Stack:</span>{" "}
                             {quickFactsStack.join(" · ")}
                           </li>
                         ) : null}
@@ -566,7 +586,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                               href={liveUrl!}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                              className="cinematic-chip inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs transition hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
                             >
                               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                               Live site
@@ -578,7 +598,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                             {isPrivateRepo ? (
                               <Link
                                 to="/#contact"
-                                className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                                className="cinematic-chip inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs transition hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
                               >
                                 <Github className="h-3.5 w-3.5" aria-hidden="true" />
                                 Repo: private
@@ -588,7 +608,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                                 href={githubUrl!}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                                className="cinematic-chip inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs transition hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
                               >
                                 <Github className="h-3.5 w-3.5" aria-hidden="true" />
                                 Repo link
@@ -601,15 +621,15 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
 
                     {safeGallery && safeGallery.length ? (
                       <section>
-                        <h3 className="text-base font-semibold tracking-tight text-foreground">
+                        <h3 className="text-base font-semibold tracking-tight cinematic-text-primary">
                           Screenshots
                         </h3>
                         <div className="mt-4 grid gap-6 md:grid-cols-2">
                           {safeGallery.map((item, index) => (
                             <article key={`${item.title}-${index}`} className="space-y-2.5">
                               <div>
-                                <p className="text-sm font-semibold text-foreground">{item.title}</p>
-                                <p className="mt-1 text-xs text-muted-foreground line-clamp-1">
+                                <p className="text-sm font-semibold cinematic-text-primary">{item.title}</p>
+                                <p className="mt-1 text-xs line-clamp-1 cinematic-text-tertiary">
                                   {item.description}
                                 </p>
                               </div>
@@ -617,7 +637,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                                 <button
                                   type="button"
                                   onClick={() => openMediaAt(index)}
-                                  className="group relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl border border-border/70 bg-muted/35 shadow-sm transition hover:border-primary/50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                                  className="cinematic-subpanel group relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl shadow-sm transition hover:[border-color:var(--cinematic-border-strong)] hover:shadow-[var(--cinematic-shadow-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
                                   aria-label={`View ${item.title} in fullscreen`}
                                 >
                                   <img
@@ -626,16 +646,16 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                                     className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
                                     loading="lazy"
                                   />
-                                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
-                                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/40 bg-black/45 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+                                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/28 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+                                    <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm [border-color:var(--cinematic-border-strong)] [background:rgba(10,12,16,0.55)]">
                                       <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
                                       Expand
                                     </span>
                                   </span>
                                 </button>
                               ) : (
-                                <div className="relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/70 bg-muted/35">
-                                  <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                <div className="cinematic-subpanel relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl border border-dashed">
+                                  <span className="text-xs font-medium uppercase tracking-wide cinematic-text-tertiary">
                                     Image coming soon
                                   </span>
                                 </div>
@@ -647,10 +667,10 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                     ) : null}
 
                     <section>
-                      <h3 className="text-base font-semibold tracking-tight text-foreground">
+                      <h3 className="text-base font-semibold tracking-tight cinematic-text-primary">
                         Highlights
                       </h3>
-                      <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-foreground">
+                      <ul className="mt-3 list-disc space-y-2 pl-5 text-sm cinematic-text-secondary">
                         {highlights.map((highlight) => (
                           <li key={highlight}>{highlight}</li>
                         ))}
@@ -658,10 +678,15 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                     </section>
 
                     <section>
-                      <h3 className="text-base font-semibold tracking-tight text-foreground">Tech</h3>
+                      <h3 className="text-base font-semibold tracking-tight cinematic-text-primary">Tech</h3>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {tech.map((stack) => (
-                          <Tag key={stack}>{stack}</Tag>
+                          <Tag
+                            key={stack}
+                            className="cinematic-chip border-[color:var(--cinematic-border)] bg-transparent hover:[border-color:var(--cinematic-border-strong)] hover:[color:var(--cinematic-text-primary)]"
+                          >
+                            {stack}
+                          </Tag>
                         ))}
                       </div>
                     </section>
@@ -680,7 +705,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
           <div className="fixed inset-0 z-[95]">
             <div
               aria-hidden="true"
-              className="absolute inset-0 z-[82] bg-black/60 backdrop-blur-sm"
+              className="absolute inset-0 z-[82] bg-black/72 backdrop-blur-md"
               onClick={closeScreenshotModal}
             />
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
@@ -695,21 +720,24 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                 aria-labelledby={screenshotTitleId}
                 aria-describedby={screenshotDescriptionId}
                 tabIndex={-1}
-                className="relative flex max-h-[95vh] w-full max-w-6xl flex-col gap-4 rounded-2xl border border-border bg-background/95 p-4 text-left shadow-2xl focus:outline-none sm:p-6"
+                className="cinematic-panel-strong relative flex max-h-[95vh] w-full max-w-6xl flex-col gap-4 rounded-2xl p-4 text-left ring-1 ring-[color:var(--cinematic-border)] focus:outline-none sm:p-6"
               >
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                   <div className="space-y-1">
                     {activeMediaNumber !== null && totalMedia > 0 ? (
-                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      <p className="text-xs font-semibold uppercase tracking-wide cinematic-text-quaternary">
                         Screenshot {activeMediaNumber} of {totalMedia}
                       </p>
                     ) : null}
-                    <h3 id={screenshotTitleId} className="text-lg font-semibold">
+                    <h3
+                      id={screenshotTitleId}
+                      className="text-lg font-semibold cinematic-text-primary"
+                    >
                       {activeMedia.title}
                     </h3>
                     <p
                       id={screenshotDescriptionId}
-                      className="text-sm text-muted-foreground"
+                      className="text-sm cinematic-text-tertiary"
                     >
                       {activeMedia.description}
                     </p>
@@ -718,7 +746,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                     ref={screenshotCloseButtonRef}
                     type="button"
                     onClick={closeScreenshotModal}
-                    className="ml-auto inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/60 bg-background/80 text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                    className="cinematic-btn-ghost ml-auto inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full p-0 cinematic-text-tertiary hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
                     aria-label="Close screenshot viewer"
                   >
                     <X className="h-4 w-4" aria-hidden="true" />
@@ -727,7 +755,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                 <div
                   ref={containerRef}
                   className={cn(
-                    "relative max-h-[90vh] overflow-hidden rounded-2xl border border-border bg-muted/40",
+                    "cinematic-subpanel relative max-h-[90vh] overflow-hidden rounded-2xl",
                     isZoomed
                       ? isDragging
                         ? "cursor-grabbing"
@@ -822,7 +850,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                       <>
                         <button
                           type="button"
-                          className="absolute left-2 sm:left-4 lg:left-6 top-1/2 z-30 -translate-y-1/2 rounded-full border border-border/50 bg-white/60 p-2 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:bg-black/50 dark:hover:bg-black/70"
+                          className="cinematic-btn-ghost absolute left-2 top-1/2 z-30 -translate-y-1/2 rounded-full p-2 cinematic-text-secondary shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2 sm:left-4 lg:left-6"
                           onClick={(event) => {
                             event.stopPropagation();
                             goToMedia(-1);
@@ -834,7 +862,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                         </button>
                         <button
                           type="button"
-                          className="absolute right-2 sm:right-4 lg:right-6 top-1/2 z-30 -translate-y-1/2 rounded-full border border-border/50 bg-white/60 p-2 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:bg-black/50 dark:hover:bg-black/70"
+                          className="cinematic-btn-ghost absolute right-2 top-1/2 z-30 -translate-y-1/2 rounded-full p-2 cinematic-text-secondary shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2 sm:right-4 lg:right-6"
                           onClick={(event) => {
                             event.stopPropagation();
                             goToMedia(1);
@@ -849,7 +877,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                     <div
                       ref={containerRef}
                       className={cn(
-                        "relative flex max-h-[90vh] w-full items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted/40",
+                        "cinematic-subpanel relative flex max-h-[90vh] w-full items-center justify-center overflow-hidden rounded-2xl",
                         isZoomed
                           ? isDragging
                             ? "cursor-grabbing"
