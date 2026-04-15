@@ -192,6 +192,7 @@ interface Project {
 
 interface ProjectCardProps {
   project: Project;
+  variant?: "default" | "compact";
 }
 
 function getProjectName(title: string) {
@@ -245,7 +246,7 @@ function normalizeNonLiveStatus(status?: Project["status"]): NonLiveProjectStatu
   return status;
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, variant = "default" }: ProjectCardProps) {
   const {
     title,
     logo,
@@ -314,6 +315,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const statusDotClass =
     resolvedStatus === "live" ? "bg-emerald-500/75" : "bg-muted-foreground/60";
   const quickFactsStack = tech.slice(0, 3);
+  const compactCategories = (category ?? []).slice(0, 2);
+  const compactTech = tech.slice(0, 3);
   const quickStatusLabel =
     resolvedStatus === "live" ? "Live" : nonLiveStatusLabels[resolvedStatus];
 
@@ -505,7 +508,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                           {hasRepoUrl ? (
                             isPrivateRepo ? (
                               <Button asChild variant="secondary" size="sm" className="h-9 min-h-9 px-3">
-                                <Link to="/contact">
+                                <Link to="/#contact">
                                   <Github className="h-4 w-4" aria-hidden="true" />
                                   Private repo
                                 </Link>
@@ -574,7 +577,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                           <li>
                             {isPrivateRepo ? (
                               <Link
-                                to="/contact"
+                                to="/#contact"
                                 className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                               >
                                 <Github className="h-3.5 w-3.5" aria-hidden="true" />
@@ -967,6 +970,189 @@ export function ProjectCard({ project }: ProjectCardProps) {
         )
       : null;
 
+  if (variant === "compact") {
+    return (
+      <>
+        <motion.article
+          {...animation}
+          role="button"
+          tabIndex={0}
+          aria-label={`Open ${title} details`}
+          data-project-slug={slug}
+          onClick={() => setOpen(true)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              setOpen(true);
+            }
+          }}
+          className={cn(
+            "group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[1.6rem] border p-5 text-left shadow-[var(--cinematic-shadow-soft)] ring-1 ring-[color:var(--cinematic-border)] backdrop-blur-xl transition duration-300 motion-reduce:transition-none",
+            cardTintClass,
+            "hover:-translate-y-1 hover:border-[color:var(--cinematic-border-strong)] hover:shadow-[var(--cinematic-shadow-panel)] hover:ring-[color:var(--cinematic-border-strong)] motion-reduce:hover:translate-y-0",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2",
+          )}
+          style={{ background: "var(--cinematic-surface-panel)" }}
+        >
+          <div
+            aria-hidden="true"
+            className="cinematic-divider pointer-events-none absolute inset-x-6 top-0 h-px"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-80"
+            style={{
+              background:
+                "radial-gradient(circle at 12% 0%, var(--cinematic-band-accent-a), transparent 24%), radial-gradient(circle at 100% 100%, var(--cinematic-band-accent-b), transparent 26%)",
+            }}
+          />
+
+          <div className="relative z-10 flex h-full flex-col gap-4">
+            <div className="flex items-start gap-3">
+              <div className="cinematic-chip-strong flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl p-1.5">
+                {logo ? (
+                  <img
+                    src={logo}
+                    alt={`${projectName} logo`}
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="text-xs font-semibold uppercase tracking-[0.18em] cinematic-text-tertiary"
+                  >
+                    {projectMonogram}
+                  </span>
+                )}
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
+                  <h3 className="min-w-0 text-[1.05rem] font-medium tracking-tight cinematic-text-primary">
+                    {projectName}
+                  </h3>
+                  {teamSizeLabel ? (
+                    <span className="cinematic-chip inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.16em]">
+                      <ThemedIconCSS
+                        lightThemeSrc={peopleIconDark}
+                        darkThemeSrc={peopleIconLight}
+                        alt=""
+                        className="h-3 w-3 opacity-80 dark:opacity-90"
+                      />
+                      {teamSizeLabel}
+                    </span>
+                  ) : null}
+                </div>
+                <p className="mt-2 flex flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.16em] cinematic-text-quaternary">
+                  <span className="inline-flex items-center gap-1.5">
+                    <span
+                      className={cn("h-1.5 w-1.5 rounded-full", statusDotClass)}
+                      aria-hidden="true"
+                    />
+                    {quickStatusLabel}
+                  </span>
+                  {liveDomain ? (
+                    <>
+                      <span aria-hidden="true">·</span>
+                      <span className="truncate">{liveDomain}</span>
+                    </>
+                  ) : null}
+                  {compactCategories.length ? (
+                    <>
+                      <span aria-hidden="true">·</span>
+                      <span>{compactCategories.join(" / ")}</span>
+                    </>
+                  ) : null}
+                </p>
+              </div>
+            </div>
+
+            <p className="line-clamp-3 text-sm leading-6 cinematic-text-tertiary">
+              {cardSummary ?? summary}
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+              {compactTech.map((stack) => (
+                <span
+                  key={`${slug}-compact-tech-${stack}`}
+                  className="cinematic-chip rounded-full px-2.5 py-1 text-[0.68rem]"
+                >
+                  {stack}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-auto flex flex-wrap gap-2 pt-1">
+              <Button
+                type="button"
+                size="sm"
+                className="cinematic-btn-primary h-9 rounded-full px-4 text-[0.8rem] hover:-translate-y-px"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  setOpen(true);
+                }}
+              >
+                View details
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </Button>
+
+              {hasLiveUrl ? (
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  className="cinematic-btn-ghost h-9 rounded-full px-4 text-[0.8rem] font-medium"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <a href={liveUrl!} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                    Open live
+                  </a>
+                </Button>
+              ) : null}
+
+              {githubUrl ? (
+                isPrivateRepo ? (
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="cinematic-btn-ghost h-9 rounded-full px-4 text-[0.8rem] font-medium"
+                  >
+                    <Link
+                      to="/#contact"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <Github className="h-3.5 w-3.5" aria-hidden="true" />
+                      Private repo
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="cinematic-btn-ghost h-9 rounded-full px-4 text-[0.8rem] font-medium"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+                      <Github className="h-3.5 w-3.5" aria-hidden="true" />
+                      Code
+                    </a>
+                  </Button>
+                )
+              ) : null}
+            </div>
+          </div>
+        </motion.article>
+        {detailModal}
+        {screenshotModal}
+      </>
+    );
+  }
+
   return (
     <>
       <motion.article
@@ -1109,7 +1295,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   className="h-10 min-h-10 w-full text-left"
                 >
                   <Link
-                    to="/contact"
+                    to="/#contact"
                     onClick={(event) => event.stopPropagation()}
                     className="flex items-center gap-2"
                   >

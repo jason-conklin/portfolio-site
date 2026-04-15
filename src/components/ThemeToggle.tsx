@@ -41,11 +41,13 @@ export function ThemeToggle({ className, labelClassName, compact = false }: Them
       type="button"
       variant="ghost"
       className={cn(
-        "flex h-10 items-center gap-2 px-3 transition-colors hover:text-primary",
+        "flex h-10 items-center gap-2 px-3 transition-colors",
         compact ? "min-h-10 rounded-full px-3.5 text-sm" : undefined,
         className,
       )}
-      aria-label="Toggle theme"
+      aria-label={`Switch to ${nextTheme} theme`}
+      title={`Switch to ${nextTheme} theme`}
+      aria-pressed={resolvedTheme === "dark"}
       onClick={() => {
         if (nextTheme === "light" || nextTheme === "dark") {
           setTheme(nextTheme);

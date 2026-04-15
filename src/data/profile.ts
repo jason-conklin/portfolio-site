@@ -86,11 +86,10 @@ export const site = {
 } as const;
 
 export const navigation = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
-  { name: "Projects", href: "/projects" },
-  { name: "Skills", href: "/skills" },
-  { name: "Contact", href: "/contact" },
+  { name: "Home", href: "/#home" },
+  { name: "Works", href: "/#works" },
+  { name: "About", href: "/#about" },
+  { name: "Contact", href: "/#contact" },
 ] as const;
 
 export const hero = {
@@ -98,8 +97,8 @@ export const hero = {
   statement: "Full-stack engineer building production-grade web systems and applied AI tools.",
   location: "New Jersey, USA · Open to Remote (US)",
   cta: {
-    primary: { label: "View All Projects", href: "/projects" },
-    secondary: { label: "Get in Touch", href: "/contact" },
+    primary: { label: "View Works", href: "/#works" },
+    secondary: { label: "Get in Touch", href: "/#contact" },
     tertiary: {
       label: "GitHub",
       href: site.links.github,

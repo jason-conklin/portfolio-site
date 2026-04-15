@@ -1,32 +1,77 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { LayoutGrid, Mail, MapPin } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Github, LayoutGrid, Mail, MapPin } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 import { PageSEO } from "@/app/seo";
 import { CinematicEnergyBackground } from "@/components/CinematicEnergyBackground";
 import { HomeRailNav } from "@/components/HomeRailNav";
-import { LiveDeploymentsStage } from "@/components/LiveDeploymentsStage";
+import { PortfolioAboutSection } from "@/components/PortfolioAboutSection";
+import { PortfolioContactSection } from "@/components/PortfolioContactSection";
+import { PortfolioWorksSection } from "@/components/PortfolioWorksSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
-import { hero, liveProjects, site } from "@/data/profile";
+import { hero, liveProjects, projects, site } from "@/data/profile";
 
-const heroLead = "Production full-stack engineer / applied AI systems";
+const heroLead = "Full-stack engineer building and deploying production-grade web systems.";
 const heroSupporting =
-  "Building secure web platforms, evaluation workflows, and polished product experiences for real-world delivery.";
+  "Applied AI, secure product architecture, and clean delivery for systems intended to hold up in production.";
+
+const sectionIds = ["home", "works", "about", "contact"] as const;
+
+type HomeSectionId = (typeof sectionIds)[number];
 
 function HomePage() {
-  const navigate = useNavigate();
+  const location = useLocation();
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const [activeSection, setActiveSection] = useState<"home" | "works">("home");
+  const [activeSection, setActiveSection] = useState<HomeSectionId>("home");
+  const openedProjectRef = useRef<string | null>(null);
+
+  const openProjectCaseStudy = useCallback((slug?: string) => {
+    if (!slug) return;
+
+    const projectCard = document.querySelector<HTMLElement>(`[data-project-slug="${slug}"]`);
+    const worksSection = document.getElementById("works");
+
+    if (!projectCard) {
+      worksSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    projectCard.scrollIntoView({ behavior: "smooth", block: "center" });
+    window.setTimeout(() => {
+      projectCard.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    }, 140);
+  }, []);
 
   useEffect(() => {
-    const deployments = document.getElementById("deployments");
-    if (!deployments) return;
-
     const updateActiveSection = () => {
-      const { top } = deployments.getBoundingClientRect();
-      setActiveSection(top <= window.innerHeight * 0.48 ? "works" : "home");
+      const anchorLine = window.innerHeight * 0.32;
+      let nextSection: HomeSectionId = "home";
+      let bestDistance = Number.POSITIVE_INFINITY;
+
+      for (const sectionId of sectionIds) {
+        const section = document.getElementById(sectionId);
+        if (!section) continue;
+
+        const rect = section.getBoundingClientRect();
+        const containsAnchor = rect.top <= anchorLine && rect.bottom >= anchorLine;
+        if (containsAnchor) {
+          nextSection = sectionId;
+          bestDistance = -1;
+          continue;
+        }
+
+        if (bestDistance === -1) continue;
+
+        const distance = Math.abs(rect.top - anchorLine);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          nextSection = sectionId;
+        }
+      }
+
+      setActiveSection(nextSection);
     };
 
     updateActiveSection();
@@ -39,20 +84,36 @@ function HomePage() {
     };
   }, []);
 
-  function openProjectCaseStudy(slug?: string) {
-    if (!slug) return;
-    navigate(`/projects#${slug}`);
-  }
+  useEffect(() => {
+    const projectSlug = new URLSearchParams(location.search).get("project");
+
+    if (!projectSlug) {
+      openedProjectRef.current = null;
+      return;
+    }
+
+    if (openedProjectRef.current === projectSlug) return;
+
+    const frameId = window.requestAnimationFrame(() => {
+      openedProjectRef.current = projectSlug;
+      openProjectCaseStudy(projectSlug);
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [location.search, openProjectCaseStudy]);
 
   return (
     <>
       <PageSEO path="/" />
-      <div className="home-cinematic-page relative isolate overflow-hidden bg-[#060607] text-white">
+      <div className="home-cinematic-page cinematic-page relative isolate overflow-hidden">
         <CinematicEnergyBackground />
         <HomeRailNav activeSection={activeSection} />
 
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-30 hidden h-28 bg-gradient-to-b from-black/38 via-black/10 to-transparent lg:block" />
-        <div className="pointer-events-none fixed bottom-6 left-6 z-30 hidden text-[0.7rem] uppercase tracking-[0.22em] text-white/34 lg:block">
+        <div
+          className="pointer-events-none fixed inset-x-0 top-0 z-30 hidden h-28 lg:block"
+          style={{ background: "var(--cinematic-top-fade)" }}
+        />
+        <div className="pointer-events-none fixed bottom-6 left-6 z-30 hidden text-[0.7rem] uppercase tracking-[0.22em] cinematic-text-quaternary lg:block">
           © Jason Conklin
         </div>
 
@@ -61,7 +122,7 @@ function HomePage() {
             <Button
               asChild
               variant="ghost"
-              className="hidden h-9 min-h-9 rounded-full border border-white/8 bg-white/[0.035] px-3.5 text-xs font-medium uppercase tracking-[0.16em] text-white/78 shadow-none transition duration-200 hover:border-white/16 hover:bg-white/[0.08] hover:text-white sm:inline-flex"
+              className="cinematic-btn-ghost hidden h-9 min-h-9 rounded-full px-3.5 text-xs font-medium uppercase tracking-[0.16em] sm:inline-flex"
             >
               <a href={site.links.resume} target="_blank" rel="noopener noreferrer">
                 Resume
@@ -69,8 +130,8 @@ function HomePage() {
             </Button>
             <ThemeToggle
               compact
-              className="h-9 min-h-9 rounded-full border border-white/8 bg-white/[0.035] px-3.5 text-white shadow-none transition duration-200 hover:border-white/16 hover:bg-white/[0.08] hover:text-white"
-              labelClassName="text-white/58 uppercase tracking-[0.16em]"
+              className="cinematic-btn-ghost h-9 min-h-9 rounded-full px-3.5"
+              labelClassName="cinematic-text-tertiary uppercase tracking-[0.16em]"
             />
           </div>
         </div>
@@ -78,84 +139,103 @@ function HomePage() {
         <main className="relative z-10">
           <section
             id="home"
-            className="min-h-[100svh] px-6 pb-14 pt-24 sm:px-8 lg:px-14 lg:pb-20 lg:pl-[12rem] lg:pr-16 lg:pt-10 xl:pl-[14rem]"
+            className="scroll-mt-24 px-6 pb-16 pt-24 sm:px-8 lg:min-h-[100svh] lg:px-14 lg:pb-20 lg:pl-[12rem] lg:pr-16 lg:pt-10 xl:pl-[14rem]"
           >
-            <div className="mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-[92rem] flex-col gap-8">
-              <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,33rem)_1fr] lg:gap-12">
+            <div className="mx-auto flex w-full max-w-[92rem] lg:min-h-[calc(100svh-4rem)] lg:items-center">
+              <motion.div
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+                animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.72, ease: "easeOut" }}
+                className="max-w-[42rem] pt-12 sm:pt-16 lg:pt-8"
+              >
+                <div className="cinematic-chip inline-flex max-w-full items-center gap-2 rounded-full px-4 py-2 text-[0.64rem] font-medium uppercase tracking-[0.24em] backdrop-blur-xl">
+                  <MapPin
+                    className="h-3.5 w-3.5 shrink-0"
+                    style={{ color: "var(--cinematic-text-tertiary)" }}
+                    aria-hidden="true"
+                  />
+                  <span className="truncate">{hero.location}</span>
+                </div>
+
+                <motion.h1
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
+                  animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.06, ease: "easeOut" }}
+                  className="mt-8 text-[clamp(3.5rem,9vw,7.25rem)] font-[300] uppercase leading-[0.9] tracking-[0.13em] cinematic-text-primary sm:tracking-[0.16em]"
+                >
+                  <span className="block">Jason</span>
+                  <span className="block">Conklin</span>
+                </motion.h1>
+
                 <motion.div
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
                   animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                  className="max-w-[34rem] self-start pt-6 sm:pt-10 lg:pt-14"
+                  transition={{ duration: 0.68, delay: 0.16, ease: "easeOut" }}
+                  className="mt-6 max-w-[40rem]"
                 >
-                  <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[0.64rem] font-medium uppercase tracking-[0.24em] text-white/52 backdrop-blur-xl">
-                    <MapPin className="h-3.5 w-3.5 shrink-0 text-amber-200/70" aria-hidden="true" />
-                    <span className="truncate">{hero.location}</span>
-                  </div>
-
-                  <motion.h1
-                    initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-                    animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                    transition={{ duration: 0.78, delay: 0.08, ease: "easeOut" }}
-                    className="mt-8 text-[clamp(3.1rem,7.8vw,6.35rem)] font-[300] uppercase leading-[0.9] tracking-[0.12em] text-white/96 sm:tracking-[0.145em]"
-                  >
-                    <span className="block">Jason</span>
-                    <span className="block">Conklin</span>
-                  </motion.h1>
-
-                  <motion.div
-                    initial={prefersReducedMotion ? false : { opacity: 0, y: 22 }}
-                    animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.18, ease: "easeOut" }}
-                    className="mt-5 max-w-[28rem]"
-                  >
-                    <p className="text-balance text-[1rem] font-normal uppercase tracking-[0.12em] text-white/66 sm:text-[1.08rem]">
-                      {heroLead}
-                    </p>
-                    <p className="mt-4 max-w-[27rem] text-pretty text-[0.96rem] leading-7 text-white/52">
-                      {heroSupporting}
-                    </p>
-                  </motion.div>
+                  <p className="text-balance text-[1rem] font-normal uppercase tracking-[0.12em] cinematic-text-secondary sm:text-[1.08rem]">
+                    {heroLead}
+                  </p>
+                  <p className="mt-4 max-w-[35rem] text-pretty text-[0.98rem] leading-7 cinematic-text-tertiary sm:text-[1.02rem]">
+                    {heroSupporting}
+                  </p>
                 </motion.div>
 
-                <div className="hidden lg:block" aria-hidden="true" />
-              </div>
-
-              <LiveDeploymentsStage
-                projects={liveProjects}
-                onOpenProject={openProjectCaseStudy}
-                prefersReducedMotion={prefersReducedMotion}
-              />
-
-              <motion.div
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
-                animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.24, ease: "easeOut" }}
-                className="flex flex-wrap items-center justify-center gap-3 pb-2 pt-1"
-              >
-                <Button
-                  asChild
-                  className="h-11 min-h-11 rounded-full border border-amber-300/20 bg-[linear-gradient(135deg,rgba(255,184,79,0.18),rgba(255,114,28,0.22))] px-5 text-sm font-medium text-white shadow-[0_18px_44px_-26px_rgba(255,147,41,0.45)] transition duration-200 hover:-translate-y-px hover:border-amber-200/30 hover:shadow-[0_22px_54px_-26px_rgba(255,147,41,0.52)]"
+                <motion.div
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+                  animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.24, ease: "easeOut" }}
+                  className="mt-9 flex flex-wrap items-center gap-3"
                 >
-                  <Link to={hero.cta.primary.href} className="inline-flex items-center gap-2 whitespace-nowrap">
-                    <LayoutGrid className="h-4 w-4" aria-hidden="true" />
-                    {hero.cta.primary.label}
-                  </Link>
-                </Button>
+                  <Button
+                    asChild
+                    className="cinematic-btn-primary h-11 min-h-11 rounded-full px-5 text-sm font-medium hover:-translate-y-px"
+                  >
+                    <a href="#works" className="inline-flex items-center gap-2 whitespace-nowrap">
+                      <LayoutGrid className="h-4 w-4" aria-hidden="true" />
+                      View Works
+                    </a>
+                  </Button>
 
-                <Button
-                  asChild
-                  variant="ghost"
-                  className="h-11 min-h-11 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-medium text-white shadow-none transition duration-200 hover:-translate-y-px hover:border-white/18 hover:bg-white/[0.08] hover:text-white"
-                >
-                  <Link to={hero.cta.secondary.href} className="inline-flex items-center gap-2 whitespace-nowrap">
-                    <Mail className="h-4 w-4" aria-hidden="true" />
-                    {hero.cta.secondary.label}
-                  </Link>
-                </Button>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="cinematic-btn-ghost h-11 min-h-11 rounded-full px-5 text-sm font-medium hover:-translate-y-px"
+                  >
+                    <a href="#contact" className="inline-flex items-center gap-2 whitespace-nowrap">
+                      <Mail className="h-4 w-4" aria-hidden="true" />
+                      Get in Touch
+                    </a>
+                  </Button>
+
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="cinematic-btn-ghost h-11 min-h-11 rounded-full px-5 text-sm font-medium hover:-translate-y-px"
+                  >
+                    <a
+                      href={site.links.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 whitespace-nowrap"
+                    >
+                      <Github className="h-4 w-4" aria-hidden="true" />
+                      GitHub
+                    </a>
+                  </Button>
+                </motion.div>
               </motion.div>
             </div>
           </section>
+
+          <PortfolioWorksSection
+            liveProjects={liveProjects}
+            projects={projects}
+            onOpenProject={openProjectCaseStudy}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+          <PortfolioAboutSection />
+          <PortfolioContactSection />
         </main>
       </div>
     </>

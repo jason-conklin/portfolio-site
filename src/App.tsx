@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { CustomCursor } from "@/components/CustomCursor";
 import { TechnicalBlueprintBackground } from "@/components/TechnicalBlueprintBackground";
 import { AppRoutes } from "@/app/routes";
 
@@ -18,15 +19,15 @@ function ScrollRestoration() {
 
 export function App() {
   const { pathname } = useLocation();
-  const isHome = pathname === "/";
+  const isHomeExperience = ["/", "/about", "/projects", "/contact", "/skills"].includes(pathname);
 
   return (
     <div
       id="app-root"
-      data-home={isHome ? "true" : "false"}
+      data-home={isHomeExperience ? "true" : "false"}
       className="relative flex min-h-screen flex-col overflow-x-hidden text-foreground"
     >
-      {!isHome ? (
+      {!isHomeExperience ? (
         <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
           <TechnicalBlueprintBackground />
         </div>
@@ -37,11 +38,12 @@ export function App() {
       >
         Skip to content
       </a>
-      {!isHome ? <Header /> : null}
-      <main id="app-main" className={`relative z-10 flex-1 ${isHome ? "" : "pt-[var(--header-height)]"}`}>
+      {!isHomeExperience ? <Header /> : null}
+      <main id="app-main" className={`relative z-10 flex-1 ${isHomeExperience ? "" : "pt-[var(--header-height)]"}`}>
         <AppRoutes />
       </main>
-      {!isHome ? <Footer /> : null}
+      {!isHomeExperience ? <Footer /> : null}
+      <CustomCursor />
       <ScrollRestoration />
     </div>
   );

@@ -15,10 +15,10 @@ type Command = {
 };
 
 const baseCommands: Command[] = [
-  { label: "Go to About", type: "route", value: "/about" },
-  { label: "Go to Projects", type: "route", value: "/projects" },
-  { label: "Go to Skills", type: "route", value: "/skills" },
-  { label: "Go to Contact", type: "route", value: "/contact" },
+  { label: "Go to Home", type: "route", value: "/#home" },
+  { label: "Go to Works", type: "route", value: "/#works" },
+  { label: "Go to About", type: "route", value: "/#about" },
+  { label: "Go to Contact", type: "route", value: "/#contact" },
   { label: "Open Resume (PDF)", type: "external", value: site.links.resume },
   { label: "Open GitHub", type: "external", value: site.links.github },
   { label: "Open LinkedIn", type: "external", value: site.links.linkedin },

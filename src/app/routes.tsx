@@ -1,10 +1,6 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import HomePage from "../pages/Home";
-import AboutPage from "../pages/About";
-import ProjectsPage from "../pages/Projects";
-import SkillsPage from "../pages/Skills";
-import ContactPage from "../pages/Contact";
 import NotFoundPage from "../pages/NotFound";
 import ResumePage from "../pages/Resume";
 import { routesMeta, type RouteMeta } from "./routes-meta";
@@ -13,12 +9,35 @@ export interface RouteConfig extends RouteMeta {
   element: JSX.Element;
 }
 
+function HomeSectionRedirect({
+  section,
+  preserveProjectHash = false,
+}: {
+  section: "home" | "works" | "about" | "contact";
+  preserveProjectHash?: boolean;
+}) {
+  const location = useLocation();
+  const rawHash = decodeURIComponent(location.hash.replace(/^#/, ""));
+  const projectSlug = preserveProjectHash && rawHash ? rawHash : "";
+
+  return (
+    <Navigate
+      replace
+      to={{
+        pathname: "/",
+        hash: `#${section}`,
+        search: projectSlug ? `?project=${encodeURIComponent(projectSlug)}` : "",
+      }}
+    />
+  );
+}
+
 const routeElements: Record<string, JSX.Element> = {
   "/": <HomePage />,
-  "/about": <AboutPage />,
-  "/projects": <ProjectsPage />,
-  "/skills": <SkillsPage />,
-  "/contact": <ContactPage />,
+  "/about": <HomeSectionRedirect section="about" />,
+  "/projects": <HomeSectionRedirect section="works" preserveProjectHash />,
+  "/skills": <HomeSectionRedirect section="about" />,
+  "/contact": <HomeSectionRedirect section="contact" />,
   "/resume": <ResumePage />,
   "*": <NotFoundPage />,
 };

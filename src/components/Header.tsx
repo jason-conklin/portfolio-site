@@ -11,7 +11,7 @@ import logoLight from "@/assets/logo-light.png";
 import logoDark from "@/assets/logo-dark.png";
 
 export function Header() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -84,10 +84,11 @@ export function Header() {
         </div>
         <nav className="hidden items-center gap-1 rounded-full border border-border/70 bg-background/65 p-1 shadow-sm ring-1 ring-border/50 backdrop-blur-md md:flex">
           {navigation.map((item) => {
+            const currentRoute = `${pathname}${hash}`;
             const isActive =
-              item.href === "/"
-                ? pathname === item.href
-                : pathname.startsWith(item.href);
+              item.href === "/#home"
+                ? pathname === "/" && (hash === "" || hash === "#home")
+                : currentRoute === item.href;
             return (
               <Link
                 key={item.href}
@@ -133,10 +134,11 @@ export function Header() {
         <nav className="border-t border-border/70 bg-background/95 shadow-lg md:hidden">
           <ul className="mx-auto flex w-full max-w-6xl flex-col gap-0 px-4 py-4 sm:px-6 lg:px-8">
             {navigation.map((item) => {
+              const currentRoute = `${pathname}${hash}`;
               const isActive =
-                item.href === "/"
-                  ? pathname === item.href
-                  : pathname.startsWith(item.href);
+                item.href === "/#home"
+                  ? pathname === "/" && (hash === "" || hash === "#home")
+                  : currentRoute === item.href;
               return (
                 <li key={item.href}>
                   <Link

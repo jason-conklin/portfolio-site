@@ -22,7 +22,7 @@ function ResumePage() {
               variant="ghost"
               className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm text-muted-foreground hover:text-foreground"
             >
-              <Link to="/about">
+              <Link to="/#about">
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                 Back to About
               </Link>

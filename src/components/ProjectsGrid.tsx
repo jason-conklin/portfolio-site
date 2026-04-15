@@ -4,11 +4,13 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { cn } from "@/lib/utils";
 
 type Project = ComponentProps<typeof ProjectCard>["project"];
+type ProjectCardVariant = ComponentProps<typeof ProjectCard>["variant"];
 
 interface ProjectsGridProps {
   projects: readonly Project[];
   className?: string;
   emptyState?: ReactNode;
+  variant?: ProjectCardVariant;
 }
 
 const defaultEmptyState = (
@@ -17,15 +19,27 @@ const defaultEmptyState = (
   </p>
 );
 
-export function ProjectsGrid({ projects, className, emptyState }: ProjectsGridProps) {
+export function ProjectsGrid({
+  projects,
+  className,
+  emptyState,
+  variant = "default",
+}: ProjectsGridProps) {
   if (!projects.length) {
     return <>{emptyState ?? defaultEmptyState}</>;
   }
 
   return (
-    <div className={cn("grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3", className)}>
+    <div
+      className={cn(
+        variant === "compact"
+          ? "grid grid-cols-1 gap-5 lg:grid-cols-2"
+          : "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3",
+        className,
+      )}
+    >
       {projects.map((project) => (
-        <ProjectCard key={project.slug} project={project} />
+        <ProjectCard key={project.slug} project={project} variant={variant} />
       ))}
     </div>
   );

@@ -9,8 +9,6 @@ import {
   type MotionValue,
 } from "framer-motion";
 
-import { useTheme } from "@/lib/theme";
-
 const STAR_POINTS = [
   { left: "53%", top: "8%", size: 1.2, opacity: 0.18 },
   { left: "62%", top: "12%", size: 1.6, opacity: 0.34 },
@@ -39,9 +37,7 @@ function useCombinedMotionValue(
 
 export function CinematicEnergyBackground() {
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const { resolvedTheme } = useTheme();
   const { scrollYProgress } = useScroll();
-  const isDark = resolvedTheme === "dark";
 
   const idlePhase = useMotionValue(0);
   useAnimationFrame((time) => {
@@ -178,16 +174,23 @@ export function CinematicEnergyBackground() {
         aria-hidden="true"
         className="absolute inset-0"
         style={{
-          background: isDark
-            ? "radial-gradient(circle at 72% 18%, rgba(140, 58, 14, 0.16), transparent 24%), linear-gradient(180deg, #060507 0%, #080609 48%, #040405 100%)"
-            : "radial-gradient(circle at 74% 20%, rgba(131, 48, 14, 0.16), transparent 24%), linear-gradient(180deg, #110d10 0%, #120c0f 52%, #0a090a 100%)",
+          background: "var(--cinematic-ribbon-stage-bg)",
         }}
       />
 
       <motion.div aria-hidden="true" style={glowStyle} className="absolute inset-0">
-        <div className="absolute right-[-6vw] top-[-10vh] h-[46rem] w-[46rem] rounded-full bg-[radial-gradient(circle,rgba(255,198,123,0.2)_0%,rgba(255,122,0,0.14)_28%,rgba(255,82,0,0.04)_54%,transparent_72%)] blur-3xl" />
-        <div className="absolute right-[10vw] top-[10vh] h-[20rem] w-[20rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18)_0%,rgba(255,215,137,0.14)_24%,rgba(255,150,42,0.03)_48%,transparent_68%)] blur-2xl" />
-        <div className="absolute bottom-[14vh] right-[16vw] h-[15rem] w-[15rem] rounded-full bg-[radial-gradient(circle,rgba(255,108,0,0.14)_0%,rgba(255,92,0,0.04)_44%,transparent_72%)] blur-[120px]" />
+        <div
+          className="absolute right-[-6vw] top-[-10vh] h-[46rem] w-[46rem] rounded-full blur-3xl"
+          style={{ background: "var(--cinematic-ribbon-glow-outer)" }}
+        />
+        <div
+          className="absolute right-[10vw] top-[10vh] h-[20rem] w-[20rem] rounded-full blur-2xl"
+          style={{ background: "var(--cinematic-ribbon-glow-mid)" }}
+        />
+        <div
+          className="absolute bottom-[14vh] right-[16vw] h-[15rem] w-[15rem] rounded-full blur-[120px]"
+          style={{ background: "var(--cinematic-ribbon-glow-low)" }}
+        />
       </motion.div>
 
       <motion.div aria-hidden="true" style={dustStyle} className="absolute inset-0">
@@ -201,7 +204,8 @@ export function CinematicEnergyBackground() {
               width: `${star.size}px`,
               height: `${star.size}px`,
               opacity: star.opacity,
-              boxShadow: `0 0 ${star.size * 6}px rgba(255,165,87,0.22)`,
+              backgroundColor: "var(--cinematic-ribbon-star)",
+              boxShadow: `0 0 ${star.size * 6}px var(--cinematic-ribbon-star-shadow)`,
             }}
           />
         ))}
@@ -215,15 +219,15 @@ export function CinematicEnergyBackground() {
       >
         <defs>
           <linearGradient id="energyWarmA" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,250,237,0.95)" />
-            <stop offset="18%" stopColor="rgba(255,230,165,0.98)" />
-            <stop offset="54%" stopColor="rgba(255,146,27,0.92)" />
-            <stop offset="100%" stopColor="rgba(201,33,20,0.88)" />
+            <stop offset="0%" style={{ stopColor: "var(--cinematic-ribbon-stop-a1)" }} />
+            <stop offset="18%" style={{ stopColor: "var(--cinematic-ribbon-stop-a2)" }} />
+            <stop offset="54%" style={{ stopColor: "var(--cinematic-ribbon-stop-a3)" }} />
+            <stop offset="100%" style={{ stopColor: "var(--cinematic-ribbon-stop-a4)" }} />
           </linearGradient>
           <linearGradient id="energyWarmB" x1="0%" x2="100%" y1="10%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,222,149,0.72)" />
-            <stop offset="45%" stopColor="rgba(255,105,0,0.84)" />
-            <stop offset="100%" stopColor="rgba(216,34,24,0.72)" />
+            <stop offset="0%" style={{ stopColor: "var(--cinematic-ribbon-stop-b1)" }} />
+            <stop offset="45%" style={{ stopColor: "var(--cinematic-ribbon-stop-b2)" }} />
+            <stop offset="100%" style={{ stopColor: "var(--cinematic-ribbon-stop-b3)" }} />
           </linearGradient>
           <filter id="energyBlurHeavy" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="22" />
@@ -276,15 +280,15 @@ export function CinematicEnergyBackground() {
       >
         <defs>
           <linearGradient id="energyCoreA" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.92)" />
-            <stop offset="16%" stopColor="rgba(255,243,196,0.96)" />
-            <stop offset="52%" stopColor="rgba(255,180,42,0.84)" />
-            <stop offset="100%" stopColor="rgba(214,52,20,0.54)" />
+            <stop offset="0%" style={{ stopColor: "var(--cinematic-ribbon-core-a1)" }} />
+            <stop offset="16%" style={{ stopColor: "var(--cinematic-ribbon-core-a2)" }} />
+            <stop offset="52%" style={{ stopColor: "var(--cinematic-ribbon-core-a3)" }} />
+            <stop offset="100%" style={{ stopColor: "var(--cinematic-ribbon-core-a4)" }} />
           </linearGradient>
           <linearGradient id="energyCoreB" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,248,218,0.84)" />
-            <stop offset="46%" stopColor="rgba(255,139,34,0.72)" />
-            <stop offset="100%" stopColor="rgba(194,34,16,0.46)" />
+            <stop offset="0%" style={{ stopColor: "var(--cinematic-ribbon-core-b1)" }} />
+            <stop offset="46%" style={{ stopColor: "var(--cinematic-ribbon-core-b2)" }} />
+            <stop offset="100%" style={{ stopColor: "var(--cinematic-ribbon-core-b3)" }} />
           </linearGradient>
           <filter id="energyCoreGlow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="5" />
@@ -318,7 +322,10 @@ export function CinematicEnergyBackground() {
       </motion.svg>
 
       <motion.div aria-hidden="true" style={coreStyle} className="absolute inset-0">
-        <div className="absolute right-[11vw] top-[12vh] h-[11rem] w-[11rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18)_0%,rgba(255,218,149,0.16)_18%,rgba(255,164,55,0.05)_44%,transparent_70%)] blur-[60px]" />
+        <div
+          className="absolute right-[11vw] top-[12vh] h-[11rem] w-[11rem] rounded-full blur-[60px]"
+          style={{ background: "var(--cinematic-ribbon-core-halo)" }}
+        />
       </motion.div>
 
       <motion.svg
@@ -329,9 +336,9 @@ export function CinematicEnergyBackground() {
       >
         <defs>
           <linearGradient id="lowerStream" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,197,103,0.82)" />
-            <stop offset="42%" stopColor="rgba(255,143,31,0.72)" />
-            <stop offset="100%" stopColor="rgba(178,21,14,0.12)" />
+            <stop offset="0%" style={{ stopColor: "var(--cinematic-ribbon-lower-a1)" }} />
+            <stop offset="42%" style={{ stopColor: "var(--cinematic-ribbon-lower-a2)" }} />
+            <stop offset="100%" style={{ stopColor: "var(--cinematic-ribbon-lower-a3)" }} />
           </linearGradient>
           <filter id="lowerGlow" x="-30%" y="-30%" width="170%" height="170%">
             <feGaussianBlur stdDeviation="8" />
@@ -359,7 +366,8 @@ export function CinematicEnergyBackground() {
 
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(circle_at_80%_24%,rgba(255,186,84,0.22),transparent_14%),radial-gradient(circle_at_74%_52%,rgba(255,86,22,0.18),transparent_18%),linear-gradient(to_right,rgba(4,4,5,0.985)_0%,rgba(4,4,5,0.92)_30%,rgba(4,4,5,0.62)_46%,rgba(4,4,5,0.18)_60%,rgba(4,4,5,0.42)_100%)]"
+        className="absolute inset-0"
+        style={{ background: "var(--cinematic-ribbon-mask)" }}
       />
     </div>
   );
