@@ -568,8 +568,23 @@ html {
     height: 36px;
     width: 36px;
     border-radius: 9999px;
+    opacity: 1;
+    transform: scale(1);
     will-change: transform, opacity;
     overflow: visible;
+    transition:
+      transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 120ms ease;
+  }
+
+  .custom-cursor-layer[data-visible="false"] .custom-cursor-core {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+
+  .custom-cursor-layer[data-visible="true"] .custom-cursor-core {
+    opacity: 1;
+    transform: scale(1);
   }
 
   .custom-cursor-ring,
@@ -598,27 +613,32 @@ html {
     background: var(--cinematic-cursor-fill);
     opacity: 0;
     transform-origin: center;
+    transform: scale(0.5);
   }
 
-  .custom-cursor-ring[data-variant="hover"] {
+  .custom-cursor-core[data-variant="hover"] .custom-cursor-ring {
     border-color: var(--cinematic-cursor-ring-strong);
     background: var(--cinematic-cursor-fill);
     box-shadow: 0 0 0 1px var(--cinematic-cursor-ring-strong), var(--cinematic-cursor-shadow);
+    transform: scale(1.62);
   }
 
-  .custom-cursor-fill[data-variant="hover"] {
+  .custom-cursor-core[data-variant="hover"] .custom-cursor-fill {
     background: var(--cinematic-cursor-fill-strong);
+    opacity: 1;
+    transform: scale(1.05);
   }
 
   .custom-cursor-trail {
     height: 24px;
     width: 24px;
     opacity: 0;
+    border-radius: 9999px;
     transform: translate3d(-9999px, -9999px, 0) scale(0.8);
     background:
       radial-gradient(circle at center, var(--cinematic-cursor-trail) 0%, rgba(255, 255, 255, 0.04) 34%, transparent 76%);
     box-shadow: 0 0 18px var(--cinematic-cursor-trail-shadow);
-    filter: blur(5px);
+    filter: blur(4px);
   }
 
   .hero-page-gradient {
