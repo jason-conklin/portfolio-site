@@ -24,16 +24,17 @@ const NATIVE_CURSOR_SELECTOR = [
   ".cursor-zoom-out",
 ].join(",");
 
-const GHOST_COUNT = 8;
-const GHOST_LIFETIME_MS = 420;
-const GHOST_SPAWN_INTERVAL_MS = 18;
-const MOVEMENT_THRESHOLD = 3;
+const GHOST_COUNT = 4;
+const GHOST_LIFETIME_MS = 300;
+const GHOST_SPAWN_INTERVAL_MS = 34;
+const MOVEMENT_THRESHOLD = 6;
 
 type GhostPoint = {
   x: number;
   y: number;
   bornAt: number;
   active: boolean;
+  intensity: number;
 };
 
 function matchesSelector(target: EventTarget | null, selector: string) {
@@ -47,6 +48,8 @@ export function CustomCursor() {
   const lastGhostSpawnRef = useRef(0);
   const ghostWriteIndexRef = useRef(0);
   const pointerRef = useRef({ x: 0, y: 0 });
+  const lastSpawnPositionRef = useRef({ x: 0, y: 0 });
+  const lastPointerTimestampRef = useRef(0);
   const interactiveRef = useRef(false);
   const suppressedRef = useRef(false);
   const visibleRef = useRef(false);
@@ -56,6 +59,7 @@ export function CustomCursor() {
       y: 0,
       bornAt: 0,
       active: false,
+      intensity: 0,
     })),
   );
 
@@ -142,12 +146,13 @@ export function CustomCursor() {
       }
     };
 
-    const spawnGhost = (x: number, y: number, now: number) => {
+    const spawnGhost = (x: number, y: number, now: number, intensity: number) => {
       const nextGhost = ghostPointsRef.current[ghostWriteIndexRef.current];
       nextGhost.x = x;
       nextGhost.y = y;
       nextGhost.bornAt = now;
       nextGhost.active = true;
+      nextGhost.intensity = intensity;
 
       ghostWriteIndexRef.current =
         (ghostWriteIndexRef.current + 1) % ghostPointsRef.current.length;
@@ -181,8 +186,9 @@ export function CustomCursor() {
             return;
           }
 
-          const opacity = (1 - progress) * 0.72;
-          const scale = 0.72 + progress * 0.92;
+          const eased = 1 - progress;
+          const opacity = eased * eased * ghost.intensity;
+          const scale = 0.82 + progress * 0.42 + ghost.intensity * 0.18;
 
           node.style.opacity = opacity.toFixed(3);
           node.style.transform = `translate3d(${ghost.x}px, ${ghost.y}px, 0) translate(-50%, -50%) scale(${scale.toFixed(3)})`;
@@ -198,14 +204,26 @@ export function CustomCursor() {
       const deltaX = nextX - pointerRef.current.x;
       const deltaY = nextY - pointerRef.current.y;
       const distance = Math.hypot(deltaX, deltaY);
+      const deltaTime = Math.max(event.timeStamp - lastPointerTimestampRef.current, 1);
+      const speed = distance / deltaTime;
+      const speedFactor = Math.min(speed / 1.2, 1);
+      const distanceSinceLastGhost = Math.hypot(
+        nextX - lastSpawnPositionRef.current.x,
+        nextY - lastSpawnPositionRef.current.y,
+      );
+      const minSpawnInterval = GHOST_SPAWN_INTERVAL_MS + (1 - speedFactor) * 18;
+      const minSpawnDistance = MOVEMENT_THRESHOLD + (1 - speedFactor) * 6;
 
       pointerRef.current.x = nextX;
       pointerRef.current.y = nextY;
+      lastPointerTimestampRef.current = event.timeStamp;
       setCursorPosition(nextX, nextY);
 
       if (!visibleRef.current) {
         visibleRef.current = true;
         setVisible(true);
+        lastSpawnPositionRef.current.x = nextX;
+        lastSpawnPositionRef.current.y = nextY;
       }
 
       updateInteractiveState(event.target);
@@ -213,10 +231,13 @@ export function CustomCursor() {
       if (
         !reducedMotion &&
         distance >= MOVEMENT_THRESHOLD &&
-        event.timeStamp - lastGhostSpawnRef.current >= GHOST_SPAWN_INTERVAL_MS
+        distanceSinceLastGhost >= minSpawnDistance &&
+        event.timeStamp - lastGhostSpawnRef.current >= minSpawnInterval
       ) {
-        spawnGhost(nextX, nextY, event.timeStamp);
+        spawnGhost(nextX, nextY, event.timeStamp, 0.12 + speedFactor * 0.16);
         lastGhostSpawnRef.current = event.timeStamp;
+        lastSpawnPositionRef.current.x = nextX;
+        lastSpawnPositionRef.current.y = nextY;
       }
     };
 
@@ -224,6 +245,7 @@ export function CustomCursor() {
       interactiveRef.current = false;
       suppressedRef.current = false;
       visibleRef.current = false;
+      lastPointerTimestampRef.current = 0;
       setVisible(false);
       setInteractive(false);
       setSuppressed(false);

@@ -8,7 +8,7 @@ type HomeRailNavProps = {
 };
 
 const railLinkClass =
-  "group relative inline-flex items-center pl-4 text-[0.72rem] font-medium uppercase tracking-[0.28em] cinematic-text-quaternary transition-colors duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:[color:var(--cinematic-text-primary)]";
+  "group relative inline-flex items-center pl-4 text-[0.82rem] font-medium uppercase tracking-[0.26em] cinematic-text-quaternary transition-colors duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:[color:var(--cinematic-text-primary)]";
 
 const railIndicatorClass =
   "before:absolute before:left-0 before:top-1/2 before:h-px before:-translate-y-1/2 before:bg-[color:var(--cinematic-divider)] before:transition-[width,background-color] before:duration-200";
@@ -26,7 +26,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "home"
-                    ? "[color:var(--cinematic-text-primary)] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
+                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.4rem] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
                     : "before:w-0 group-hover:before:w-7 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
                 )}
               >
@@ -38,7 +38,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "works"
-                    ? "[color:var(--cinematic-text-primary)] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
+                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.4rem] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
                     : "before:w-0 group-hover:before:w-7 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
                 )}
               >
@@ -50,7 +50,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "about"
-                    ? "[color:var(--cinematic-text-primary)] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
+                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.4rem] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
                     : "before:w-0 group-hover:before:w-7 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
                 )}
               >
@@ -62,7 +62,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "contact"
-                    ? "[color:var(--cinematic-text-primary)] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
+                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.4rem] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
                     : "before:w-0 group-hover:before:w-7 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
                 )}
               >

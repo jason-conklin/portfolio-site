@@ -30,7 +30,7 @@ export function PortfolioContactSection() {
               </p>
               <h2
                 id="contact-title"
-                className="mt-5 text-[clamp(2rem,3.8vw,3.4rem)] font-light tracking-[0.01em] cinematic-text-primary"
+                className="mt-5 text-[clamp(1.6rem,3vw,2.7rem)] font-light tracking-[0.01em] cinematic-text-primary"
               >
                 Open to serious product work, strong teams, and production problems worth solving.
               </h2>
