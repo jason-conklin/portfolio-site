@@ -125,13 +125,12 @@ export function PortfolioAboutSection() {
                     <div
                       className="pointer-events-none absolute z-30"
                       style={{
-                        left: "clamp(1rem, 3.4vw, 1.85rem)",
-                        bottom: "clamp(4.25rem, 17%, 5.9rem)",
+                        left: "46%",
+                        bottom: "clamp(0.95rem, 3.8%, 1.4rem)",
                       }}
                     >
-                      <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/28 px-3 py-1 text-[0.62rem] font-medium uppercase tracking-[0.19em] text-white/84 backdrop-blur-md">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
-                        NJIT · Spring 2025
+                      <div className="-translate-x-1/2 rounded-full border border-white/14 bg-black/34 px-4 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-white/86 shadow-[0_10px_24px_-18px_rgba(0,0,0,0.65)] backdrop-blur-md">
+                        Spring 2025
                       </div>
                     </div>
                   </motion.div>
