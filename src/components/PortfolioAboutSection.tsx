@@ -113,7 +113,7 @@ export function PortfolioAboutSection() {
                 <div className="relative min-h-[29rem] sm:min-h-[34rem] lg:min-h-[37rem]">
                   <motion.div
                     style={prefersReducedMotion ? undefined : { y: primaryImageY }}
-                    className="relative ml-auto h-[24rem] w-[84%] overflow-hidden rounded-[1.75rem] border border-[color:var(--cinematic-border)] bg-[color:var(--cinematic-surface-deep)] shadow-[var(--cinematic-shadow-strong)] sm:h-[28rem] lg:h-[32rem]"
+                    className="relative ml-auto h-[24rem] w-[92%] overflow-hidden rounded-[1.75rem] border border-[color:var(--cinematic-border)] bg-[color:var(--cinematic-surface-deep)] shadow-[var(--cinematic-shadow-strong)] sm:h-[28rem] sm:w-[91%] lg:h-[32rem] lg:w-[90%]"
                   >
                     <img
                       src={aboutPic2}
@@ -144,7 +144,7 @@ export function PortfolioAboutSection() {
                     className="absolute z-20 w-[38%] max-w-[12.75rem] rounded-[1.35rem] border border-[color:var(--cinematic-border-strong)] bg-[color:var(--cinematic-surface-panel)]/88 p-2.5 shadow-[var(--cinematic-shadow-panel)] backdrop-blur-xl sm:w-[36%] sm:max-w-[13.5rem] lg:w-[34%] lg:max-w-[14rem]"
                     style={{
                       ...(prefersReducedMotion ? {} : { x: secondaryImageX, y: secondaryImageY }),
-                      left: "clamp(1.5rem, 7.5%, 4.5rem)",
+                      left: "clamp(1.1rem, 5.8%, 3.6rem)",
                       bottom: "clamp(0.85rem, 2.2vw, 1.5rem)",
                     }}
                   >
