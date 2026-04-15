@@ -31,7 +31,7 @@ export function TechnicalBlueprintBackground() {
   const animationRef = useRef<number>();
   const { resolvedTheme } = useTheme();
   const prefersReducedMotion = useReducedMotion();
-  const isEnabled = siteOptions.enableBackgroundParticles;
+  const isEnabled = siteOptions.enableBlueprintBackground;
 
   const palette = useMemo(() => {
     const isDark = resolvedTheme === "dark";
@@ -279,4 +279,3 @@ export function TechnicalBlueprintBackground() {
     />
   );
 }
-

@@ -264,13 +264,20 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
     slug,
   } = project;
   const cardTintClass = getProjectCardTint(category);
-  // Always ensure gallery is safe to render
-  const safeGallery = gallery && gallery.length > 0 ? gallery : [{
-    title: "Coming soon",
-    description: "Screenshots will be added soon.",
-    image: placeholder,
-    alt: "Placeholder screenshot",
-  }];
+  const safeGallery = useMemo(
+    () =>
+      gallery && gallery.length > 0
+        ? gallery
+        : [
+            {
+              title: "Coming soon",
+              description: "Screenshots will be added soon.",
+              image: placeholder,
+              alt: "Placeholder screenshot",
+            },
+          ],
+    [gallery],
+  );
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);

@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useMotionValue, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -16,14 +16,6 @@ const TRAIL_OFFSET = TRAIL_SIZE / 2;
 type CursorVariant = "default" | "hover";
 type DisplayVariant = CursorVariant | "hidden";
 
-type TrailEcho = {
-  id: number;
-  x: number;
-  y: number;
-  opacity: number;
-  scale: number;
-};
-
 function getInteractiveTarget(target: EventTarget | null) {
   return target instanceof Element ? target.closest(INTERACTIVE_SELECTOR) : null;
 }
@@ -36,15 +28,23 @@ export function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
   const [variant, setVariant] = useState<CursorVariant>("default");
-  const [trail, setTrail] = useState<TrailEcho[]>([]);
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
   const visibleRef = useRef(false);
   const variantRef = useRef<CursorVariant>("default");
-  const echoIdRef = useRef(0);
-  const timeoutsRef = useRef<Map<number, number>>(new Map());
+  const trailRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const trailIndexRef = useRef(0);
   const lastSpawnRef = useRef({ x: -100, y: -100, time: 0 });
   const lastMoveTimeRef = useRef(0);
+
+  const resetTrailNodes = () => {
+    for (const node of trailRefs.current) {
+      if (!node) continue;
+      node.getAnimations().forEach((animation) => animation.cancel());
+      node.style.opacity = "0";
+      node.style.transform = "translate3d(-9999px, -9999px, 0) scale(0.8)";
+    }
+  };
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -74,7 +74,7 @@ export function CustomCursor() {
       variantRef.current = "default";
       setVisible(false);
       setVariant("default");
-      setTrail([]);
+      resetTrailNodes();
     }
 
     return () => {
@@ -91,10 +91,7 @@ export function CustomCursor() {
   }, [variant]);
 
   useEffect(() => {
-    return () => {
-      timeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
-      timeoutsRef.current.clear();
-    };
+    return () => resetTrailNodes();
   }, []);
 
   useEffect(() => {
@@ -112,16 +109,10 @@ export function CustomCursor() {
       setVariant(nextVariant);
     };
 
-    const clearTrail = () => {
-      timeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
-      timeoutsRef.current.clear();
-      setTrail([]);
-    };
-
     const hideCursor = () => {
       setVisibleState(false);
       setVariantState("default");
-      clearTrail();
+      resetTrailNodes();
     };
 
     const syncInteractiveState = (target: EventTarget | null) => {
@@ -129,23 +120,37 @@ export function CustomCursor() {
     };
 
     const spawnTrail = (x: number, y: number, speedFactor: number) => {
-      const id = echoIdRef.current++;
-      const nextEcho: TrailEcho = {
-        id,
-        x,
-        y,
-        opacity: 0.18 + speedFactor * 0.12,
-        scale: 0.82 + speedFactor * 0.16,
-      };
+      const node = trailRefs.current[trailIndexRef.current % TRAIL_MAX];
+      trailIndexRef.current += 1;
+      if (!node) return;
 
-      setTrail((current) => [...current.slice(-(TRAIL_MAX - 1)), nextEcho]);
+      node.getAnimations().forEach((animation) => animation.cancel());
 
-      const timeoutId = window.setTimeout(() => {
-        timeoutsRef.current.delete(id);
-        setTrail((current) => current.filter((echo) => echo.id !== id));
-      }, TRAIL_LIFETIME_MS);
+      const startOpacity = 0.2 + speedFactor * 0.16;
+      const startScale = 0.84 + speedFactor * 0.16;
+      const endScale = startScale + 0.22;
+      const translate = `translate3d(${x}px, ${y}px, 0)`;
 
-      timeoutsRef.current.set(id, timeoutId);
+      node.style.opacity = "0";
+      node.style.transform = `${translate} scale(${startScale})`;
+
+      node.animate(
+        [
+          {
+            opacity: startOpacity,
+            transform: `${translate} scale(${startScale})`,
+          },
+          {
+            opacity: 0,
+            transform: `${translate} scale(${endScale})`,
+          },
+        ],
+        {
+          duration: TRAIL_LIFETIME_MS,
+          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+          fill: "forwards",
+        },
+      );
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -232,7 +237,7 @@ export function CustomCursor() {
       document.documentElement.removeEventListener("mouseleave", hideCursor);
       window.removeEventListener("blur", hideCursor);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      clearTrail();
+      resetTrailNodes();
     };
   }, [cursorX, cursorY, enabled, prefersReducedMotion]);
 
@@ -248,23 +253,15 @@ export function CustomCursor() {
   return createPortal(
     <div aria-hidden="true" className="custom-cursor-layer" data-visible={visible ? "true" : "false"}>
       {!prefersReducedMotion ? (
-        <AnimatePresence>
-          {trail.map((echo) => (
-            <motion.span
-              key={echo.id}
-              className="custom-cursor-trail"
-              style={{ left: echo.x, top: echo.y }}
-              initial={{ opacity: echo.opacity, scale: echo.scale }}
-              animate={{ opacity: echo.opacity * 0.72, scale: echo.scale + 0.08 }}
-              exit={{
-                opacity: 0,
-                scale: echo.scale + 0.34,
-                transition: { duration: 0.24, ease: [0.16, 1, 0.3, 1] },
-              }}
-              transition={{ duration: 0.12, ease: "easeOut" }}
-            />
-          ))}
-        </AnimatePresence>
+        Array.from({ length: TRAIL_MAX }).map((_, index) => (
+          <span
+            key={index}
+            ref={(node) => {
+              trailRefs.current[index] = node;
+            }}
+            className="custom-cursor-trail"
+          />
+        ))
       ) : null}
 
       <motion.div

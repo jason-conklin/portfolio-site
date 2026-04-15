@@ -14,7 +14,8 @@ export function PortfolioWorksSection({
 }: PortfolioWorksSectionProps) {
   return (
     <section
-      className="px-6 pb-[4.5rem] pt-8 sm:px-8 sm:pb-20 sm:pt-10 lg:px-14 lg:pb-24 lg:pl-[12rem] lg:pr-16 lg:pt-12 xl:pl-[14rem]"
+      id="works"
+      className="scroll-mt-[var(--section-scroll-offset)] px-6 pb-[4.5rem] pt-8 sm:px-8 sm:pb-20 sm:pt-10 lg:px-14 lg:pb-24 lg:pl-[12rem] lg:pr-16 lg:pt-12 xl:pl-[14rem]"
       aria-labelledby="works-title"
     >
       <div className="mx-auto w-full max-w-[92rem]">

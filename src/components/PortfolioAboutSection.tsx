@@ -48,11 +48,29 @@ const relevantExperience = [
   },
 ] as const;
 
+const focusAreaHighlights = [
+  {
+    title: "Full-Stack Architecture",
+    description: "Designing product systems where the UI, API boundaries, and deployment choices stay coherent as the app grows.",
+  },
+  {
+    title: "Applied AI & Evaluation",
+    description: "Building model-driven features with practical evaluation loops so outputs stay useful, measurable, and explainable.",
+  },
+  {
+    title: "Secure Auth & RBAC",
+    description: "Shaping access flows, permissions, and session boundaries so user-facing products stay safe without feeling heavy.",
+  },
+  {
+    title: "Data Systems & Analytics",
+    description: "Working on schemas, ingestion paths, and reporting layers that make product data easier to trust and use.",
+  },
+] as const;
+
 export function PortfolioAboutSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = useReducedMotion() ?? false;
   const education = about.education[0];
-  const focusAreas = education.focusAreas.slice(0, 4);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
@@ -265,13 +283,22 @@ export function PortfolioAboutSection() {
                     Focus Areas
                   </p>
                   <p className="mt-3 max-w-[30rem] text-sm leading-5.5 cinematic-text-tertiary">
-                    The areas I keep returning to when I think about product quality, implementation, and system design.
+                    The parts of engineering work I naturally keep gravitating toward when a product needs both clarity and technical depth.
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {focusAreas.map((area) => (
-                      <span key={area.title} className="cinematic-chip rounded-full px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.16em]">
-                        {area.title}
-                      </span>
+
+                  <div className="mt-4 space-y-3.5">
+                    {focusAreaHighlights.map((area, index) => (
+                      <div
+                        key={area.title}
+                        className={index === 0 ? "space-y-2" : "space-y-2 border-t border-white/7 pt-3.5"}
+                      >
+                        <p className="inline-flex items-center rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1 text-[0.6rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
+                          {area.title}
+                        </p>
+                        <p className="max-w-[32rem] text-[0.88rem] leading-5.5 cinematic-text-secondary">
+                          {area.description}
+                        </p>
+                      </div>
                     ))}
                   </div>
                 </div>

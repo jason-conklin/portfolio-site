@@ -539,6 +539,7 @@ html {
     opacity: 0;
     transition: opacity 180ms ease;
     will-change: opacity;
+    contain: layout style paint;
   }
 
   .custom-cursor-layer[data-visible="true"] {
@@ -600,6 +601,7 @@ html {
     height: 24px;
     width: 24px;
     opacity: 0;
+    transform: translate3d(-9999px, -9999px, 0) scale(0.8);
     background:
       radial-gradient(circle at center, var(--cinematic-cursor-trail) 0%, rgba(255, 255, 255, 0.04) 34%, transparent 76%);
     box-shadow: 0 0 18px var(--cinematic-cursor-trail-shadow);

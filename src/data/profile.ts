@@ -993,8 +993,5 @@ export const metaByRoute = {
 } as const;
 
 export const siteOptions = {
-  enableBackgroundParticles: true, // Flip to false to disable the animated canvas background.
-  particleDensity: 0.6, // Tune particle count (0.3 - sparse, 1.0 - denser network).
-  lineDistance: 120, // Increase to link particles across wider gaps.
-  motionSpeed: 0.18, // Higher values make the animation livelier; keep low for calm vibe.
+  enableBlueprintBackground: true,
 } as const;

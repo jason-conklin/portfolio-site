@@ -46,7 +46,10 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
+    let frameId: number | null = null;
+
     const updateActiveSection = () => {
+      frameId = null;
       const anchorLine = window.innerHeight * 0.32;
       let nextSection: HomeSectionId = "home";
       let bestDistance = Number.POSITIVE_INFINITY;
@@ -75,13 +78,21 @@ function HomePage() {
       setActiveSection(nextSection);
     };
 
-    updateActiveSection();
-    window.addEventListener("scroll", updateActiveSection, { passive: true });
-    window.addEventListener("resize", updateActiveSection);
+    const scheduleActiveSectionUpdate = () => {
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(updateActiveSection);
+    };
+
+    scheduleActiveSectionUpdate();
+    window.addEventListener("scroll", scheduleActiveSectionUpdate, { passive: true });
+    window.addEventListener("resize", scheduleActiveSectionUpdate);
 
     return () => {
-      window.removeEventListener("scroll", updateActiveSection);
-      window.removeEventListener("resize", updateActiveSection);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener("scroll", scheduleActiveSectionUpdate);
+      window.removeEventListener("resize", scheduleActiveSectionUpdate);
     };
   }, []);
 
@@ -224,10 +235,7 @@ function HomePage() {
                 </motion.div>
               </motion.div>
 
-              <div
-                id="works"
-                className="scroll-mt-[var(--section-scroll-offset)] cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-4 sm:px-6 sm:py-5 lg:px-7 lg:py-5"
-              >
+              <div className="cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-4 sm:px-6 sm:py-5 lg:px-7 lg:py-5">
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0"

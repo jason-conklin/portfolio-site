@@ -33,6 +33,8 @@ const accentStyles: Record<string, { rgb: string; railClass: string }> = {
   },
 };
 
+const liveDeploymentCardRects = new WeakMap<HTMLElement, DOMRect>();
+
 function getProjectDomain(url: string) {
   try {
     return new URL(url).hostname.replace(/^www\./, "");
@@ -47,15 +49,28 @@ function getProjectDomain(url: string) {
 function updateCardCursorHighlight(event: ReactPointerEvent<HTMLElement>) {
   if (event.pointerType && event.pointerType !== "mouse") return;
 
-  const rect = event.currentTarget.getBoundingClientRect();
+  const target = event.currentTarget;
+  let rect = liveDeploymentCardRects.get(target);
+
+  if (!rect) {
+    rect = target.getBoundingClientRect();
+    liveDeploymentCardRects.set(target, rect);
+  }
+
   const x = ((event.clientX - rect.left) / rect.width) * 100;
   const y = ((event.clientY - rect.top) / rect.height) * 100;
 
-  event.currentTarget.style.setProperty("--cursor-x", `${x.toFixed(2)}%`);
-  event.currentTarget.style.setProperty("--cursor-y", `${y.toFixed(2)}%`);
+  target.style.setProperty("--cursor-x", `${x.toFixed(2)}%`);
+  target.style.setProperty("--cursor-y", `${y.toFixed(2)}%`);
+}
+
+function primeCardCursorHighlight(event: ReactPointerEvent<HTMLElement>) {
+  liveDeploymentCardRects.set(event.currentTarget, event.currentTarget.getBoundingClientRect());
+  updateCardCursorHighlight(event);
 }
 
 function resetCardCursorHighlight(event: ReactPointerEvent<HTMLElement>) {
+  liveDeploymentCardRects.delete(event.currentTarget);
   event.currentTarget.style.setProperty("--cursor-x", "50%");
   event.currentTarget.style.setProperty("--cursor-y", "50%");
 }
@@ -139,7 +154,7 @@ export function LiveDeploymentsStage({
                   onOpenProject(project.slug);
                 }}
                 onPointerMove={updateCardCursorHighlight}
-                onPointerEnter={updateCardCursorHighlight}
+                onPointerEnter={primeCardCursorHighlight}
                 onPointerLeave={resetCardCursorHighlight}
                 onKeyDown={(event) => {
                   const target = event.target as HTMLElement;
