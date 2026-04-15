@@ -26,8 +26,7 @@ import { Tag } from "@/components/Tag";
 import { ThemedIconCSS } from "@/components/ThemedIconCSS";
 import { cn } from "@/lib/utils";
 import { getProjectCardTint } from "@/lib/project-card-tint";
-import peopleIconLight from "@/assets/people_icon_light.png";
-import peopleIconDark from "@/assets/people_icon_dark.png";
+import peopleIcon from "@/assets/people_icon.png";
 import placeholder from "@/assets/placeholder.png";
 
 
@@ -573,8 +572,8 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                         {teamSizeLabel ? (
                           <li className="cinematic-chip inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs">
                             <ThemedIconCSS
-                              lightThemeSrc={peopleIconDark}
-                              darkThemeSrc={peopleIconLight}
+                              lightThemeSrc={peopleIcon}
+                              darkThemeSrc={peopleIcon}
                               alt=""
                               className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
                             />
@@ -1071,8 +1070,8 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                   {teamSizeLabel ? (
                     <span className="cinematic-chip inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.16em]">
                       <ThemedIconCSS
-                        lightThemeSrc={peopleIconDark}
-                        darkThemeSrc={peopleIconLight}
+                        lightThemeSrc={peopleIcon}
+                        darkThemeSrc={peopleIcon}
                         alt=""
                         className="h-3 w-3 opacity-80 dark:opacity-90"
                       />
@@ -1251,8 +1250,8 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
                   {teamSizeLabel ? (
                     <div className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
                       <ThemedIconCSS
-                        lightThemeSrc={peopleIconDark}
-                        darkThemeSrc={peopleIconLight}
+                        lightThemeSrc={peopleIcon}
+                        darkThemeSrc={peopleIcon}
                         alt=""
                         className="h-3.5 w-3.5 opacity-80 dark:opacity-90"
                       />

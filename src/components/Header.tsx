@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { navigation, site } from "@/data/profile";
 import { cn } from "@/lib/utils";
 import { CommandPalette } from "@/components/CommandPalette";
-import logoLight from "@/assets/logo-light.png";
-import logoDark from "@/assets/logo-dark.png";
+import jcLogo from "@/assets/jc-logo.png";
 
 export function Header() {
   const { pathname, hash } = useLocation();
@@ -66,18 +65,11 @@ export function Header() {
               className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full shadow-soft"
             >
               <img
-                src={logoLight}
+                src={jcLogo}
                 alt=""
                 loading="eager"
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover opacity-100 transition-opacity duration-200 ease-out dark:opacity-0"
-              />
-              <img
-                src={logoDark}
-                alt=""
-                loading="eager"
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-200 ease-out dark:opacity-100"
+                className="absolute inset-0 h-full w-full object-cover"
               />
             </span>
             <span className="sr-only sm:not-sr-only">Jason Conklin</span>
