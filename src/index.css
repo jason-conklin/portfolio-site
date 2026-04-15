@@ -172,8 +172,6 @@ html {
   --cinematic-cursor-ring: rgba(17, 43, 76, 0.76);
   --cinematic-cursor-ring-strong: rgba(38, 82, 162, 0.54);
   --cinematic-cursor-fill: rgba(72, 120, 214, 0.14);
-  --cinematic-cursor-fill-strong: rgba(72, 120, 214, 0.2);
-  --cinematic-cursor-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16), 0 10px 28px rgba(41, 76, 132, 0.12);
 }
 
 @media (min-width: 768px) {
@@ -321,8 +319,6 @@ html {
   --cinematic-cursor-ring: rgba(255, 239, 219, 0.82);
   --cinematic-cursor-ring-strong: rgba(255, 196, 122, 0.56);
   --cinematic-cursor-fill: rgba(255, 183, 98, 0.14);
-  --cinematic-cursor-fill-strong: rgba(255, 157, 61, 0.22);
-  --cinematic-cursor-shadow: 0 0 0 1px rgba(255, 226, 190, 0.14), 0 14px 34px rgba(0, 0, 0, 0.28);
 }
 
 @layer base {
@@ -535,64 +531,38 @@ html {
     contain: layout style paint;
   }
 
-  .custom-cursor-shell {
+  .custom-cursor {
     position: fixed;
     left: 0;
     top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    width: 36px;
+    height: 34px;
+    width: 34px;
     border-radius: 9999px;
+    border: 1px solid var(--cinematic-cursor-ring);
+    background: transparent;
+    opacity: 0;
     pointer-events: none;
     user-select: none;
     backface-visibility: hidden;
     transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
-    will-change: transform;
-  }
-
-  .custom-cursor-ring,
-  .custom-cursor-fill {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-    width: 100%;
-    border-radius: 9999px;
+    will-change: transform, opacity, background-color, border-color;
     transition:
-      transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 140ms ease,
-      background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 90ms linear,
+      background-color 110ms linear,
+      border-color 110ms linear;
   }
 
-  .custom-cursor-ring {
-    border: 1px solid var(--cinematic-cursor-ring);
-    box-shadow: var(--cinematic-cursor-shadow);
-    background: transparent;
-    transform-origin: center;
-    transform: scale(1);
+  .custom-cursor[data-visible="true"] {
+    opacity: 1;
   }
 
-  .custom-cursor-fill {
-    background: var(--cinematic-cursor-fill);
-    opacity: 0;
-    transform-origin: center;
-    transform: scale(0.38);
-  }
-
-  .custom-cursor-core[data-variant="hover"] .custom-cursor-ring {
+  .custom-cursor[data-variant="hover"] {
     border-color: var(--cinematic-cursor-ring-strong);
     background: var(--cinematic-cursor-fill);
-    box-shadow: 0 0 0 1px var(--cinematic-cursor-ring-strong), var(--cinematic-cursor-shadow);
-    transform: scale(1.04);
   }
 
-  .custom-cursor-core[data-variant="hover"] .custom-cursor-fill {
-    background: var(--cinematic-cursor-fill-strong);
-    opacity: 1;
-    transform: scale(1);
+  .custom-cursor[data-reduced-motion="true"] {
+    transition: none;
   }
 
   .hero-page-gradient {
