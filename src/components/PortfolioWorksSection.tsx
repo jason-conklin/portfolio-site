@@ -30,7 +30,7 @@ export function PortfolioWorksSection({
           <div aria-hidden="true" className="cinematic-divider pointer-events-none absolute inset-x-0 top-0 h-px" />
 
           <div className="relative z-10">
-            <header className="max-w-3xl">
+            <header>
               <p className="inline-flex items-center gap-2 text-[0.68rem] font-medium uppercase tracking-[0.28em] cinematic-text-quaternary">
                 <BriefcaseBusiness className="h-3.5 w-3.5 cinematic-text-tertiary" aria-hidden="true" />
                 Works
@@ -41,7 +41,7 @@ export function PortfolioWorksSection({
               >
                 Full project index across infrastructure, product engineering, and applied AI.
               </h2>
-              <p className="mt-4 max-w-2xl text-[1rem] leading-7 cinematic-text-tertiary">
+              <p className="mt-4 text-[1rem] leading-7 cinematic-text-tertiary">
                 The live deployment band now sits in the hero. This section stays compact and scan-friendly
                 while preserving deeper detail in the project modal.
               </p>

@@ -1,6 +1,7 @@
 import { ArrowUpRight, GraduationCap, MapPin, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import njitLogo from "@/assets/njit-logo.png";
 import profileImage from "@/assets/profile.png";
 import { about, hero, skills } from "@/data/profile";
 
@@ -29,8 +30,8 @@ export function PortfolioAboutSection() {
               <p className="text-[0.68rem] font-medium uppercase tracking-[0.28em] cinematic-text-quaternary">
                 About
               </p>
-              <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
-                <div className="relative h-24 w-24 shrink-0 sm:h-28 sm:w-28">
+              <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7">
+                <div className="relative h-32 w-32 shrink-0 sm:h-36 sm:w-36">
                   <div
                     aria-hidden="true"
                     className="absolute inset-[-10%] rounded-[1.5rem] opacity-80 blur-2xl"
@@ -52,7 +53,7 @@ export function PortfolioAboutSection() {
                 </div>
 
                 <div className="min-w-0">
-                  <p className="text-[1.15rem] font-medium tracking-[0.01em] cinematic-text-primary sm:text-[1.3rem]">
+                  <p className="text-[1.2rem] font-medium tracking-[0.01em] cinematic-text-primary sm:text-[1.35rem]">
                     {hero.name}
                   </p>
                   <p className="mt-2 max-w-md text-[0.76rem] font-medium uppercase tracking-[0.22em] cinematic-text-tertiary">
@@ -67,12 +68,12 @@ export function PortfolioAboutSection() {
 
               <h2
                 id="about-title"
-                className="mt-7 max-w-[14ch] text-[clamp(2rem,3.5vw,3.2rem)] font-light tracking-[0.01em] cinematic-text-primary"
+                className="mt-7 max-w-[22ch] text-[clamp(1.8rem,3vw,2.75rem)] font-light leading-[1.04] tracking-[0.01em] cinematic-text-primary"
               >
                 Production-minded engineering with clean systems thinking.
               </h2>
 
-              <div className="mt-7 space-y-5 text-[0.98rem] leading-8 cinematic-text-tertiary">
+              <div className="mt-6 space-y-5 text-[0.98rem] leading-8 cinematic-text-tertiary">
                 {about.bio.map((paragraph, paragraphIndex) => (
                   <p key={`about-paragraph-${paragraphIndex}`}>
                     {paragraph.parts.map((part, partIndex) =>
@@ -119,15 +120,33 @@ export function PortfolioAboutSection() {
 
           <div className="space-y-5 lg:pt-1">
             <div className="cinematic-subpanel rounded-[1.75rem] p-6 sm:p-7">
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-4">
                 <span className="cinematic-chip-strong inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl">
                   <GraduationCap className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <div>
+                <div className="min-w-0 flex-1">
                   <h3 className="text-lg font-medium cinematic-text-primary">Education</h3>
-                  <p className="mt-1 text-sm leading-6 cinematic-text-tertiary">
-                    {education.school} · {education.degree} · {education.graduation}
-                  </p>
+                  <div className="mt-4 cinematic-chip rounded-[1.25rem] px-4 py-3.5">
+                    <div className="flex items-center gap-3">
+                      <div className="cinematic-chip-strong flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1.5">
+                        <img
+                          src={njitLogo}
+                          alt="NJIT logo"
+                          className="h-full w-full object-contain"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium leading-6 cinematic-text-primary">
+                          {education.school}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-3 flex flex-col gap-1.5 text-sm leading-6 cinematic-text-tertiary sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                      <p className="cinematic-text-secondary">{education.degree}</p>
+                      <p className="text-sm sm:text-right">{education.graduation}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
