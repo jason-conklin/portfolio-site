@@ -121,7 +121,14 @@ export function PortfolioAboutSection() {
                       className="h-full w-full object-cover"
                       loading="lazy"
                     />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/16 to-transparent p-4 sm:p-5">
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/58 via-black/16 to-transparent p-4 sm:p-5" />
+                    <div
+                      className="pointer-events-none absolute z-30"
+                      style={{
+                        left: "clamp(1rem, 3.4vw, 1.85rem)",
+                        bottom: "clamp(4.25rem, 17%, 5.9rem)",
+                      }}
+                    >
                       <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/28 px-3 py-1 text-[0.62rem] font-medium uppercase tracking-[0.19em] text-white/84 backdrop-blur-md">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
                         NJIT · Spring 2025
@@ -135,8 +142,12 @@ export function PortfolioAboutSection() {
                   />
 
                   <motion.div
-                    style={prefersReducedMotion ? undefined : { x: secondaryImageX, y: secondaryImageY }}
-                    className="absolute bottom-2 left-0 z-20 w-[41%] max-w-[14rem] rounded-[1.35rem] border border-[color:var(--cinematic-border-strong)] bg-[color:var(--cinematic-surface-panel)]/86 p-2.5 shadow-[var(--cinematic-shadow-panel)] backdrop-blur-xl"
+                    className="absolute z-20 w-[38%] max-w-[12.75rem] rounded-[1.35rem] border border-[color:var(--cinematic-border-strong)] bg-[color:var(--cinematic-surface-panel)]/88 p-2.5 shadow-[var(--cinematic-shadow-panel)] backdrop-blur-xl sm:w-[36%] sm:max-w-[13.5rem] lg:w-[34%] lg:max-w-[14rem]"
+                    style={{
+                      ...(prefersReducedMotion ? {} : { x: secondaryImageX, y: secondaryImageY }),
+                      left: "clamp(1.5rem, 7.5%, 4.5rem)",
+                      bottom: "clamp(0.85rem, 2.2vw, 1.5rem)",
+                    }}
                   >
                     <div className="overflow-hidden rounded-[1.05rem] border border-white/8">
                       <img
