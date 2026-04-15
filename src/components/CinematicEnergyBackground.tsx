@@ -1,4 +1,13 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 
 import { useTheme } from "@/lib/theme";
 
@@ -19,27 +28,148 @@ const STAR_POINTS = [
   { left: "60%", top: "82%", size: 1.2, opacity: 0.18 },
   { left: "45%", top: "72%", size: 1.2, opacity: 0.12 },
   { left: "35%", top: "78%", size: 1.3, opacity: 0.12 },
-];
+] as const;
+
+function useCombinedMotionValue(
+  values: MotionValue<number>[],
+  transform: (latest: number[]) => number,
+) {
+  return useTransform(values, transform);
+}
 
 export function CinematicEnergyBackground() {
   const prefersReducedMotion = useReducedMotion() ?? false;
   const { resolvedTheme } = useTheme();
   const { scrollYProgress } = useScroll();
-
   const isDark = resolvedTheme === "dark";
-  const coreYOffset = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const haloYOffset = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const lowerTrailYOffset = useTransform(scrollYProgress, [0, 1], [0, 180]);
-  const lowerTrailX = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const ribbonScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const ribbonRotate = useTransform(scrollYProgress, [0, 1], [-1.5, 2.5]);
 
-  const staticStyle = prefersReducedMotion
+  const idlePhase = useMotionValue(0);
+  useAnimationFrame((time) => {
+    if (prefersReducedMotion) return;
+    idlePhase.set(time);
+  });
+
+  const smoothedScroll = useSpring(scrollYProgress, {
+    stiffness: 56,
+    damping: 20,
+    mass: 0.55,
+  });
+
+  const idleGlowY = useTransform(idlePhase, (time) => Math.sin(time / 7200) * 12);
+  const idleGlowX = useTransform(idlePhase, (time) => Math.sin(time / 10300) * 7);
+  const idleGlowScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 11800) * 0.02);
+  const idleGlowOpacity = useTransform(
+    idlePhase,
+    (time) => 0.86 + ((Math.sin(time / 6800) + 1) / 2) * 0.08,
+  );
+  const scrollGlowY = useTransform(smoothedScroll, [0, 1], [0, 96]);
+  const scrollGlowX = useTransform(smoothedScroll, [0, 1], [0, -16]);
+
+  const glowY = useCombinedMotionValue([idleGlowY, scrollGlowY], ([idle, scroll]) => idle + scroll);
+  const glowX = useCombinedMotionValue([idleGlowX, scrollGlowX], ([idle, scroll]) => idle + scroll);
+
+  const idleRibbonY = useTransform(idlePhase, (time) => Math.sin(time / 7600) * 14);
+  const idleRibbonX = useTransform(idlePhase, (time) => Math.sin(time / 9800) * 6);
+  const idleRibbonScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 12600) * 0.022);
+  const idleRibbonRotate = useTransform(idlePhase, (time) => Math.sin(time / 15200) * 1.1);
+  const idleRibbonOpacity = useTransform(
+    idlePhase,
+    (time) => 0.92 + ((Math.sin(time / 6400) + 1) / 2) * 0.06,
+  );
+  const scrollRibbonY = useTransform(smoothedScroll, [0, 1], [0, 122]);
+  const scrollRibbonX = useTransform(smoothedScroll, [0, 1], [0, -26]);
+  const scrollRibbonRotate = useTransform(smoothedScroll, [0, 1], [-1.3, 2.4]);
+
+  const ribbonY = useCombinedMotionValue(
+    [idleRibbonY, scrollRibbonY],
+    ([idle, scroll]) => idle + scroll,
+  );
+  const ribbonX = useCombinedMotionValue(
+    [idleRibbonX, scrollRibbonX],
+    ([idle, scroll]) => idle + scroll,
+  );
+  const ribbonRotate = useCombinedMotionValue(
+    [idleRibbonRotate, scrollRibbonRotate],
+    ([idle, scroll]) => idle + scroll,
+  );
+
+  const idleCoreY = useTransform(idlePhase, (time) => Math.sin(time / 6800) * 9);
+  const idleCoreX = useTransform(idlePhase, (time) => Math.sin(time / 9100) * 4);
+  const idleCoreScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 9300) * 0.014);
+  const idleCoreOpacity = useTransform(
+    idlePhase,
+    (time) => 0.9 + ((Math.sin(time / 5200) + 1) / 2) * 0.1,
+  );
+  const scrollCoreY = useTransform(smoothedScroll, [0, 1], [0, 78]);
+  const scrollCoreX = useTransform(smoothedScroll, [0, 1], [0, -12]);
+
+  const coreY = useCombinedMotionValue([idleCoreY, scrollCoreY], ([idle, scroll]) => idle + scroll);
+  const coreX = useCombinedMotionValue([idleCoreX, scrollCoreX], ([idle, scroll]) => idle + scroll);
+
+  const idleLowerY = useTransform(idlePhase, (time) => Math.sin(time / 8600) * 10);
+  const idleLowerX = useTransform(idlePhase, (time) => Math.sin(time / 11200) * 12);
+  const idleLowerOpacity = useTransform(
+    idlePhase,
+    (time) => 0.8 + ((Math.sin(time / 7000) + 1) / 2) * 0.08,
+  );
+  const scrollLowerY = useTransform(smoothedScroll, [0, 1], [0, 180]);
+  const scrollLowerX = useTransform(smoothedScroll, [0, 1], [0, -90]);
+
+  const lowerY = useCombinedMotionValue([idleLowerY, scrollLowerY], ([idle, scroll]) => idle + scroll);
+  const lowerX = useCombinedMotionValue([idleLowerX, scrollLowerX], ([idle, scroll]) => idle + scroll);
+
+  const idleDustY = useTransform(idlePhase, (time) => Math.sin(time / 9400) * 8);
+  const idleDustX = useTransform(idlePhase, (time) => Math.sin(time / 14700) * 5);
+  const idleDustOpacity = useTransform(
+    idlePhase,
+    (time) => 0.62 + ((Math.sin(time / 5800) + 1) / 2) * 0.08,
+  );
+  const scrollDustY = useTransform(smoothedScroll, [0, 1], [0, 124]);
+
+  const dustY = useCombinedMotionValue([idleDustY, scrollDustY], ([idle, scroll]) => idle + scroll);
+
+  const glowStyle = prefersReducedMotion
     ? undefined
     : {
-        y: coreYOffset,
-        scale: ribbonScale,
+        x: glowX,
+        y: glowY,
+        scale: idleGlowScale,
+        opacity: idleGlowOpacity,
+      };
+
+  const ribbonStyle = prefersReducedMotion
+    ? undefined
+    : {
+        x: ribbonX,
+        y: ribbonY,
+        scale: idleRibbonScale,
         rotate: ribbonRotate,
+        opacity: idleRibbonOpacity,
+      };
+
+  const coreStyle = prefersReducedMotion
+    ? undefined
+    : {
+        x: coreX,
+        y: coreY,
+        scale: idleCoreScale,
+        opacity: idleCoreOpacity,
+      };
+
+  const lowerStyle = prefersReducedMotion
+    ? undefined
+    : {
+        x: lowerX,
+        y: lowerY,
+        opacity: idleLowerOpacity,
+      };
+
+  const dustStyle = prefersReducedMotion
+    ? undefined
+    : {
+        x: idleDustX,
+        y: dustY,
+        opacity: idleDustOpacity,
       };
 
   return (
@@ -54,21 +184,13 @@ export function CinematicEnergyBackground() {
         }}
       />
 
-      <motion.div
-        aria-hidden="true"
-        style={prefersReducedMotion ? undefined : { y: haloYOffset }}
-        className="absolute inset-0"
-      >
+      <motion.div aria-hidden="true" style={glowStyle} className="absolute inset-0">
         <div className="absolute right-[-6vw] top-[-10vh] h-[46rem] w-[46rem] rounded-full bg-[radial-gradient(circle,rgba(255,198,123,0.2)_0%,rgba(255,122,0,0.14)_28%,rgba(255,82,0,0.04)_54%,transparent_72%)] blur-3xl" />
         <div className="absolute right-[10vw] top-[10vh] h-[20rem] w-[20rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18)_0%,rgba(255,215,137,0.14)_24%,rgba(255,150,42,0.03)_48%,transparent_68%)] blur-2xl" />
         <div className="absolute bottom-[14vh] right-[16vw] h-[15rem] w-[15rem] rounded-full bg-[radial-gradient(circle,rgba(255,108,0,0.14)_0%,rgba(255,92,0,0.04)_44%,transparent_72%)] blur-[120px]" />
       </motion.div>
 
-      <motion.div
-        aria-hidden="true"
-        style={prefersReducedMotion ? undefined : { y: useTransform(scrollYProgress, [0, 1], [0, 120]) }}
-        className="absolute inset-0"
-      >
+      <motion.div aria-hidden="true" style={dustStyle} className="absolute inset-0">
         {STAR_POINTS.map((star) => (
           <span
             key={`${star.left}-${star.top}`}
@@ -87,7 +209,7 @@ export function CinematicEnergyBackground() {
 
       <motion.svg
         aria-hidden="true"
-        style={staticStyle}
+        style={ribbonStyle}
         viewBox="0 0 1200 1400"
         className="absolute inset-y-[-12%] right-[-6%] h-[124%] w-[74%] min-w-[780px] opacity-[0.98]"
       >
@@ -103,11 +225,6 @@ export function CinematicEnergyBackground() {
             <stop offset="45%" stopColor="rgba(255,105,0,0.84)" />
             <stop offset="100%" stopColor="rgba(216,34,24,0.72)" />
           </linearGradient>
-          <linearGradient id="energyWarmC" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,239,210,0.82)" />
-            <stop offset="34%" stopColor="rgba(255,174,45,0.78)" />
-            <stop offset="100%" stopColor="rgba(173,18,18,0.56)" />
-          </linearGradient>
           <filter id="energyBlurHeavy" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="22" />
           </filter>
@@ -116,7 +233,7 @@ export function CinematicEnergyBackground() {
           </filter>
         </defs>
 
-        <g filter="url(#energyBlurHeavy)" opacity="0.48">
+        <g filter="url(#energyBlurHeavy)" opacity="0.5">
           <path
             d="M1148 -120C928 42 744 184 724 360C708 496 788 584 934 716C1120 884 1152 1122 988 1438"
             stroke="url(#energyWarmA)"
@@ -133,7 +250,7 @@ export function CinematicEnergyBackground() {
           />
         </g>
 
-        <g filter="url(#energyBlurSoft)" opacity="0.92">
+        <g filter="url(#energyBlurSoft)" opacity="0.94">
           <path
             d="M1162 -124C938 44 756 192 736 370C722 502 806 592 952 728C1128 892 1160 1128 992 1448"
             stroke="url(#energyWarmA)"
@@ -148,19 +265,65 @@ export function CinematicEnergyBackground() {
             strokeLinecap="round"
             fill="none"
           />
-          <path
-            d="M1014 -76C824 66 688 194 674 342C662 454 726 542 842 662C1010 836 1054 1066 946 1308"
-            stroke="url(#energyWarmC)"
-            strokeWidth="14"
-            strokeLinecap="round"
-            fill="none"
-          />
         </g>
       </motion.svg>
 
       <motion.svg
         aria-hidden="true"
-        style={prefersReducedMotion ? undefined : { y: lowerTrailYOffset, x: lowerTrailX }}
+        style={coreStyle}
+        viewBox="0 0 1200 1400"
+        className="absolute inset-y-[-12%] right-[-6%] h-[124%] w-[74%] min-w-[780px] opacity-[0.95]"
+      >
+        <defs>
+          <linearGradient id="energyCoreA" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.92)" />
+            <stop offset="16%" stopColor="rgba(255,243,196,0.96)" />
+            <stop offset="52%" stopColor="rgba(255,180,42,0.84)" />
+            <stop offset="100%" stopColor="rgba(214,52,20,0.54)" />
+          </linearGradient>
+          <linearGradient id="energyCoreB" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,248,218,0.84)" />
+            <stop offset="46%" stopColor="rgba(255,139,34,0.72)" />
+            <stop offset="100%" stopColor="rgba(194,34,16,0.46)" />
+          </linearGradient>
+          <filter id="energyCoreGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="5" />
+          </filter>
+        </defs>
+
+        <g filter="url(#energyCoreGlow)" opacity="0.9">
+          <path
+            d="M1122 -114C914 52 752 196 734 364C720 486 804 582 946 716C1112 876 1144 1114 1002 1408"
+            stroke="url(#energyCoreA)"
+            strokeWidth="12"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d="M1048 -92C856 64 712 200 694 352C682 470 758 560 888 682C1048 838 1084 1068 968 1326"
+            stroke="url(#energyCoreB)"
+            strokeWidth="8"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d="M999 -68C824 66 694 194 682 342C670 452 732 538 846 658C1004 828 1042 1054 946 1268"
+            stroke="url(#energyCoreB)"
+            strokeWidth="5"
+            strokeLinecap="round"
+            fill="none"
+            opacity="0.82"
+          />
+        </g>
+      </motion.svg>
+
+      <motion.div aria-hidden="true" style={coreStyle} className="absolute inset-0">
+        <div className="absolute right-[11vw] top-[12vh] h-[11rem] w-[11rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18)_0%,rgba(255,218,149,0.16)_18%,rgba(255,164,55,0.05)_44%,transparent_70%)] blur-[60px]" />
+      </motion.div>
+
+      <motion.svg
+        aria-hidden="true"
+        style={lowerStyle}
         viewBox="0 0 1400 900"
         className="absolute bottom-[-10%] left-[-8%] h-[62%] w-[88%] min-w-[760px] opacity-[0.88]"
       >
