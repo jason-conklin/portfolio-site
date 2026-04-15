@@ -25,9 +25,9 @@ const NATIVE_CURSOR_SELECTOR = [
 ].join(",");
 
 const GHOST_COUNT = 4;
-const GHOST_LIFETIME_MS = 300;
-const GHOST_SPAWN_INTERVAL_MS = 34;
-const MOVEMENT_THRESHOLD = 6;
+const GHOST_LIFETIME_MS = 340;
+const GHOST_SPAWN_INTERVAL_MS = 26;
+const MOVEMENT_THRESHOLD = 4;
 
 type GhostPoint = {
   x: number;
@@ -187,8 +187,8 @@ export function CustomCursor() {
           }
 
           const eased = 1 - progress;
-          const opacity = eased * eased * ghost.intensity;
-          const scale = 0.82 + progress * 0.42 + ghost.intensity * 0.18;
+          const opacity = eased * (0.65 + 0.35 * eased) * ghost.intensity;
+          const scale = 0.88 + progress * 0.28 + ghost.intensity * 0.12;
 
           node.style.opacity = opacity.toFixed(3);
           node.style.transform = `translate3d(${ghost.x}px, ${ghost.y}px, 0) translate(-50%, -50%) scale(${scale.toFixed(3)})`;
@@ -211,8 +211,8 @@ export function CustomCursor() {
         nextX - lastSpawnPositionRef.current.x,
         nextY - lastSpawnPositionRef.current.y,
       );
-      const minSpawnInterval = GHOST_SPAWN_INTERVAL_MS + (1 - speedFactor) * 18;
-      const minSpawnDistance = MOVEMENT_THRESHOLD + (1 - speedFactor) * 6;
+      const minSpawnInterval = GHOST_SPAWN_INTERVAL_MS + (1 - speedFactor) * 10;
+      const minSpawnDistance = MOVEMENT_THRESHOLD + (1 - speedFactor) * 4;
 
       pointerRef.current.x = nextX;
       pointerRef.current.y = nextY;
@@ -234,7 +234,7 @@ export function CustomCursor() {
         distanceSinceLastGhost >= minSpawnDistance &&
         event.timeStamp - lastGhostSpawnRef.current >= minSpawnInterval
       ) {
-        spawnGhost(nextX, nextY, event.timeStamp, 0.12 + speedFactor * 0.16);
+        spawnGhost(nextX, nextY, event.timeStamp, 0.18 + speedFactor * 0.18);
         lastGhostSpawnRef.current = event.timeStamp;
         lastSpawnPositionRef.current.x = nextX;
         lastSpawnPositionRef.current.y = nextY;

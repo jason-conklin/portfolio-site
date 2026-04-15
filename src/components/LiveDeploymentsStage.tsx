@@ -59,7 +59,7 @@ export function LiveDeploymentsStage({
       className="relative isolate"
       aria-labelledby="deployments-title"
     >
-      <div className="deployment-stage relative px-1 pb-1 pt-6 sm:px-0 sm:pt-7">
+      <div className="deployment-stage relative px-1 pb-1 pt-3 sm:px-0 sm:pt-4">
         <div aria-hidden="true" className="cinematic-divider absolute inset-x-[-8vw] top-0 h-px" />
         <div
           aria-hidden="true"
@@ -69,32 +69,32 @@ export function LiveDeploymentsStage({
               "radial-gradient(circle at 8% 68%, var(--cinematic-band-accent-a), transparent 26%), radial-gradient(circle at 86% 10%, var(--cinematic-band-accent-b), transparent 22%)",
           }}
         />
-        <header className="relative flex flex-col gap-4 pb-6 lg:flex-row lg:items-end lg:justify-between">
+        <header className="relative flex flex-col gap-3 pb-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <h2
               id="deployments-title"
-              className="text-[1.95rem] font-light tracking-[0.01em] cinematic-text-primary sm:text-[2.2rem]"
+              className="text-[1.72rem] font-light tracking-[0.01em] cinematic-text-primary sm:text-[1.95rem]"
             >
               Live Deployments
             </h2>
-            <p className="mt-2 max-w-xl text-[0.98rem] leading-7 cinematic-text-tertiary">
+            <p className="mt-1.5 max-w-xl text-[0.92rem] leading-6 cinematic-text-tertiary sm:text-[0.95rem]">
               Real-world systems deployed and publicly accessible.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
-            <span className="cinematic-chip rounded-full px-3 py-1.5 text-[0.66rem] uppercase tracking-[0.16em]">
+          <div className="flex flex-wrap gap-2 pt-0.5">
+            <span className="cinematic-chip rounded-full px-2.5 py-1 text-[0.63rem] uppercase tracking-[0.16em]">
               3 live deployments
             </span>
-            <span className="cinematic-chip rounded-full px-3 py-1.5 text-[0.66rem] uppercase tracking-[0.16em]">
+            <span className="cinematic-chip rounded-full px-2.5 py-1 text-[0.63rem] uppercase tracking-[0.16em]">
               Vercel + Supabase
             </span>
-            <span className="cinematic-chip rounded-full px-3 py-1.5 text-[0.66rem] uppercase tracking-[0.16em]">
+            <span className="cinematic-chip rounded-full px-2.5 py-1 text-[0.63rem] uppercase tracking-[0.16em]">
               Solo-built
             </span>
           </div>
         </header>
 
-        <div className="relative grid gap-4 lg:grid-cols-3">
+        <div className="relative grid gap-3 lg:grid-cols-3">
           {projects.map((project, index) => {
             const accent = accentStyles[project.slug] ?? accentStyles.applictus;
             const cardStyle = {
@@ -130,7 +130,7 @@ export function LiveDeploymentsStage({
                   onOpenProject(project.slug);
                 }}
                 style={cardStyle}
-                className="deployment-card group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[1.4rem] border p-4 text-left backdrop-blur-xl transition duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                className="deployment-card group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[1.35rem] border p-3.5 text-left backdrop-blur-xl transition duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
                 <div
                   aria-hidden="true"
@@ -145,10 +145,10 @@ export function LiveDeploymentsStage({
                   className={`absolute inset-y-5 left-0 w-[2px] rounded-r-full ${accent.railClass}`}
                 />
 
-                <div className="relative flex h-full flex-col gap-4 pl-1.5">
-                  <div className="cinematic-subpanel rounded-[1.15rem] p-3">
+                <div className="relative flex h-full flex-col gap-3 pl-1">
+                  <div className="cinematic-subpanel rounded-[1.05rem] p-2.5">
                     <div className="flex items-start gap-3">
-                      <div className="cinematic-chip-strong flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[0.95rem] p-1.5">
+                      <div className="cinematic-chip-strong flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[0.9rem] p-1.5">
                         {project.icon ? (
                           <img
                             src={project.icon}
@@ -159,10 +159,10 @@ export function LiveDeploymentsStage({
                         ) : null}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[1.08rem] font-medium tracking-tight cinematic-text-primary">
+                        <p className="text-[1rem] font-medium tracking-tight cinematic-text-primary">
                           {project.name}
                         </p>
-                        <p className="mt-1 flex flex-wrap items-center gap-2 text-[0.68rem] uppercase tracking-[0.16em] cinematic-text-quaternary">
+                        <p className="mt-1 flex flex-wrap items-center gap-1.5 text-[0.64rem] uppercase tracking-[0.15em] cinematic-text-quaternary">
                           <span className="inline-flex items-center gap-1.5">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse motion-reduce:animate-none" aria-hidden="true" />
                             Live
@@ -176,16 +176,16 @@ export function LiveDeploymentsStage({
                     </div>
                   </div>
 
-                  <p className="line-clamp-3 text-[0.95rem] leading-7 cinematic-text-tertiary">
+                  <p className="line-clamp-2 text-[0.88rem] leading-6 cinematic-text-tertiary">
                     {project.blurb}
                   </p>
 
-                  <div className="mt-auto flex flex-wrap items-center gap-2 pt-1">
+                  <div className="mt-auto flex flex-wrap items-center gap-2 pt-0.5">
                     <Button
                       asChild
                       variant="ghost"
                       size="sm"
-                      className="cinematic-btn-ghost h-9 rounded-full px-3.5 text-[0.8rem] font-medium"
+                      className="cinematic-btn-ghost h-8 rounded-full px-3 text-[0.76rem] font-medium"
                     >
                       <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -197,7 +197,7 @@ export function LiveDeploymentsStage({
                       variant="ghost"
                       size="sm"
                       onClick={() => onOpenProject(project.slug)}
-                      className="cinematic-btn-ghost h-9 rounded-full px-3.5 text-[0.8rem] font-medium"
+                      className="cinematic-btn-ghost h-8 rounded-full px-3 text-[0.76rem] font-medium"
                     >
                       <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                       View Details

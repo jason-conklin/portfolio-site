@@ -140,14 +140,14 @@ function HomePage() {
         <main className="relative z-10">
           <section
             id="home"
-            className="scroll-mt-24 px-6 pb-14 pt-24 sm:px-8 lg:px-14 lg:pb-16 lg:pl-[12rem] lg:pr-16 lg:pt-10 xl:pl-[14rem]"
+            className="scroll-mt-24 px-6 pb-10 pt-20 sm:px-8 sm:pb-12 sm:pt-22 lg:min-h-[100svh] lg:px-14 lg:pb-8 lg:pl-[12rem] lg:pr-16 lg:pt-6 xl:pl-[14rem]"
           >
-            <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-10 lg:gap-12">
+            <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-7 sm:gap-8 lg:min-h-[calc(100svh-3.25rem)] lg:justify-between lg:gap-8">
               <motion.div
                 initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
                 animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.72, ease: "easeOut" }}
-                className="max-w-[42rem] pt-12 sm:pt-16 lg:pt-8"
+                className="max-w-[40rem] pt-8 sm:pt-10 lg:pt-2"
               >
                 <div className="cinematic-chip inline-flex max-w-full items-center gap-2 rounded-full px-4 py-2 text-[0.64rem] font-medium uppercase tracking-[0.24em] backdrop-blur-xl">
                   <MapPin
@@ -162,7 +162,7 @@ function HomePage() {
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
                   animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.06, ease: "easeOut" }}
-                  className="mt-8 text-[clamp(3.5rem,9vw,7.25rem)] font-[300] uppercase leading-[0.9] tracking-[0.13em] cinematic-text-primary sm:tracking-[0.16em]"
+                  className="mt-6 text-[clamp(3.15rem,8vw,6.4rem)] font-[300] uppercase leading-[0.9] tracking-[0.13em] cinematic-text-primary sm:tracking-[0.16em]"
                 >
                   <span className="block">Jason</span>
                   <span className="block">Conklin</span>
@@ -172,12 +172,12 @@ function HomePage() {
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
                   animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.68, delay: 0.16, ease: "easeOut" }}
-                  className="mt-6 max-w-[40rem]"
+                  className="mt-5 max-w-[38rem]"
                 >
-                  <p className="text-balance text-[1rem] font-normal uppercase tracking-[0.12em] cinematic-text-secondary sm:text-[1.08rem]">
+                  <p className="text-balance text-[0.95rem] font-normal uppercase tracking-[0.11em] cinematic-text-secondary sm:text-[1rem]">
                     {heroLead}
                   </p>
-                  <p className="mt-4 max-w-[35rem] text-pretty text-[0.98rem] leading-7 cinematic-text-tertiary sm:text-[1.02rem]">
+                  <p className="mt-3 max-w-[34rem] text-pretty text-[0.94rem] leading-6 cinematic-text-tertiary sm:text-[0.98rem] sm:leading-7">
                     {heroSupporting}
                   </p>
                 </motion.div>
@@ -186,11 +186,11 @@ function HomePage() {
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
                   animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.24, ease: "easeOut" }}
-                  className="mt-9 flex flex-wrap items-center gap-3"
+                  className="mt-6 flex flex-wrap items-center gap-2.5"
                 >
                   <Button
                     asChild
-                    className="cinematic-btn-primary h-11 min-h-11 rounded-full px-5 text-sm font-medium hover:-translate-y-px"
+                    className="cinematic-btn-primary h-10 min-h-10 rounded-full px-4.5 text-[0.92rem] font-medium hover:-translate-y-px"
                   >
                     <a href="#works" className="inline-flex items-center gap-2 whitespace-nowrap">
                       <LayoutGrid className="h-4 w-4" aria-hidden="true" />
@@ -201,7 +201,7 @@ function HomePage() {
                   <Button
                     asChild
                     variant="ghost"
-                    className="cinematic-btn-ghost h-11 min-h-11 rounded-full px-5 text-sm font-medium hover:-translate-y-px"
+                    className="cinematic-btn-ghost h-10 min-h-10 rounded-full px-4.5 text-[0.92rem] font-medium hover:-translate-y-px"
                   >
                     <a href="#contact" className="inline-flex items-center gap-2 whitespace-nowrap">
                       <Mail className="h-4 w-4" aria-hidden="true" />
@@ -212,7 +212,7 @@ function HomePage() {
                   <Button
                     asChild
                     variant="ghost"
-                    className="cinematic-btn-ghost h-11 min-h-11 rounded-full px-5 text-sm font-medium hover:-translate-y-px"
+                    className="cinematic-btn-ghost h-10 min-h-10 rounded-full px-4.5 text-[0.92rem] font-medium hover:-translate-y-px"
                   >
                     <a
                       href={site.links.github}
@@ -229,7 +229,7 @@ function HomePage() {
 
               <div
                 id="works"
-                className="scroll-mt-24 cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-7 sm:px-7 sm:py-9 lg:px-10 lg:py-10"
+                className="scroll-mt-24 cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-6"
               >
                 <div
                   aria-hidden="true"
