@@ -22,6 +22,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
             <nav className="flex flex-col gap-3.5">
               <a
                 href="#home"
+                data-cursor-interactive="true"
                 className={cn(
                   railLinkClass,
                   railIndicatorClass,
@@ -34,6 +35,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
               </a>
               <a
                 href="#works"
+                data-cursor-interactive="true"
                 className={cn(
                   railLinkClass,
                   railIndicatorClass,
@@ -46,6 +48,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
               </a>
               <a
                 href="#about"
+                data-cursor-interactive="true"
                 className={cn(
                   railLinkClass,
                   railIndicatorClass,
@@ -58,6 +61,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
               </a>
               <a
                 href="#contact"
+                data-cursor-interactive="true"
                 className={cn(
                   railLinkClass,
                   railIndicatorClass,
@@ -75,6 +79,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                 href={site.links.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-cursor-interactive="true"
                 className="inline-flex h-7 w-7 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
                 aria-label="Open LinkedIn"
               >
@@ -84,6 +89,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                 href={site.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-cursor-interactive="true"
                 className="inline-flex h-7 w-7 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
                 aria-label="Open GitHub"
               >
@@ -91,6 +97,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
               </a>
               <a
                 href={`mailto:${site.links.email}`}
+                data-cursor-interactive="true"
                 className="inline-flex h-7 w-7 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
                 aria-label="Send email"
               >
@@ -105,6 +112,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
         <div className="cinematic-panel flex items-center justify-center gap-4 rounded-full px-4 py-2.5">
           <a
             href="#home"
+            data-cursor-interactive="true"
             className={cn(
               "text-[0.62rem] font-medium uppercase tracking-[0.24em] transition-colors duration-200",
               activeSection === "home"
@@ -116,6 +124,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
           </a>
           <a
             href="#works"
+            data-cursor-interactive="true"
             className={cn(
               "text-[0.62rem] font-medium uppercase tracking-[0.24em] transition-colors duration-200",
               activeSection === "works"
@@ -127,6 +136,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
           </a>
           <a
             href="#about"
+            data-cursor-interactive="true"
             className={cn(
               "text-[0.62rem] font-medium uppercase tracking-[0.24em] transition-colors duration-200",
               activeSection === "about"
@@ -138,6 +148,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
           </a>
           <a
             href="#contact"
+            data-cursor-interactive="true"
             className={cn(
               "text-[0.62rem] font-medium uppercase tracking-[0.24em] transition-colors duration-200",
               activeSection === "contact"

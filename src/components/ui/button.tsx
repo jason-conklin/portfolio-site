@@ -47,7 +47,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const fallbackType = !asChild ? { type: type ?? "button" } : {};
 
-    return <Comp className={styles} ref={ref} {...fallbackType} {...props} />;
+    return (
+      <Comp
+        className={styles}
+        data-cursor-interactive={props.disabled ? undefined : "true"}
+        ref={ref}
+        {...fallbackType}
+        {...props}
+      />
+    );
   },
 );
 Button.displayName = "Button";

@@ -979,6 +979,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
           tabIndex={0}
           aria-label={`Open ${title} details`}
           data-project-slug={slug}
+          data-cursor-interactive="true"
           onClick={() => setOpen(true)}
           onKeyDown={(event) => {
             if (event.key === "Enter" || event.key === " ") {
@@ -1161,6 +1162,7 @@ export function ProjectCard({ project, variant = "default" }: ProjectCardProps) 
         tabIndex={0}
         aria-label={`Open ${title} details`}
         data-project-slug={slug}
+        data-cursor-interactive="true"
         onClick={() => setOpen(true)}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {

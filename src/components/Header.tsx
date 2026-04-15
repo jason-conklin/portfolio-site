@@ -58,6 +58,7 @@ export function Header() {
           <CommandPalette />
           <Link
             to="/"
+            data-cursor-interactive="true"
             className="flex items-center gap-2 text-lg font-semibold tracking-tight transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <span
@@ -93,6 +94,7 @@ export function Header() {
               <Link
                 key={item.href}
                 to={item.href}
+                data-cursor-interactive="true"
                 className={cn(
                   "rounded-full px-3 py-1.5 text-sm font-medium transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                   isActive
@@ -143,6 +145,7 @@ export function Header() {
                 <li key={item.href}>
                   <Link
                     to={item.href}
+                    data-cursor-interactive="true"
                     className={cn(
                       "flex w-full items-center rounded-xl px-3 py-2 text-sm font-semibold transition-colors duration-200 ease-out",
                       isActive

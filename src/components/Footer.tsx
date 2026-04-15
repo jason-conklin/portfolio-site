@@ -13,6 +13,7 @@ export function Footer() {
             href={site.links.github}
             target="_blank"
             rel="noopener noreferrer"
+            data-cursor-interactive="true"
             className="transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             GitHub
@@ -21,12 +22,14 @@ export function Footer() {
             href={site.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
+            data-cursor-interactive="true"
             className="transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             LinkedIn
           </a>
           <a
             href={`mailto:${site.links.email}`}
+            data-cursor-interactive="true"
             className="transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             Email

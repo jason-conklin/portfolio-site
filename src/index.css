@@ -345,32 +345,6 @@ html {
     cursor: none !important;
   }
 
-  html.has-custom-cursor input:not([type="hidden"]):not([disabled]),
-  html.has-custom-cursor textarea:not([disabled]),
-  html.has-custom-cursor [contenteditable="true"] {
-    cursor: text !important;
-  }
-
-  html.has-custom-cursor select:not([disabled]) {
-    cursor: default !important;
-  }
-
-  html.has-custom-cursor .cursor-grab {
-    cursor: grab !important;
-  }
-
-  html.has-custom-cursor .cursor-grabbing {
-    cursor: grabbing !important;
-  }
-
-  html.has-custom-cursor .cursor-zoom-in {
-    cursor: zoom-in !important;
-  }
-
-  html.has-custom-cursor .cursor-zoom-out {
-    cursor: zoom-out !important;
-  }
-
   #app-root {
     background-color: var(--bg-base);
     background-image: linear-gradient(
@@ -578,9 +552,8 @@ html {
   }
 
   .custom-cursor-core {
-    height: 24px;
-    width: 24px;
-    opacity: 1;
+    height: 36px;
+    width: 36px;
   }
 
   .custom-cursor-ring,
@@ -600,41 +573,33 @@ html {
     border: 1px solid var(--cinematic-cursor-ring);
     box-shadow: var(--cinematic-cursor-shadow);
     background: transparent;
-    transform: scale(1);
+    transform-origin: center;
   }
 
   .custom-cursor-fill {
     background: var(--cinematic-cursor-fill);
     opacity: 0;
-    transform: scale(0.52);
+    transform-origin: center;
   }
 
-  .custom-cursor-layer[data-interactive="true"] .custom-cursor-ring {
+  .custom-cursor-ring[data-variant="hover"] {
     border-color: var(--cinematic-cursor-ring-strong);
     background: var(--cinematic-cursor-fill);
     box-shadow: 0 0 0 1px var(--cinematic-cursor-ring-strong), var(--cinematic-cursor-shadow);
-    transform: scale(1.78);
   }
 
-  .custom-cursor-layer[data-interactive="true"] .custom-cursor-fill {
+  .custom-cursor-fill[data-variant="hover"] {
     background: var(--cinematic-cursor-fill-strong);
-    opacity: 1;
-    transform: scale(1.16);
-  }
-
-  .custom-cursor-layer[data-reduced-motion="true"] .custom-cursor-ring,
-  .custom-cursor-layer[data-reduced-motion="true"] .custom-cursor-fill {
-    transition-duration: 140ms;
   }
 
   .custom-cursor-trail {
-    height: 18px;
-    width: 18px;
+    height: 24px;
+    width: 24px;
     opacity: 0;
     background:
-      radial-gradient(circle at center, var(--cinematic-cursor-trail) 0%, rgba(255, 255, 255, 0.03) 26%, transparent 76%);
-    box-shadow: 0 0 14px var(--cinematic-cursor-trail-shadow);
-    filter: blur(3px);
+      radial-gradient(circle at center, var(--cinematic-cursor-trail) 0%, rgba(255, 255, 255, 0.04) 34%, transparent 76%);
+    box-shadow: 0 0 18px var(--cinematic-cursor-trail-shadow);
+    filter: blur(5px);
   }
 
   .hero-page-gradient {

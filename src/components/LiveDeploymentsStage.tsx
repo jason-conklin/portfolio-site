@@ -114,6 +114,7 @@ export function LiveDeploymentsStage({
                 role="button"
                 tabIndex={0}
                 aria-label={`View details for ${project.name}`}
+                data-cursor-interactive="true"
                 onClick={(event) => {
                   const target = event.target as HTMLElement;
                   if (target.closest("a,button")) return;

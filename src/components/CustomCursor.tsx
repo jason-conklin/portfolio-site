@@ -1,101 +1,59 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const ENABLED_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
-const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-const INTERACTIVE_SELECTOR = [
-  "a[href]",
-  "button:not([disabled])",
-  "[role='button']",
-  "summary",
-  "label[for]",
-  "[data-cursor='interactive']",
-].join(",");
-const TEXT_INPUT_SELECTOR = [
-  "input:not([type='hidden']):not([disabled])",
-  "textarea:not([disabled])",
-  "select:not([disabled])",
-  "[contenteditable='true']",
-].join(",");
-const NATIVE_CURSOR_SELECTOR = [
-  TEXT_INPUT_SELECTOR,
-  ".cursor-grab",
-  ".cursor-grabbing",
-  ".cursor-zoom-in",
-  ".cursor-zoom-out",
-].join(",");
+const INTERACTIVE_SELECTOR = "[data-cursor-interactive]";
+const TRAIL_MAX = 4;
+const TRAIL_LIFETIME_MS = 280;
+const TRAIL_SPAWN_INTERVAL_MS = 42;
+const TRAIL_MIN_DISTANCE = 14;
+const CURSOR_SIZE = 36;
+const CURSOR_OFFSET = CURSOR_SIZE / 2;
+const TRAIL_SIZE = 24;
+const TRAIL_OFFSET = TRAIL_SIZE / 2;
 
-const GHOST_COUNT = 4;
-const GHOST_LIFETIME_MS = 340;
-const GHOST_SPAWN_INTERVAL_MS = 26;
-const MOVEMENT_THRESHOLD = 4;
+type CursorVariant = "default" | "hover";
+type DisplayVariant = CursorVariant | "hidden";
 
-type GhostPoint = {
+type TrailEcho = {
+  id: number;
   x: number;
   y: number;
-  bornAt: number;
-  active: boolean;
-  intensity: number;
+  opacity: number;
+  scale: number;
 };
 
-function matchesSelector(target: EventTarget | null, selector: string) {
-  return target instanceof HTMLElement ? target.closest(selector) : null;
+function getInteractiveTarget(target: EventTarget | null) {
+  return target instanceof Element ? target.closest(INTERACTIVE_SELECTOR) : null;
 }
 
 export function CustomCursor() {
-  const cursorRef = useRef<HTMLDivElement | null>(null);
-  const trailRefs = useRef<HTMLSpanElement[]>([]);
-  const frameRef = useRef<number | null>(null);
-  const lastGhostSpawnRef = useRef(0);
-  const ghostWriteIndexRef = useRef(0);
-  const pointerRef = useRef({ x: 0, y: 0 });
-  const lastSpawnPositionRef = useRef({ x: 0, y: 0 });
-  const lastPointerTimestampRef = useRef(0);
-  const interactiveRef = useRef(false);
-  const suppressedRef = useRef(false);
-  const visibleRef = useRef(false);
-  const ghostPointsRef = useRef<GhostPoint[]>(
-    Array.from({ length: GHOST_COUNT }, () => ({
-      x: 0,
-      y: 0,
-      bornAt: 0,
-      active: false,
-      intensity: 0,
-    })),
-  );
+  const prefersReducedMotion = useReducedMotion() ?? false;
+  const cursorX = useMotionValue(-CURSOR_SIZE * 2);
+  const cursorY = useMotionValue(-CURSOR_SIZE * 2);
 
   const [enabled, setEnabled] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [interactive, setInteractive] = useState(false);
-  const [suppressed, setSuppressed] = useState(false);
+  const [variant, setVariant] = useState<CursorVariant>("default");
+  const [trail, setTrail] = useState<TrailEcho[]>([]);
 
-  const shouldRender = enabled;
-
-  const registerTrailRef = useCallback((node: HTMLSpanElement | null, index: number) => {
-    if (node) {
-      trailRefs.current[index] = node;
-    }
-  }, []);
+  const visibleRef = useRef(false);
+  const variantRef = useRef<CursorVariant>("default");
+  const echoIdRef = useRef(0);
+  const timeoutsRef = useRef<Map<number, number>>(new Map());
+  const lastSpawnRef = useRef({ x: -100, y: -100, time: 0 });
+  const lastMoveTimeRef = useRef(0);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const enabledQuery = window.matchMedia(ENABLED_MEDIA_QUERY);
-    const reducedMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY);
+    const mediaQuery = window.matchMedia(ENABLED_MEDIA_QUERY);
+    const syncEnabled = () => setEnabled(mediaQuery.matches);
 
-    const syncState = () => {
-      setEnabled(enabledQuery.matches);
-      setReducedMotion(reducedMotionQuery.matches);
-    };
+    syncEnabled();
+    mediaQuery.addEventListener("change", syncEnabled);
 
-    syncState();
-    enabledQuery.addEventListener("change", syncState);
-    reducedMotionQuery.addEventListener("change", syncState);
-
-    return () => {
-      enabledQuery.removeEventListener("change", syncState);
-      reducedMotionQuery.removeEventListener("change", syncState);
-    };
+    return () => mediaQuery.removeEventListener("change", syncEnabled);
   }, []);
 
   useEffect(() => {
@@ -105,9 +63,11 @@ export function CustomCursor() {
       root.classList.add("has-custom-cursor");
     } else {
       root.classList.remove("has-custom-cursor");
+      visibleRef.current = false;
+      variantRef.current = "default";
       setVisible(false);
-      setInteractive(false);
-      setSuppressed(false);
+      setVariant("default");
+      setTrail([]);
     }
 
     return () => {
@@ -120,196 +80,213 @@ export function CustomCursor() {
   }, [visible]);
 
   useEffect(() => {
-    interactiveRef.current = interactive;
-  }, [interactive]);
+    variantRef.current = variant;
+  }, [variant]);
 
   useEffect(() => {
-    suppressedRef.current = suppressed;
-  }, [suppressed]);
+    return () => {
+      timeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+      timeoutsRef.current.clear();
+    };
+  }, []);
 
   useEffect(() => {
     if (!enabled || typeof window === "undefined") return;
 
-    const updateInteractiveState = (target: EventTarget | null) => {
-      const nextSuppressed = Boolean(matchesSelector(target, NATIVE_CURSOR_SELECTOR));
-      const nextInteractive =
-        !nextSuppressed && Boolean(matchesSelector(target, INTERACTIVE_SELECTOR));
-
-      if (suppressedRef.current !== nextSuppressed) {
-        suppressedRef.current = nextSuppressed;
-        setSuppressed(nextSuppressed);
-      }
-
-      if (interactiveRef.current !== nextInteractive) {
-        interactiveRef.current = nextInteractive;
-        setInteractive(nextInteractive);
-      }
+    const setVisibleState = (nextVisible: boolean) => {
+      if (visibleRef.current === nextVisible) return;
+      visibleRef.current = nextVisible;
+      setVisible(nextVisible);
     };
 
-    const spawnGhost = (x: number, y: number, now: number, intensity: number) => {
-      const nextGhost = ghostPointsRef.current[ghostWriteIndexRef.current];
-      nextGhost.x = x;
-      nextGhost.y = y;
-      nextGhost.bornAt = now;
-      nextGhost.active = true;
-      nextGhost.intensity = intensity;
-
-      ghostWriteIndexRef.current =
-        (ghostWriteIndexRef.current + 1) % ghostPointsRef.current.length;
+    const setVariantState = (nextVariant: CursorVariant) => {
+      if (variantRef.current === nextVariant) return;
+      variantRef.current = nextVariant;
+      setVariant(nextVariant);
     };
 
-    const setCursorPosition = (x: number, y: number) => {
-      if (!cursorRef.current) return;
-
-      cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    const clearTrail = () => {
+      timeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+      timeoutsRef.current.clear();
+      setTrail([]);
     };
 
-    const animate = (now: number) => {
-      frameRef.current = window.requestAnimationFrame(animate);
+    const hideCursor = () => {
+      setVisibleState(false);
+      setVariantState("default");
+      clearTrail();
+    };
 
-      if (!reducedMotion) {
-        ghostPointsRef.current.forEach((ghost, index) => {
-          const node = trailRefs.current[index];
-          if (!node) return;
+    const syncInteractiveState = (target: EventTarget | null) => {
+      setVariantState(getInteractiveTarget(target) ? "hover" : "default");
+    };
 
-          if (!ghost.active) {
-            node.style.opacity = "0";
-            return;
-          }
+    const spawnTrail = (x: number, y: number, speedFactor: number) => {
+      const id = echoIdRef.current++;
+      const nextEcho: TrailEcho = {
+        id,
+        x,
+        y,
+        opacity: 0.18 + speedFactor * 0.12,
+        scale: 0.82 + speedFactor * 0.16,
+      };
 
-          const age = now - ghost.bornAt;
-          const progress = age / GHOST_LIFETIME_MS;
+      setTrail((current) => [...current.slice(-(TRAIL_MAX - 1)), nextEcho]);
 
-          if (progress >= 1) {
-            ghost.active = false;
-            node.style.opacity = "0";
-            return;
-          }
+      const timeoutId = window.setTimeout(() => {
+        timeoutsRef.current.delete(id);
+        setTrail((current) => current.filter((echo) => echo.id !== id));
+      }, TRAIL_LIFETIME_MS);
 
-          const eased = 1 - progress;
-          const opacity = eased * (0.65 + 0.35 * eased) * ghost.intensity;
-          const scale = 0.88 + progress * 0.28 + ghost.intensity * 0.12;
-
-          node.style.opacity = opacity.toFixed(3);
-          node.style.transform = `translate3d(${ghost.x}px, ${ghost.y}px, 0) translate(-50%, -50%) scale(${scale.toFixed(3)})`;
-        });
-      }
+      timeoutsRef.current.set(id, timeoutId);
     };
 
     const handlePointerMove = (event: PointerEvent) => {
       if (event.pointerType && event.pointerType !== "mouse") return;
 
-      const nextX = event.clientX;
-      const nextY = event.clientY;
-      const deltaX = nextX - pointerRef.current.x;
-      const deltaY = nextY - pointerRef.current.y;
-      const distance = Math.hypot(deltaX, deltaY);
-      const deltaTime = Math.max(event.timeStamp - lastPointerTimestampRef.current, 1);
-      const speed = distance / deltaTime;
-      const speedFactor = Math.min(speed / 1.2, 1);
-      const distanceSinceLastGhost = Math.hypot(
-        nextX - lastSpawnPositionRef.current.x,
-        nextY - lastSpawnPositionRef.current.y,
-      );
-      const minSpawnInterval = GHOST_SPAWN_INTERVAL_MS + (1 - speedFactor) * 10;
-      const minSpawnDistance = MOVEMENT_THRESHOLD + (1 - speedFactor) * 4;
-
-      pointerRef.current.x = nextX;
-      pointerRef.current.y = nextY;
-      lastPointerTimestampRef.current = event.timeStamp;
-      setCursorPosition(nextX, nextY);
+      const cursorLeft = event.clientX - CURSOR_OFFSET;
+      const cursorTop = event.clientY - CURSOR_OFFSET;
+      cursorX.set(cursorLeft);
+      cursorY.set(cursorTop);
 
       if (!visibleRef.current) {
-        visibleRef.current = true;
-        setVisible(true);
-        lastSpawnPositionRef.current.x = nextX;
-        lastSpawnPositionRef.current.y = nextY;
+        setVisibleState(true);
       }
 
-      updateInteractiveState(event.target);
+      syncInteractiveState(event.target);
+
+      if (prefersReducedMotion) {
+        lastMoveTimeRef.current = event.timeStamp;
+        return;
+      }
+
+      const trailLeft = event.clientX - TRAIL_OFFSET;
+      const trailTop = event.clientY - TRAIL_OFFSET;
+      const distance = Math.hypot(
+        trailLeft - lastSpawnRef.current.x,
+        trailTop - lastSpawnRef.current.y,
+      );
+      const deltaTime = Math.max(event.timeStamp - lastMoveTimeRef.current, 1);
+      const speedFactor = Math.min(distance / deltaTime / 0.75, 1);
 
       if (
-        !reducedMotion &&
-        distance >= MOVEMENT_THRESHOLD &&
-        distanceSinceLastGhost >= minSpawnDistance &&
-        event.timeStamp - lastGhostSpawnRef.current >= minSpawnInterval
+        distance >= TRAIL_MIN_DISTANCE &&
+        event.timeStamp - lastSpawnRef.current.time >= TRAIL_SPAWN_INTERVAL_MS
       ) {
-        spawnGhost(nextX, nextY, event.timeStamp, 0.18 + speedFactor * 0.18);
-        lastGhostSpawnRef.current = event.timeStamp;
-        lastSpawnPositionRef.current.x = nextX;
-        lastSpawnPositionRef.current.y = nextY;
+        spawnTrail(trailLeft, trailTop, speedFactor);
+        lastSpawnRef.current = { x: trailLeft, y: trailTop, time: event.timeStamp };
       }
+
+      lastMoveTimeRef.current = event.timeStamp;
     };
 
-    const handlePointerLeave = () => {
-      interactiveRef.current = false;
-      suppressedRef.current = false;
-      visibleRef.current = false;
-      lastPointerTimestampRef.current = 0;
-      setVisible(false);
-      setInteractive(false);
-      setSuppressed(false);
+    const handlePointerOver = (event: PointerEvent) => {
+      if (event.pointerType && event.pointerType !== "mouse") return;
+      if (!visibleRef.current) {
+        setVisibleState(true);
+      }
+      syncInteractiveState(event.target);
     };
 
-    const handlePointerDown = (event: PointerEvent) => {
-      updateInteractiveState(event.target);
+    const handlePointerOut = (event: PointerEvent) => {
+      if (event.pointerType && event.pointerType !== "mouse") return;
+      syncInteractiveState(event.relatedTarget);
+    };
+
+    const handleFocusIn = (event: FocusEvent) => {
+      syncInteractiveState(event.target);
+    };
+
+    const handleFocusOut = (event: FocusEvent) => {
+      syncInteractiveState(event.relatedTarget);
     };
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        setVisible(false);
-        setInteractive(false);
-        setSuppressed(false);
+        hideCursor();
       }
     };
 
-    frameRef.current = window.requestAnimationFrame(animate);
-
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("pointerdown", handlePointerDown, { passive: true });
-    window.addEventListener("pointerleave", handlePointerLeave);
-    window.addEventListener("blur", handlePointerLeave);
-    document.documentElement.addEventListener("mouseleave", handlePointerLeave);
+    document.addEventListener("pointermove", handlePointerMove, { passive: true });
+    document.addEventListener("pointerover", handlePointerOver, { passive: true });
+    document.addEventListener("pointerout", handlePointerOut, { passive: true });
+    document.addEventListener("focusin", handleFocusIn);
+    document.addEventListener("focusout", handleFocusOut);
+    document.documentElement.addEventListener("mouseleave", hideCursor);
+    window.addEventListener("blur", hideCursor);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      if (frameRef.current !== null) {
-        window.cancelAnimationFrame(frameRef.current);
-      }
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerdown", handlePointerDown);
-      window.removeEventListener("pointerleave", handlePointerLeave);
-      window.removeEventListener("blur", handlePointerLeave);
-      document.documentElement.removeEventListener("mouseleave", handlePointerLeave);
+      document.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("pointerover", handlePointerOver);
+      document.removeEventListener("pointerout", handlePointerOut);
+      document.removeEventListener("focusin", handleFocusIn);
+      document.removeEventListener("focusout", handleFocusOut);
+      document.documentElement.removeEventListener("mouseleave", hideCursor);
+      window.removeEventListener("blur", hideCursor);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      clearTrail();
     };
-  }, [enabled, reducedMotion]);
+  }, [cursorX, cursorY, enabled, prefersReducedMotion]);
 
-  if (!shouldRender) {
+  if (!enabled) {
     return null;
   }
 
+  const displayVariant: DisplayVariant = visible ? variant : "hidden";
+
   return (
-    <div
-      aria-hidden="true"
-      className="custom-cursor-layer"
-      data-visible={visible && !suppressed ? "true" : "false"}
-      data-interactive={interactive ? "true" : "false"}
-      data-reduced-motion={reducedMotion ? "true" : "false"}
-    >
-      {!reducedMotion
-        ? Array.from({ length: GHOST_COUNT }, (_, index) => (
-            <span
-              key={index}
-              ref={(node) => registerTrailRef(node, index)}
+    <div aria-hidden="true" className="custom-cursor-layer" data-visible={visible ? "true" : "false"}>
+      {!prefersReducedMotion ? (
+        <AnimatePresence>
+          {trail.map((echo) => (
+            <motion.span
+              key={echo.id}
               className="custom-cursor-trail"
+              style={{ left: echo.x, top: echo.y }}
+              initial={{ opacity: echo.opacity, scale: echo.scale }}
+              animate={{ opacity: echo.opacity * 0.72, scale: echo.scale + 0.08 }}
+              exit={{
+                opacity: 0,
+                scale: echo.scale + 0.34,
+                transition: { duration: 0.24, ease: [0.16, 1, 0.3, 1] },
+              }}
+              transition={{ duration: 0.12, ease: "easeOut" }}
             />
-          ))
-        : null}
-      <div ref={cursorRef} className="custom-cursor-core">
-        <span className="custom-cursor-fill" />
-        <span className="custom-cursor-ring" />
-      </div>
+          ))}
+        </AnimatePresence>
+      ) : null}
+
+      <motion.div
+        className="custom-cursor-core"
+        style={{ x: cursorX, y: cursorY }}
+        animate={visible ? "visible" : "hidden"}
+        variants={{
+          hidden: { opacity: 0, scale: 0.72 },
+          visible: { opacity: 1, scale: 1, transition: { duration: 0.14, ease: [0.16, 1, 0.3, 1] } },
+        }}
+      >
+        <motion.span
+          className="custom-cursor-fill"
+          data-variant={displayVariant}
+          animate={displayVariant}
+          variants={{
+            hidden: { opacity: 0, scale: 0.38 },
+            default: { opacity: 0, scale: 0.5, transition: { duration: 0.16, ease: "easeOut" } },
+            hover: { opacity: 1, scale: 1.05, transition: { duration: 0.18, ease: [0.16, 1, 0.3, 1] } },
+          }}
+        />
+        <motion.span
+          className="custom-cursor-ring"
+          data-variant={displayVariant}
+          animate={displayVariant}
+          variants={{
+            hidden: { opacity: 0, scale: 0.62 },
+            default: { opacity: 1, scale: 1, transition: { duration: 0.16, ease: "easeOut" } },
+            hover: { opacity: 1, scale: 1.62, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } },
+          }}
+        />
+      </motion.div>
     </div>
   );
 }
