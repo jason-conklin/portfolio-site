@@ -125,7 +125,7 @@ export function PortfolioAboutSection() {
                     <div
                       className="pointer-events-none absolute z-30"
                       style={{
-                        left: "46%",
+                        left: "49%",
                         bottom: "clamp(0.95rem, 3.8%, 1.4rem)",
                       }}
                     >
