@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { ExternalLink, FileText, Globe2 } from "lucide-react";
+import { ExternalLink, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -59,46 +59,47 @@ export function LiveDeploymentsStage({
       className="relative isolate"
       aria-labelledby="deployments-title"
     >
-      <div className="deployment-stage relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-[0_24px_80px_-46px_rgba(0,0,0,0.8)] backdrop-blur-2xl sm:p-7 lg:p-8">
+      <div className="deployment-stage relative px-1 pb-1 pt-6 sm:px-0 sm:pt-7">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_0%,rgba(255,214,170,0.08),transparent_32%),radial-gradient(circle_at_84%_18%,rgba(255,111,0,0.12),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0)_28%,rgba(255,255,255,0.02)_100%)]"
+          className="absolute inset-x-[-8vw] top-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent"
         />
-        <header className="relative flex flex-col gap-5 border-b border-white/10 pb-5 lg:flex-row lg:items-end lg:justify-between">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_68%,rgba(255,179,71,0.08),transparent_26%),radial-gradient(circle_at_86%_10%,rgba(255,107,32,0.12),transparent_22%)]"
+        />
+        <header className="relative flex flex-col gap-4 pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <p className="mb-2 inline-flex items-center gap-2 text-[0.68rem] font-medium uppercase tracking-[0.28em] text-white/46">
-              <span className="h-px w-8 bg-gradient-to-r from-amber-400/90 to-transparent" aria-hidden="true" />
-              Live Deployments
-            </p>
             <h2
               id="deployments-title"
-              className="inline-flex items-center gap-3 text-2xl font-light tracking-[0.04em] text-white sm:text-[2rem]"
+              className="text-[1.95rem] font-light tracking-[0.01em] text-white sm:text-[2.2rem]"
             >
-              <Globe2 className="h-5 w-5 text-amber-300/90" aria-hidden="true" />
-              Shipped Systems Running in Public
+              Live Deployments
             </h2>
-            <p className="mt-3 max-w-xl text-sm leading-7 text-white/60 sm:text-[0.96rem]">
-              Production products with real users, live infrastructure, and polished interaction design.
+            <p className="mt-2 max-w-xl text-[0.98rem] leading-7 text-white/56">
+              Real-world systems deployed and publicly accessible.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.16em] text-white/55">
+          <div className="flex flex-wrap gap-2 pt-1">
+            <span className="rounded-full border border-white/8 bg-white/[0.03] px-3 py-1.5 text-[0.66rem] uppercase tracking-[0.16em] text-white/46">
               3 live deployments
             </span>
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.16em] text-white/55">
+            <span className="rounded-full border border-white/8 bg-white/[0.03] px-3 py-1.5 text-[0.66rem] uppercase tracking-[0.16em] text-white/46">
               Vercel + Supabase
             </span>
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.16em] text-white/55">
+            <span className="rounded-full border border-white/8 bg-white/[0.03] px-3 py-1.5 text-[0.66rem] uppercase tracking-[0.16em] text-white/46">
               Solo-built
             </span>
           </div>
         </header>
 
-        <div className="relative mt-6 grid gap-4 lg:grid-cols-3">
+        <div className="relative grid gap-4 lg:grid-cols-3">
           {projects.map((project, index) => {
             const accent = accentStyles[project.slug] ?? accentStyles.applictus;
             const cardStyle = {
               "--deployment-rgb": accent.rgb,
+              borderColor: `rgb(${accent.rgb} / 0.22)`,
+              boxShadow: `0 0 0 1px rgb(${accent.rgb} / 0.08) inset, 0 18px 52px -36px rgb(${accent.rgb} / 0.42)`,
             } as CSSProperties;
 
             return (
@@ -128,25 +129,25 @@ export function LiveDeploymentsStage({
                   onOpenProject(project.slug);
                 }}
                 style={cardStyle}
-                className="deployment-card group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/22 p-4 text-left transition duration-300 hover:-translate-y-1 hover:border-white/16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/35 focus-visible:ring-offset-2 focus-visible:ring-offset-black/60 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                className="deployment-card group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[1.4rem] border bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] p-4 text-left backdrop-blur-xl transition duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/35 focus-visible:ring-offset-2 focus-visible:ring-offset-black/60 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 opacity-90"
                   style={{
                     background:
-                      "linear-gradient(180deg, rgb(var(--deployment-rgb) / 0.12) 0%, transparent 34%), radial-gradient(circle at 0% 100%, rgb(var(--deployment-rgb) / 0.12), transparent 36%)",
+                      "linear-gradient(180deg, rgb(var(--deployment-rgb) / 0.14) 0%, transparent 28%), radial-gradient(circle at 10% 100%, rgb(var(--deployment-rgb) / 0.14), transparent 34%)",
                   }}
                 />
                 <span
                   aria-hidden="true"
-                  className={`absolute inset-y-6 left-0 w-[3px] rounded-r-full ${accent.railClass}`}
+                  className={`absolute inset-y-5 left-0 w-[2px] rounded-r-full ${accent.railClass}`}
                 />
 
                 <div className="relative flex h-full flex-col gap-4 pl-1.5">
-                  <div className="rounded-[1.2rem] border border-white/10 bg-white/[0.04] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                  <div className="rounded-[1.15rem] border border-white/10 bg-white/[0.03] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
                     <div className="flex items-start gap-3">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border border-white/12 bg-black/35 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[0.95rem] border border-white/12 bg-black/35 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
                         {project.icon ? (
                           <img
                             src={project.icon}
@@ -157,10 +158,10 @@ export function LiveDeploymentsStage({
                         ) : null}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-lg font-medium tracking-tight text-white">
+                        <p className="text-[1.08rem] font-medium tracking-tight text-white">
                           {project.name}
                         </p>
-                        <p className="mt-1 flex flex-wrap items-center gap-2 text-[0.72rem] uppercase tracking-[0.16em] text-white/46">
+                        <p className="mt-1 flex flex-wrap items-center gap-2 text-[0.68rem] uppercase tracking-[0.16em] text-white/42">
                           <span className="inline-flex items-center gap-1.5">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse motion-reduce:animate-none" aria-hidden="true" />
                             Live
@@ -174,7 +175,7 @@ export function LiveDeploymentsStage({
                     </div>
                   </div>
 
-                  <p className="line-clamp-3 text-[0.98rem] leading-7 text-white/64">
+                  <p className="line-clamp-3 text-[0.95rem] leading-7 text-white/62">
                     {project.blurb}
                   </p>
 
@@ -183,7 +184,7 @@ export function LiveDeploymentsStage({
                       asChild
                       variant="ghost"
                       size="sm"
-                      className="h-9 rounded-full border border-white/12 bg-white/[0.05] px-3.5 text-[0.82rem] font-medium text-white shadow-none transition duration-200 hover:border-white/18 hover:bg-white/[0.09]"
+                      className="h-9 rounded-full border border-white/10 bg-black/18 px-3.5 text-[0.8rem] font-medium text-white shadow-none transition duration-200 hover:border-white/18 hover:bg-white/[0.06]"
                     >
                       <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -195,7 +196,7 @@ export function LiveDeploymentsStage({
                       variant="ghost"
                       size="sm"
                       onClick={() => onOpenProject(project.slug)}
-                      className="h-9 rounded-full border border-white/10 bg-transparent px-3.5 text-[0.82rem] font-medium text-white/70 shadow-none transition duration-200 hover:border-white/16 hover:bg-white/[0.05] hover:text-white"
+                      className="h-9 rounded-full border border-white/8 bg-transparent px-3.5 text-[0.8rem] font-medium text-white/66 shadow-none transition duration-200 hover:border-white/16 hover:bg-white/[0.05] hover:text-white"
                     >
                       <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                       View Details

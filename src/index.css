@@ -169,35 +169,11 @@ html {
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 74% 18%, rgba(255, 170, 66, 0.08), transparent 18%),
-      radial-gradient(circle at 82% 62%, rgba(191, 35, 24, 0.08), transparent 16%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 18%);
+      radial-gradient(circle at 82% 16%, rgba(255, 170, 66, 0.06), transparent 16%),
+      radial-gradient(circle at 86% 64%, rgba(191, 35, 24, 0.08), transparent 14%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0) 18%);
     mix-blend-mode: screen;
-    opacity: 0.7;
-  }
-
-  .deployment-stage::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    pointer-events: none;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 214, 160, 0.16),
-      rgba(255, 255, 255, 0.04) 36%,
-      rgba(255, 110, 30, 0.12) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    opacity: 0.9;
+    opacity: 0.6;
   }
 
   .deployment-card {
