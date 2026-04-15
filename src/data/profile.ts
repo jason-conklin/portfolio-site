@@ -65,7 +65,7 @@ const statestatsGraphInc = new URL("../assets/statestats-graph-inc.png", import.
 
 export const site = {
   baseUrl: "https://your-render-subdomain.onrender.com",
-  title: "Jason Conklin — Software Developer",
+  title: "Jason Conklin | Portfolio",
   description:
     "Portfolio of Jason Conklin — Full-stack and AI-driven web projects.",
   keywords: [

@@ -147,7 +147,7 @@ function HomePage() {
                 initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
                 animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.72, ease: "easeOut" }}
-                className="max-w-[40rem] pt-8 sm:pt-10 lg:pt-2"
+                className="pt-8 sm:pt-10 lg:pt-2"
               >
                 <div className="cinematic-chip inline-flex max-w-full items-center gap-2 rounded-full px-4 py-2 text-[0.64rem] font-medium uppercase tracking-[0.24em] backdrop-blur-xl">
                   <MapPin
@@ -162,22 +162,21 @@ function HomePage() {
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
                   animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.06, ease: "easeOut" }}
-                  className="mt-6 text-[clamp(3.15rem,8vw,6.4rem)] font-[300] uppercase leading-[0.9] tracking-[0.13em] cinematic-text-primary sm:tracking-[0.16em]"
+                  className="mt-6 text-[clamp(3.15rem,8vw,6.4rem)] font-[300] uppercase leading-[0.9] tracking-[0.13em] cinematic-text-primary sm:tracking-[0.16em] lg:whitespace-nowrap"
                 >
-                  <span className="block">Jason</span>
-                  <span className="block">Conklin</span>
+                  {hero.name}
                 </motion.h1>
 
                 <motion.div
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
                   animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.68, delay: 0.16, ease: "easeOut" }}
-                  className="mt-5 max-w-[38rem]"
+                  className="mt-5"
                 >
-                  <p className="text-balance text-[0.95rem] font-normal uppercase tracking-[0.11em] cinematic-text-secondary sm:text-[1rem]">
+                  <p className="text-[0.95rem] font-normal uppercase tracking-[0.11em] cinematic-text-secondary sm:text-[1rem] lg:whitespace-nowrap">
                     {heroLead}
                   </p>
-                  <p className="mt-3 max-w-[34rem] text-pretty text-[0.94rem] leading-6 cinematic-text-tertiary sm:text-[0.98rem] sm:leading-7">
+                  <p className="mt-3 text-[0.94rem] leading-6 cinematic-text-tertiary sm:text-[0.98rem] sm:leading-7 lg:whitespace-nowrap">
                     {heroSupporting}
                   </p>
                 </motion.div>

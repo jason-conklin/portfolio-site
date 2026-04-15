@@ -86,9 +86,6 @@ export function LiveDeploymentsStage({
               3 live deployments
             </span>
             <span className="cinematic-chip rounded-full px-2.5 py-1 text-[0.63rem] uppercase tracking-[0.16em]">
-              Vercel + Supabase
-            </span>
-            <span className="cinematic-chip rounded-full px-2.5 py-1 text-[0.63rem] uppercase tracking-[0.16em]">
               Solo-built
             </span>
           </div>

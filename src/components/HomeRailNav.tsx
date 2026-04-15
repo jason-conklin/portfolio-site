@@ -8,7 +8,7 @@ type HomeRailNavProps = {
 };
 
 const railLinkClass =
-  "group relative inline-flex items-center pl-4 text-[0.82rem] font-medium uppercase tracking-[0.26em] cinematic-text-quaternary transition-colors duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:[color:var(--cinematic-text-primary)]";
+  "group relative inline-flex items-center pl-5 text-[0.94rem] font-medium uppercase tracking-[0.24em] cinematic-text-quaternary transition-colors duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:[color:var(--cinematic-text-primary)]";
 
 const railIndicatorClass =
   "before:absolute before:left-0 before:top-1/2 before:h-px before:-translate-y-1/2 before:bg-[color:var(--cinematic-divider)] before:transition-[width,background-color] before:duration-200";
@@ -16,18 +16,18 @@ const railIndicatorClass =
 export function HomeRailNav({ activeSection }: HomeRailNavProps) {
   return (
     <>
-      <aside className="pointer-events-none fixed inset-y-0 left-0 z-40 hidden w-[8.5rem] lg:block">
+      <aside className="pointer-events-none fixed inset-y-0 left-0 z-40 hidden w-[10.5rem] lg:block">
         <div className="pointer-events-auto flex h-full flex-col px-8 py-10">
           <div className="pt-[5.25rem]">
-            <nav className="flex flex-col gap-3">
+            <nav className="flex flex-col gap-3.5">
               <a
                 href="#home"
                 className={cn(
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "home"
-                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.4rem] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
-                    : "before:w-0 group-hover:before:w-7 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
+                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.45rem] before:w-16 before:bg-[color:var(--cinematic-border-strong)]"
+                    : "before:w-0 group-hover:before:w-8 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
                 )}
               >
                 Home
@@ -38,8 +38,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "works"
-                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.4rem] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
-                    : "before:w-0 group-hover:before:w-7 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
+                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.45rem] before:w-16 before:bg-[color:var(--cinematic-border-strong)]"
+                    : "before:w-0 group-hover:before:w-8 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
                 )}
               >
                 Works
@@ -50,8 +50,8 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "about"
-                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.4rem] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
-                    : "before:w-0 group-hover:before:w-7 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
+                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.45rem] before:w-16 before:bg-[color:var(--cinematic-border-strong)]"
+                    : "before:w-0 group-hover:before:w-8 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
                 )}
               >
                 About
@@ -62,39 +62,39 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "contact"
-                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.4rem] before:w-14 before:bg-[color:var(--cinematic-border-strong)]"
-                    : "before:w-0 group-hover:before:w-7 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
+                    ? "[color:var(--cinematic-text-primary)] underline decoration-[color:var(--cinematic-border-strong)] decoration-[1px] underline-offset-[0.45rem] before:w-16 before:bg-[color:var(--cinematic-border-strong)]"
+                    : "before:w-0 group-hover:before:w-8 group-hover:before:bg-[color:var(--cinematic-border-strong)]",
                 )}
               >
                 Contact
               </a>
             </nav>
 
-            <div className="mt-8 flex flex-col gap-3 pl-2">
+            <div className="mt-9 flex flex-col gap-4 pl-3">
               <a
                 href={site.links.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-6 w-6 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
+                className="inline-flex h-7 w-7 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
                 aria-label="Open LinkedIn"
               >
-                <Linkedin className="h-[18px] w-[18px]" aria-hidden="true" />
+                <Linkedin className="h-5 w-5" aria-hidden="true" />
               </a>
               <a
                 href={site.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-6 w-6 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
+                className="inline-flex h-7 w-7 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
                 aria-label="Open GitHub"
               >
-                <Github className="h-[18px] w-[18px]" aria-hidden="true" />
+                <Github className="h-5 w-5" aria-hidden="true" />
               </a>
               <a
                 href={`mailto:${site.links.email}`}
-                className="inline-flex h-6 w-6 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
+                className="inline-flex h-7 w-7 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
                 aria-label="Send email"
               >
-                <Mail className="h-[18px] w-[18px]" aria-hidden="true" />
+                <Mail className="h-5 w-5" aria-hidden="true" />
               </a>
             </div>
           </div>
