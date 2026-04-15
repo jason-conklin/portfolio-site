@@ -142,7 +142,7 @@ function HomePage() {
             id="home"
             className="scroll-mt-24 px-6 pb-10 pt-20 sm:px-8 sm:pb-12 sm:pt-22 lg:min-h-[100svh] lg:px-14 lg:pb-8 lg:pl-[12rem] lg:pr-16 lg:pt-6 xl:pl-[14rem]"
           >
-            <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-7 sm:gap-8 lg:min-h-[calc(100svh-3.25rem)] lg:justify-between lg:gap-8">
+            <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-5 sm:gap-6 lg:gap-5">
               <motion.div
                 initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
                 animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
@@ -185,7 +185,7 @@ function HomePage() {
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
                   animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.24, ease: "easeOut" }}
-                  className="mt-6 flex flex-wrap items-center gap-2.5"
+                  className="mt-5 flex flex-wrap items-center gap-2.5"
                 >
                   <Button
                     asChild

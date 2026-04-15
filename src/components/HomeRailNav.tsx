@@ -27,7 +27,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "home"
-                    ? "[color:var(--cinematic-text-primary)] before:w-10 before:bg-[color:var(--cinematic-text-secondary)] before:opacity-100 after:scale-x-100 after:opacity-100"
+                    ? "[color:var(--cinematic-text-primary)] before:w-0 before:opacity-0 after:scale-x-100 after:opacity-100"
                     : null,
                 )}
               >
@@ -40,7 +40,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "works"
-                    ? "[color:var(--cinematic-text-primary)] before:w-10 before:bg-[color:var(--cinematic-text-secondary)] before:opacity-100 after:scale-x-100 after:opacity-100"
+                    ? "[color:var(--cinematic-text-primary)] before:w-0 before:opacity-0 after:scale-x-100 after:opacity-100"
                     : null,
                 )}
               >
@@ -53,7 +53,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "about"
-                    ? "[color:var(--cinematic-text-primary)] before:w-10 before:bg-[color:var(--cinematic-text-secondary)] before:opacity-100 after:scale-x-100 after:opacity-100"
+                    ? "[color:var(--cinematic-text-primary)] before:w-0 before:opacity-0 after:scale-x-100 after:opacity-100"
                     : null,
                 )}
               >
@@ -66,7 +66,7 @@ export function HomeRailNav({ activeSection }: HomeRailNavProps) {
                   railLinkClass,
                   railIndicatorClass,
                   activeSection === "contact"
-                    ? "[color:var(--cinematic-text-primary)] before:w-10 before:bg-[color:var(--cinematic-text-secondary)] before:opacity-100 after:scale-x-100 after:opacity-100"
+                    ? "[color:var(--cinematic-text-primary)] before:w-0 before:opacity-0 after:scale-x-100 after:opacity-100"
                     : null,
                 )}
               >
