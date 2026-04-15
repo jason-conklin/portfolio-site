@@ -28,7 +28,6 @@ const GHOST_COUNT = 8;
 const GHOST_LIFETIME_MS = 420;
 const GHOST_SPAWN_INTERVAL_MS = 18;
 const MOVEMENT_THRESHOLD = 3;
-const FOLLOW_EASING = 0.2;
 
 type GhostPoint = {
   x: number;
@@ -47,8 +46,7 @@ export function CustomCursor() {
   const frameRef = useRef<number | null>(null);
   const lastGhostSpawnRef = useRef(0);
   const ghostWriteIndexRef = useRef(0);
-  const targetRef = useRef({ x: 0, y: 0 });
-  const currentRef = useRef({ x: 0, y: 0 });
+  const pointerRef = useRef({ x: 0, y: 0 });
   const interactiveRef = useRef(false);
   const suppressedRef = useRef(false);
   const visibleRef = useRef(false);
@@ -155,20 +153,14 @@ export function CustomCursor() {
         (ghostWriteIndexRef.current + 1) % ghostPointsRef.current.length;
     };
 
+    const setCursorPosition = (x: number, y: number) => {
+      if (!cursorRef.current) return;
+
+      cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    };
+
     const animate = (now: number) => {
       frameRef.current = window.requestAnimationFrame(animate);
-
-      const nextX =
-        currentRef.current.x + (targetRef.current.x - currentRef.current.x) * FOLLOW_EASING;
-      const nextY =
-        currentRef.current.y + (targetRef.current.y - currentRef.current.y) * FOLLOW_EASING;
-
-      currentRef.current.x = nextX;
-      currentRef.current.y = nextY;
-
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${nextX}px, ${nextY}px, 0) translate(-50%, -50%)`;
-      }
 
       if (!reducedMotion) {
         ghostPointsRef.current.forEach((ghost, index) => {
@@ -203,16 +195,15 @@ export function CustomCursor() {
 
       const nextX = event.clientX;
       const nextY = event.clientY;
-      const deltaX = nextX - targetRef.current.x;
-      const deltaY = nextY - targetRef.current.y;
+      const deltaX = nextX - pointerRef.current.x;
+      const deltaY = nextY - pointerRef.current.y;
       const distance = Math.hypot(deltaX, deltaY);
 
-      targetRef.current.x = nextX;
-      targetRef.current.y = nextY;
+      pointerRef.current.x = nextX;
+      pointerRef.current.y = nextY;
+      setCursorPosition(nextX, nextY);
 
       if (!visibleRef.current) {
-        currentRef.current.x = nextX;
-        currentRef.current.y = nextY;
         visibleRef.current = true;
         setVisible(true);
       }
