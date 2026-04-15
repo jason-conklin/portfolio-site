@@ -7,6 +7,7 @@ import {
   useSpring,
   useTransform,
   type MotionValue,
+  type Transition,
 } from "framer-motion";
 
 const STAR_POINTS = [
@@ -45,6 +46,34 @@ const STRAND_RIBBON_PATH_B =
 const STRAND_RIBBON_PATH_C =
   "M998 -58C834 74 710 206 698 342C684 452 728 548 820 684C944 864 990 1070 944 1248";
 
+const SWEEP_TRANSITION_A: Transition = {
+  duration: 18.6,
+  repeat: Number.POSITIVE_INFINITY,
+  ease: "easeInOut",
+  times: [0, 0.32, 0.68, 1],
+};
+
+const SWEEP_TRANSITION_B: Transition = {
+  duration: 16.8,
+  repeat: Number.POSITIVE_INFINITY,
+  ease: "easeInOut",
+  times: [0, 0.28, 0.62, 1],
+};
+
+const STRAND_TRANSITION_A: Transition = {
+  duration: 14.8,
+  repeat: Number.POSITIVE_INFINITY,
+  ease: "easeInOut",
+  times: [0, 0.34, 0.74, 1],
+};
+
+const STRAND_TRANSITION_B: Transition = {
+  duration: 17.2,
+  repeat: Number.POSITIVE_INFINITY,
+  ease: "easeInOut",
+  times: [0, 0.3, 0.64, 1],
+};
+
 function useCombinedMotionValue(
   values: MotionValue<number>[],
   transform: (latest: number[]) => number,
@@ -68,13 +97,13 @@ export function CinematicEnergyBackground() {
     mass: 0.72,
   });
 
-  const idleHazeY = useTransform(idlePhase, (time) => Math.sin(time / 12400) * 18);
-  const idleHazeX = useTransform(idlePhase, (time) => Math.sin(time / 15100) * 10);
-  const idleHazeScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 16400) * 0.028);
-  const idleHazeRotate = useTransform(idlePhase, (time) => Math.sin(time / 21400) * 1.2);
+  const idleHazeY = useTransform(idlePhase, (time) => Math.sin(time / 12400) * 22);
+  const idleHazeX = useTransform(idlePhase, (time) => Math.sin(time / 15100) * 14);
+  const idleHazeScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 16400) * 0.04);
+  const idleHazeRotate = useTransform(idlePhase, (time) => Math.sin(time / 21400) * 1.8);
   const idleHazeOpacity = useTransform(
     idlePhase,
-    (time) => 0.82 + ((Math.sin(time / 7600) + 1) / 2) * 0.08,
+    (time) => 0.8 + ((Math.sin(time / 7600) + 1) / 2) * 0.12,
   );
   const scrollHazeY = useTransform(smoothedScroll, [0, 1], [0, 58]);
   const scrollHazeX = useTransform(smoothedScroll, [0, 1], [0, -10]);
@@ -87,14 +116,14 @@ export function CinematicEnergyBackground() {
     ([idle, scroll]) => idle + scroll,
   );
 
-  const idleBackY = useTransform(idlePhase, (time) => Math.sin(time / 9800) * 16);
-  const idleBackX = useTransform(idlePhase, (time) => Math.sin(time / 13600) * 11);
-  const idleBackScaleX = useTransform(idlePhase, (time) => 1 + Math.sin(time / 14800) * 0.04);
-  const idleBackScaleY = useTransform(idlePhase, (time) => 1 + Math.sin(time / 17200 + 0.8) * 0.034);
-  const idleBackRotate = useTransform(idlePhase, (time) => Math.sin(time / 18600) * 1.9);
+  const idleBackY = useTransform(idlePhase, (time) => Math.sin(time / 9800) * 22);
+  const idleBackX = useTransform(idlePhase, (time) => Math.sin(time / 13600) * 14);
+  const idleBackScaleX = useTransform(idlePhase, (time) => 1 + Math.sin(time / 14800) * 0.055);
+  const idleBackScaleY = useTransform(idlePhase, (time) => 1 + Math.sin(time / 17200 + 0.8) * 0.046);
+  const idleBackRotate = useTransform(idlePhase, (time) => Math.sin(time / 18600) * 3.2);
   const idleBackOpacity = useTransform(
     idlePhase,
-    (time) => 0.46 + ((Math.sin(time / 7200) + 1) / 2) * 0.12,
+    (time) => 0.42 + ((Math.sin(time / 7200) + 1) / 2) * 0.16,
   );
   const scrollBackY = useTransform(smoothedScroll, [0, 1], [0, 78]);
   const scrollBackX = useTransform(smoothedScroll, [0, 1], [0, -18]);
@@ -107,14 +136,14 @@ export function CinematicEnergyBackground() {
     ([idle, scroll]) => idle + scroll,
   );
 
-  const idleFoldY = useTransform(idlePhase, (time) => Math.sin(time / 9100 + 1.2) * 14);
-  const idleFoldX = useTransform(idlePhase, (time) => Math.sin(time / 11800 + 0.6) * -9);
-  const idleFoldScaleX = useTransform(idlePhase, (time) => 1 + Math.sin(time / 12600 + 1.1) * 0.05);
-  const idleFoldScaleY = useTransform(idlePhase, (time) => 1 + Math.sin(time / 16200 + 0.35) * 0.03);
-  const idleFoldRotate = useTransform(idlePhase, (time) => Math.sin(time / 13200 + 1.4) * 2.8);
+  const idleFoldY = useTransform(idlePhase, (time) => Math.sin(time / 9100 + 1.2) * 18);
+  const idleFoldX = useTransform(idlePhase, (time) => Math.sin(time / 11800 + 0.6) * -12);
+  const idleFoldScaleX = useTransform(idlePhase, (time) => 1 + Math.sin(time / 12600 + 1.1) * 0.065);
+  const idleFoldScaleY = useTransform(idlePhase, (time) => 1 + Math.sin(time / 16200 + 0.35) * 0.05);
+  const idleFoldRotate = useTransform(idlePhase, (time) => Math.sin(time / 13200 + 1.4) * 4.1);
   const idleFoldOpacity = useTransform(
     idlePhase,
-    (time) => 0.58 + ((Math.sin(time / 6800 + 0.7) + 1) / 2) * 0.1,
+    (time) => 0.54 + ((Math.sin(time / 6800 + 0.7) + 1) / 2) * 0.14,
   );
   const scrollFoldY = useTransform(smoothedScroll, [0, 1], [0, 56]);
   const scrollFoldX = useTransform(smoothedScroll, [0, 1], [0, -8]);
@@ -127,14 +156,14 @@ export function CinematicEnergyBackground() {
     ([idle, scroll]) => idle + scroll,
   );
 
-  const idleBodyY = useTransform(idlePhase, (time) => Math.sin(time / 10200 + 0.35) * 12);
-  const idleBodyX = useTransform(idlePhase, (time) => Math.sin(time / 14200) * 7);
-  const idleBodyScaleX = useTransform(idlePhase, (time) => 1 + Math.sin(time / 15800 + 0.4) * 0.03);
-  const idleBodyScaleY = useTransform(idlePhase, (time) => 1 + Math.sin(time / 17600 + 0.9) * 0.022);
-  const idleBodyRotate = useTransform(idlePhase, (time) => Math.sin(time / 16800 + 0.6) * 1.45);
+  const idleBodyY = useTransform(idlePhase, (time) => Math.sin(time / 10200 + 0.35) * 17);
+  const idleBodyX = useTransform(idlePhase, (time) => Math.sin(time / 14200) * 10);
+  const idleBodyScaleX = useTransform(idlePhase, (time) => 1 + Math.sin(time / 15800 + 0.4) * 0.045);
+  const idleBodyScaleY = useTransform(idlePhase, (time) => 1 + Math.sin(time / 17600 + 0.9) * 0.03);
+  const idleBodyRotate = useTransform(idlePhase, (time) => Math.sin(time / 16800 + 0.6) * 2.2);
   const idleBodyOpacity = useTransform(
     idlePhase,
-    (time) => 0.88 + ((Math.sin(time / 7600 + 0.4) + 1) / 2) * 0.06,
+    (time) => 0.84 + ((Math.sin(time / 7600 + 0.4) + 1) / 2) * 0.1,
   );
   const scrollBodyY = useTransform(smoothedScroll, [0, 1], [0, 62]);
   const scrollBodyX = useTransform(smoothedScroll, [0, 1], [0, -12]);
@@ -147,13 +176,13 @@ export function CinematicEnergyBackground() {
     ([idle, scroll]) => idle + scroll,
   );
 
-  const idleEdgeY = useTransform(idlePhase, (time) => Math.sin(time / 8400 + 0.9) * 10);
-  const idleEdgeX = useTransform(idlePhase, (time) => Math.sin(time / 12200 + 0.2) * 8);
-  const idleEdgeScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 11300 + 1.1) * 0.034);
-  const idleEdgeRotate = useTransform(idlePhase, (time) => Math.sin(time / 12800 + 1.35) * 2.4);
+  const idleEdgeY = useTransform(idlePhase, (time) => Math.sin(time / 8400 + 0.9) * 14);
+  const idleEdgeX = useTransform(idlePhase, (time) => Math.sin(time / 12200 + 0.2) * 11);
+  const idleEdgeScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 11300 + 1.1) * 0.05);
+  const idleEdgeRotate = useTransform(idlePhase, (time) => Math.sin(time / 12800 + 1.35) * 3.5);
   const idleEdgeOpacity = useTransform(
     idlePhase,
-    (time) => 0.48 + ((Math.sin(time / 5600 + 0.5) + 1) / 2) * 0.14,
+    (time) => 0.46 + ((Math.sin(time / 5600 + 0.5) + 1) / 2) * 0.18,
   );
   const scrollEdgeY = useTransform(smoothedScroll, [0, 1], [0, 44]);
   const scrollEdgeX = useTransform(smoothedScroll, [0, 1], [0, -7]);
@@ -166,14 +195,14 @@ export function CinematicEnergyBackground() {
     ([idle, scroll]) => idle + scroll,
   );
 
-  const idleCoreY = useTransform(idlePhase, (time) => Math.sin(time / 7600 + 0.3) * 8);
-  const idleCoreX = useTransform(idlePhase, (time) => Math.sin(time / 10800 + 0.9) * 4);
-  const idleCoreScaleX = useTransform(idlePhase, (time) => 1 + Math.sin(time / 13400 + 0.25) * 0.02);
-  const idleCoreScaleY = useTransform(idlePhase, (time) => 1 + Math.sin(time / 14800 + 1.1) * 0.016);
-  const idleCoreRotate = useTransform(idlePhase, (time) => Math.sin(time / 14600 + 0.75) * 1.2);
+  const idleCoreY = useTransform(idlePhase, (time) => Math.sin(time / 7600 + 0.3) * 12);
+  const idleCoreX = useTransform(idlePhase, (time) => Math.sin(time / 10800 + 0.9) * 7);
+  const idleCoreScaleX = useTransform(idlePhase, (time) => 1 + Math.sin(time / 13400 + 0.25) * 0.03);
+  const idleCoreScaleY = useTransform(idlePhase, (time) => 1 + Math.sin(time / 14800 + 1.1) * 0.024);
+  const idleCoreRotate = useTransform(idlePhase, (time) => Math.sin(time / 14600 + 0.75) * 1.9);
   const idleCoreOpacity = useTransform(
     idlePhase,
-    (time) => 0.82 + ((Math.sin(time / 5200 + 0.2) + 1) / 2) * 0.1,
+    (time) => 0.76 + ((Math.sin(time / 5200 + 0.2) + 1) / 2) * 0.16,
   );
   const scrollCoreY = useTransform(smoothedScroll, [0, 1], [0, 38]);
   const scrollCoreX = useTransform(smoothedScroll, [0, 1], [0, -6]);
@@ -181,13 +210,13 @@ export function CinematicEnergyBackground() {
   const coreY = useCombinedMotionValue([idleCoreY, scrollCoreY], ([idle, scroll]) => idle + scroll);
   const coreX = useCombinedMotionValue([idleCoreX, scrollCoreX], ([idle, scroll]) => idle + scroll);
 
-  const idleHotspotY = useTransform(idlePhase, (time) => Math.sin(time / 9300 + 1.2) * 18);
-  const idleHotspotX = useTransform(idlePhase, (time) => Math.sin(time / 12600 + 0.6) * 12);
-  const idleHotspotScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 10900 + 0.5) * 0.052);
-  const idleHotspotRotate = useTransform(idlePhase, (time) => Math.sin(time / 17400 + 0.9) * 1.8);
+  const idleHotspotY = useTransform(idlePhase, (time) => Math.sin(time / 9300 + 1.2) * 24);
+  const idleHotspotX = useTransform(idlePhase, (time) => Math.sin(time / 12600 + 0.6) * 16);
+  const idleHotspotScale = useTransform(idlePhase, (time) => 1 + Math.sin(time / 10900 + 0.5) * 0.07);
+  const idleHotspotRotate = useTransform(idlePhase, (time) => Math.sin(time / 17400 + 0.9) * 2.4);
   const idleHotspotOpacity = useTransform(
     idlePhase,
-    (time) => 0.54 + ((Math.sin(time / 6100 + 0.4) + 1) / 2) * 0.14,
+    (time) => 0.5 + ((Math.sin(time / 6100 + 0.4) + 1) / 2) * 0.18,
   );
   const scrollHotspotY = useTransform(smoothedScroll, [0, 1], [0, 52]);
   const scrollHotspotX = useTransform(smoothedScroll, [0, 1], [0, -10]);
@@ -429,9 +458,55 @@ export function CinematicEnergyBackground() {
             <stop offset="46%" style={{ stopColor: "var(--cinematic-ribbon-stop-b2)" }} />
             <stop offset="100%" style={{ stopColor: "var(--cinematic-ribbon-stop-b3)" }} />
           </linearGradient>
+          <linearGradient id="energyBodySweepA" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+            <stop offset="16%" style={{ stopColor: "var(--cinematic-ribbon-core-a1)" }} />
+            <stop offset="38%" style={{ stopColor: "var(--cinematic-ribbon-core-a2)" }} />
+            <stop offset="64%" style={{ stopColor: "var(--cinematic-ribbon-stop-a3)" }} />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
+          <linearGradient id="energyBodySweepB" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+            <stop offset="24%" style={{ stopColor: "var(--cinematic-ribbon-stop-b1)" }} />
+            <stop offset="46%" style={{ stopColor: "var(--cinematic-ribbon-stop-a2)" }} />
+            <stop offset="72%" style={{ stopColor: "var(--cinematic-ribbon-core-a3)" }} />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
+          <linearGradient id="energyBodyShadowSweep" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(0,0,0,0)" />
+            <stop offset="26%" style={{ stopColor: "var(--cinematic-ribbon-core-b3)" }} />
+            <stop offset="58%" style={{ stopColor: "var(--cinematic-ribbon-stop-a4)" }} />
+            <stop offset="100%" stopColor="rgba(0,0,0,0)" />
+          </linearGradient>
           <filter id="energyBodyBlur" x="-34%" y="-34%" width="168%" height="168%">
             <feGaussianBlur stdDeviation="12" />
           </filter>
+          <filter id="energySweepBlur" x="-44%" y="-44%" width="188%" height="188%">
+            <feGaussianBlur stdDeviation="18" />
+          </filter>
+          <mask id="energyBodyMask">
+            <path
+              d={FRONT_RIBBON_PATH}
+              stroke="white"
+              strokeWidth="56"
+              strokeLinecap="round"
+              fill="none"
+            />
+            <path
+              d={INNER_RIBBON_PATH}
+              stroke="white"
+              strokeWidth="34"
+              strokeLinecap="round"
+              fill="none"
+            />
+            <path
+              d={STRAND_RIBBON_PATH_A}
+              stroke="white"
+              strokeWidth="22"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </mask>
         </defs>
 
         <g filter="url(#energyBodyBlur)">
@@ -459,6 +534,78 @@ export function CinematicEnergyBackground() {
             opacity="0.64"
           />
         </g>
+
+        <motion.rect
+          mask="url(#energyBodyMask)"
+          x={790}
+          y={-270}
+          width={198}
+          height={1900}
+          rx={132}
+          fill="url(#energyBodySweepA)"
+          filter="url(#energySweepBlur)"
+          opacity={0.4}
+          transform="rotate(10 888 520)"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  x: [790, 834, 812, 790],
+                  y: [-270, -214, -184, -270],
+                  opacity: [0.34, 0.68, 0.44, 0.34],
+                }
+          }
+          transition={SWEEP_TRANSITION_A}
+        />
+        <motion.rect
+          mask="url(#energyBodyMask)"
+          x={842}
+          y={-210}
+          width={156}
+          height={1840}
+          rx={118}
+          fill="url(#energyBodySweepB)"
+          filter="url(#energySweepBlur)"
+          opacity={0.28}
+          transform="rotate(-8 920 540)"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  x: [842, 804, 858, 842],
+                  y: [-210, -162, -132, -210],
+                  opacity: [0.22, 0.5, 0.28, 0.22],
+                }
+          }
+          transition={SWEEP_TRANSITION_B}
+        />
+        <motion.rect
+          mask="url(#energyBodyMask)"
+          x={858}
+          y={-250}
+          width={152}
+          height={1880}
+          rx={124}
+          fill="url(#energyBodyShadowSweep)"
+          filter="url(#energySweepBlur)"
+          opacity={0.2}
+          transform="rotate(-12 930 520)"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  x: [858, 824, 874, 858],
+                  y: [-250, -202, -170, -250],
+                  opacity: [0.16, 0.3, 0.18, 0.16],
+                }
+          }
+          transition={{
+            duration: 20.4,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+            times: [0, 0.3, 0.7, 1],
+          }}
+        />
       </motion.svg>
 
       <motion.div aria-hidden="true" style={edgeStyle} className="absolute inset-0">
@@ -508,7 +655,20 @@ export function CinematicEnergyBackground() {
           </filter>
         </defs>
 
-        <g filter="url(#energyCoreGlow)">
+        <motion.g
+          filter="url(#energyCoreGlow)"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  x: [0, 16, -8, 0],
+                  y: [0, -12, 10, 0],
+                  rotate: [0, 1.2, -0.7, 0],
+                  opacity: [0.76, 1, 0.84, 0.76],
+                }
+          }
+          transition={STRAND_TRANSITION_A}
+        >
           <path
             d={STRAND_RIBBON_PATH_A}
             stroke="url(#energyCoreA)"
@@ -516,6 +676,21 @@ export function CinematicEnergyBackground() {
             strokeLinecap="round"
             fill="none"
           />
+        </motion.g>
+        <motion.g
+          filter="url(#energyCoreGlow)"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  x: [0, -14, 10, 0],
+                  y: [0, 10, -12, 0],
+                  rotate: [0, -1.4, 0.8, 0],
+                  opacity: [0.7, 0.94, 0.78, 0.7],
+                }
+          }
+          transition={STRAND_TRANSITION_B}
+        >
           <path
             d={STRAND_RIBBON_PATH_B}
             stroke="url(#energyCoreB)"
@@ -532,7 +707,7 @@ export function CinematicEnergyBackground() {
             fill="none"
             opacity="0.76"
           />
-        </g>
+        </motion.g>
       </motion.svg>
 
       <motion.div aria-hidden="true" style={hotspotStyle} className="absolute inset-0">
