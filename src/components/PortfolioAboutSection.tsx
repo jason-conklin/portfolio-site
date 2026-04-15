@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ArrowUpRight, GraduationCap, MapPin } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,23 @@ const compactStrengths = [
   {
     title: "Applied AI",
     description: "Model features integrated in practical ways that stay measurable, explainable, and grounded in product use.",
+  },
+] as const;
+
+const relevantExperience = [
+  {
+    title: "Volunteer Tutor",
+    organization: "NJIT Coding & Tech Tutoring",
+    term: "Spring 2023",
+    description:
+      "Tutored students in Python, Java, and C++, with an emphasis on debugging, algorithms, and software design fundamentals.",
+  },
+  {
+    title: "Member",
+    organization: "NJIT Information & Cybersecurity Club",
+    term: "2022-2023",
+    description:
+      "Completed applied security labs and CTF challenges focused on network defense and vulnerability testing.",
   },
 ] as const;
 
@@ -86,19 +103,24 @@ export function PortfolioAboutSection() {
                       className="h-full w-full object-cover"
                       loading="lazy"
                     />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent p-4 sm:p-5">
-                      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-3 py-1 text-[0.64rem] font-medium uppercase tracking-[0.18em] text-white/84 backdrop-blur-md">
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/16 to-transparent p-4 sm:p-5">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/28 px-3 py-1 text-[0.62rem] font-medium uppercase tracking-[0.19em] text-white/84 backdrop-blur-md">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
                         NJIT · Spring 2025
                       </div>
                     </div>
                   </motion.div>
 
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-6 bottom-[3.25rem] z-10 h-px bg-gradient-to-r from-white/0 via-white/14 to-white/0 sm:inset-x-8 lg:inset-x-10"
+                  />
+
                   <motion.div
                     style={prefersReducedMotion ? undefined : { x: secondaryImageX, y: secondaryImageY }}
-                    className="absolute bottom-0 left-0 z-20 w-[40%] max-w-[13.5rem] overflow-hidden rounded-[1.3rem] border border-[color:var(--cinematic-border-strong)] bg-[color:var(--cinematic-surface-panel)] p-2 shadow-[var(--cinematic-shadow-panel)]"
+                    className="absolute bottom-2 left-0 z-20 w-[41%] max-w-[14rem] rounded-[1.35rem] border border-[color:var(--cinematic-border-strong)] bg-[color:var(--cinematic-surface-panel)]/86 p-2.5 shadow-[var(--cinematic-shadow-panel)] backdrop-blur-xl"
                   >
-                    <div className="overflow-hidden rounded-[1.05rem] border border-[color:var(--cinematic-border)]">
+                    <div className="overflow-hidden rounded-[1.05rem] border border-white/8">
                       <img
                         src={aboutPic1}
                         alt={`${hero.name} as a child using a computer`}
@@ -106,24 +128,12 @@ export function PortfolioAboutSection() {
                         loading="lazy"
                       />
                     </div>
-                    <div className="px-2 pb-1 pt-3">
-                      <p className="text-[0.62rem] font-medium uppercase tracking-[0.2em] cinematic-text-quaternary">
+                    <div className="px-1.5 pb-0.5 pt-3">
+                      <p className="inline-flex items-center rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1 text-[0.6rem] font-medium uppercase tracking-[0.19em] cinematic-text-quaternary">
                         Early curiosity
-                      </p>
-                      <p className="mt-1 text-sm leading-5 cinematic-text-secondary">
-                        Long before this was a career, it was already something I kept coming back to.
                       </p>
                     </div>
                   </motion.div>
-
-                  <div className="pointer-events-none absolute bottom-4 right-4 max-w-[13rem] text-right">
-                    <p className="text-[0.64rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
-                      Then to now
-                    </p>
-                    <p className="mt-2 text-sm leading-5.5 cinematic-text-secondary">
-                      The same pull is still there, just shaped now by engineering discipline and product thinking.
-                    </p>
-                  </div>
                 </div>
               </div>
             </motion.div>
@@ -188,33 +198,61 @@ export function PortfolioAboutSection() {
             <div aria-hidden="true" className="cinematic-divider absolute inset-x-0 top-0 h-px" />
             <div className="grid auto-rows-fr gap-4 pt-4 md:grid-cols-3">
               <div className="cinematic-subpanel h-full rounded-[1.55rem] p-5 sm:p-5.5">
-                <div className="flex items-start gap-4">
-                  <span className="cinematic-chip-strong inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl">
-                    <GraduationCap className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[0.66rem] font-medium uppercase tracking-[0.2em] cinematic-text-quaternary">
-                      Education
-                    </p>
-                    <div className="mt-4 cinematic-chip rounded-[1.2rem] px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="cinematic-chip-strong flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1.5">
-                          <img
-                            src={njitLogo}
-                            alt="NJIT logo"
-                            className="h-full w-full object-contain"
-                            loading="lazy"
-                          />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-sm font-medium leading-6 cinematic-text-primary">
-                            {education.school}
-                          </p>
-                        </div>
+                <div>
+                  <p className="text-[0.66rem] font-medium uppercase tracking-[0.2em] cinematic-text-quaternary">
+                    Education
+                  </p>
+
+                  <div className="mt-4 rounded-[1.25rem] border border-[color:var(--cinematic-border)] bg-white/[0.025] px-4 py-3.5">
+                    <div className="flex items-center gap-3">
+                      <div className="cinematic-chip-strong flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1.5 shadow-[0_10px_24px_-18px_rgba(255,170,84,0.7)]">
+                        <img
+                          src={njitLogo}
+                          alt="NJIT logo"
+                          className="h-full w-full object-contain"
+                          loading="lazy"
+                        />
                       </div>
-                      <div className="mt-3 flex flex-col gap-1 text-sm leading-6 cinematic-text-tertiary sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                        <p className="cinematic-text-secondary">{education.degree}</p>
-                        <p className="text-sm sm:text-right">{education.graduation}</p>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium leading-5.5 cinematic-text-primary">
+                          {education.school}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 flex items-start justify-between gap-4 text-sm leading-5.5">
+                      <p className="cinematic-text-secondary">{education.degree}</p>
+                      <p className="shrink-0 text-right cinematic-text-tertiary">{education.graduation}</p>
+                    </div>
+
+                    <div aria-hidden="true" className="mt-4 h-px bg-white/8" />
+
+                    <div className="mt-4">
+                      <p className="text-[0.62rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
+                        Relevant Experience
+                      </p>
+                      <div className="mt-3 space-y-3.5">
+                        {relevantExperience.map((item, index) => (
+                          <div key={item.title} className="space-y-1.5">
+                            <div className="flex items-start justify-between gap-3 text-[0.8rem] leading-5">
+                              <div className="min-w-0">
+                                <p className="font-medium cinematic-text-primary">
+                                  {item.title} <span className="cinematic-text-tertiary">- {item.organization}</span>
+                                </p>
+                              </div>
+                              <p className="shrink-0 text-right text-[0.72rem] uppercase tracking-[0.14em] cinematic-text-quaternary">
+                                {item.term}
+                              </p>
+                            </div>
+                            <div className="flex items-start gap-2 text-[0.82rem] leading-5 cinematic-text-tertiary">
+                              <span className="mt-[0.42rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--cinematic-accent)]/85" aria-hidden="true" />
+                              <p>{item.description}</p>
+                            </div>
+                            {index < relevantExperience.length - 1 ? (
+                              <div aria-hidden="true" className="pt-1 h-px bg-white/7" />
+                            ) : null}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
