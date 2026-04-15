@@ -333,12 +333,44 @@ html {
     background-color: var(--bg-base);
   }
 
-  html.has-custom-cursor,
-  html.has-custom-cursor body,
-  html.has-custom-cursor *,
-  html.has-custom-cursor *::before,
-  html.has-custom-cursor *::after {
-    cursor: none !important;
+  html.has-native-circle-cursor,
+  html.has-native-circle-cursor body,
+  html.has-native-circle-cursor *,
+  html.has-native-circle-cursor *::before,
+  html.has-native-circle-cursor *::after {
+    cursor: inherit !important;
+  }
+
+  html.has-native-circle-cursor.has-native-circle-cursor-dark,
+  html.has-native-circle-cursor.has-native-circle-cursor-dark body,
+  html.has-native-circle-cursor.has-native-circle-cursor-dark *,
+  html.has-native-circle-cursor.has-native-circle-cursor-dark *::before,
+  html.has-native-circle-cursor.has-native-circle-cursor-dark *::after {
+    cursor: url("./assets/cursor-circle-dark.svg") 18 18, auto !important;
+  }
+
+  html.has-native-circle-cursor.has-native-circle-cursor-light,
+  html.has-native-circle-cursor.has-native-circle-cursor-light body,
+  html.has-native-circle-cursor.has-native-circle-cursor-light *,
+  html.has-native-circle-cursor.has-native-circle-cursor-light *::before,
+  html.has-native-circle-cursor.has-native-circle-cursor-light *::after {
+    cursor: url("./assets/cursor-circle-light.svg") 18 18, auto !important;
+  }
+
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-dark,
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-dark body,
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-dark *,
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-dark *::before,
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-dark *::after {
+    cursor: url("./assets/cursor-circle-dark-hover.svg") 18 18, auto !important;
+  }
+
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light,
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light body,
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light *,
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light *::before,
+  html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light *::after {
+    cursor: url("./assets/cursor-circle-light-hover.svg") 18 18, auto !important;
   }
 
   #app-root {
@@ -521,48 +553,6 @@ html {
     box-shadow:
       0 24px 60px -34px rgb(var(--deployment-rgb) / 0.32),
       inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  }
-
-  .custom-cursor-layer {
-    position: fixed;
-    inset: 0;
-    z-index: 140;
-    pointer-events: none;
-    contain: layout style paint;
-  }
-
-  .custom-cursor {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 34px;
-    width: 34px;
-    border-radius: 9999px;
-    border: 1px solid var(--cinematic-cursor-ring);
-    background: transparent;
-    opacity: 0;
-    pointer-events: none;
-    user-select: none;
-    backface-visibility: hidden;
-    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
-    will-change: transform, opacity, background-color, border-color;
-    transition:
-      opacity 90ms linear,
-      background-color 110ms linear,
-      border-color 110ms linear;
-  }
-
-  .custom-cursor[data-visible="true"] {
-    opacity: 1;
-  }
-
-  .custom-cursor[data-variant="hover"] {
-    border-color: var(--cinematic-cursor-ring-strong);
-    background: var(--cinematic-cursor-fill);
-  }
-
-  .custom-cursor[data-reduced-motion="true"] {
-    transition: none;
   }
 
   .hero-page-gradient {
