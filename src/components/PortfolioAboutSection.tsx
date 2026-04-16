@@ -254,7 +254,8 @@ export function PortfolioAboutSection() {
                             <div className="flex items-start justify-between gap-3 text-[0.8rem] leading-5">
                               <div className="min-w-0">
                                 <p className="font-medium cinematic-text-primary">
-                                  {item.title} <span className="cinematic-text-tertiary">- {item.organization}</span>
+                                  {item.title}
+                                  <span className="cinematic-text-tertiary">{" — "}{item.organization}</span>
                                 </p>
                               </div>
                               <p className="shrink-0 text-right text-[0.72rem] uppercase tracking-[0.14em] cinematic-text-quaternary">

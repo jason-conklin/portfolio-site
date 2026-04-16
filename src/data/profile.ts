@@ -236,6 +236,13 @@ export const about = {
       url: "https://www.njit.edu",
       activities: [
         {
+          title: "MicoByte Software",
+          organization: "Kanji Gator (Japanese Learning Platform)",
+          term: "Jan 2025 – May 2025",
+          description:
+            "Built frontend features for Kanji Gator using React and Tailwind, with a focus on interactive kanji input, real-time feedback, and responsive study flows. Integrated Flask APIs into the practice experience and collaborated closely with teammates across frontend, backend, and ML work.",
+        },
+        {
           title: "Volunteer Tutor",
           organization: "NJIT Coding & Tech Tutoring",
           term: "Spring 2023",
