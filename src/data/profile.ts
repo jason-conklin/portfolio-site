@@ -291,32 +291,6 @@ export const about = {
         "APIs, auth, data modeling, and deployment decisions that keep a product maintainable as it grows beyond the first version.",
     },
   ],
-  relevantExperience: [
-    {
-      role: "Frontend Lead",
-      company: "MicoByte Software",
-      project: "Kanji Gator",
-      dateRange: "2024-2025",
-      bullets: [
-        "Led the frontend for a Japanese learning platform, building the core practice flow, responsive layouts, and motion across the study experience.",
-        "Worked in React, Tailwind, TypeScript, and Flask-connected APIs to integrate practice sessions, study-set management, and handwriting-related workflows.",
-        "Coordinated with backend and ML teammates so UI behavior, API contracts, and product heuristics stayed aligned across a larger team build.",
-      ],
-      stack: ["React", "Tailwind", "TypeScript", "Flask"],
-    },
-    {
-      role: "Web Developer",
-      company: "Good Tidings Plumbing Heating Cooling",
-      project: "",
-      dateRange: "2024",
-      bullets: [
-        "Built and refined a customer-facing website for a local service business, with an emphasis on service clarity, trust signals, and mobile usability.",
-        "Implemented frontend updates in HTML, CSS, and JavaScript to make navigation, content hierarchy, and lead-oriented contact flows easier to use.",
-        "Worked against real business needs and feedback, balancing polish with practical improvements that supported day-to-day client communication.",
-      ],
-      stack: ["HTML/CSS", "JavaScript", "Responsive UI"],
-    },
-  ],
   resumeUrl: resumePdf,
   resumeViewPath: resumePagePath,
 } as const;
