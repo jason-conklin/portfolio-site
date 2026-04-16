@@ -275,26 +275,29 @@ function HomePage() {
                 </motion.div>
               </motion.div>
 
-              <div className="cinematic-panel-strong relative overflow-hidden rounded-[2rem] px-5 py-4 sm:px-6 sm:py-5 lg:px-7 lg:py-5">
+              <div className="relative isolate">
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0"
+                  className="pointer-events-none absolute inset-x-[-8%] -top-10 -bottom-12 z-0 opacity-80 blur-3xl"
                   style={{
                     background:
-                      "radial-gradient(circle at 8% 0%, var(--cinematic-band-accent-a), transparent 22%), radial-gradient(circle at 100% 100%, var(--cinematic-band-accent-b), transparent 28%)",
+                      "radial-gradient(circle at 84% 10%, rgba(255, 184, 88, 0.22) 0%, rgba(255, 118, 32, 0.14) 18%, transparent 42%), radial-gradient(circle at 82% 76%, rgba(255, 128, 36, 0.12) 0%, transparent 34%), radial-gradient(circle at 24% 14%, rgba(255, 241, 219, 0.04) 0%, transparent 24%)",
                   }}
                 />
-                <div
-                  aria-hidden="true"
-                  className="cinematic-divider pointer-events-none absolute inset-x-0 top-0 h-px"
-                />
 
-                <div className="relative z-10">
-                  <LiveDeploymentsStage
-                    projects={liveProjects}
-                    onOpenProject={openProjectCaseStudy}
-                    prefersReducedMotion={prefersReducedMotion}
+                <div className="cinematic-panel-strong relative z-10 overflow-hidden rounded-[2rem] px-5 py-4 sm:px-6 sm:py-5 lg:px-7 lg:py-5">
+                  <div
+                    aria-hidden="true"
+                    className="cinematic-divider pointer-events-none absolute inset-x-0 top-0 h-px"
                   />
+
+                  <div className="relative z-10">
+                    <LiveDeploymentsStage
+                      projects={liveProjects}
+                      onOpenProject={openProjectCaseStudy}
+                      prefersReducedMotion={prefersReducedMotion}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

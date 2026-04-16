@@ -102,10 +102,18 @@ export function LiveDeploymentsStage({
         <div aria-hidden="true" className="cinematic-divider absolute inset-x-[-8vw] top-0 h-px" />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-x-[-12%] -top-16 -bottom-14 opacity-80 blur-2xl"
           style={{
             background:
-              "radial-gradient(circle at 8% 68%, var(--cinematic-band-accent-a), transparent 26%), radial-gradient(circle at 86% 10%, var(--cinematic-band-accent-b), transparent 22%)",
+              "radial-gradient(circle at 88% 12%, rgba(255, 182, 82, 0.22) 0%, rgba(255, 114, 28, 0.12) 20%, transparent 44%), radial-gradient(circle at 82% 74%, rgba(255, 124, 40, 0.11) 0%, transparent 34%), radial-gradient(circle at 26% 20%, rgba(255, 241, 218, 0.035) 0%, transparent 22%)",
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-60"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.01) 20%, transparent 42%), radial-gradient(circle at 92% 18%, rgba(255, 184, 88, 0.1) 0%, transparent 26%)",
           }}
         />
         <header className="relative flex flex-col gap-2.5 pb-3 lg:flex-row lg:items-end lg:justify-between">
