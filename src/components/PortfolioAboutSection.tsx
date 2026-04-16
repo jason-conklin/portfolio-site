@@ -7,6 +7,7 @@ import aboutPic1 from "@/assets/about-pic1.jpg";
 import aboutPic2 from "@/assets/about-pic2.jpg";
 import njitLogo from "@/assets/njit-logo.png";
 import { about, hero } from "@/data/profile";
+import { useMobileViewport } from "@/lib/use-mobile-viewport";
 
 const aboutHeadline = "A long-running interest in computers turned into work I care deeply about.";
 const aboutSummary =
@@ -40,6 +41,9 @@ const workStyleSignals = [
 export function PortfolioAboutSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = useReducedMotion() ?? false;
+  const isMobileViewport = useMobileViewport();
+  const shouldAnimateEntrance = !prefersReducedMotion && !isMobileViewport;
+  const shouldPrioritizeMedia = isMobileViewport;
   const education = about.education[0];
   const educationActivities = education.activities;
   const focusAreaHighlights = about.focusAreas;
@@ -79,9 +83,9 @@ export function PortfolioAboutSection() {
         <div className="grid grid-rows-[auto_auto] gap-6 lg:gap-8">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.02fr)_minmax(26rem,0.98fr)] lg:items-center lg:gap-10 xl:gap-12">
             <motion.div
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-              whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.28 }}
+              initial={shouldAnimateEntrance ? { opacity: 0, y: 24 } : false}
+              whileInView={shouldAnimateEntrance ? { opacity: 1, y: 0 } : undefined}
+              viewport={shouldAnimateEntrance ? { once: true, amount: 0.28 } : undefined}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="relative lg:pr-2"
             >
@@ -108,7 +112,8 @@ export function PortfolioAboutSection() {
                       alt={`${hero.name} after graduating college`}
                       style={prefersReducedMotion ? undefined : { y: primaryImageInnerY }}
                       className="absolute inset-x-0 top-[-12%] h-[126%] w-full object-cover object-[center_18%] will-change-transform"
-                      loading="lazy"
+                      loading={shouldPrioritizeMedia ? "eager" : "lazy"}
+                      fetchPriority={shouldPrioritizeMedia ? "high" : "auto"}
                     />
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/58 via-black/16 to-transparent p-4 sm:p-5" />
                     <div
@@ -142,7 +147,8 @@ export function PortfolioAboutSection() {
                         src={aboutPic1}
                         alt={`${hero.name} as a child using a computer`}
                         className="aspect-[4/5] h-full w-full object-cover"
-                        loading="lazy"
+                        loading={shouldPrioritizeMedia ? "eager" : "lazy"}
+                        fetchPriority={shouldPrioritizeMedia ? "high" : "auto"}
                       />
                     </div>
                     <div className="px-1.5 pb-0.5 pt-3">
@@ -156,10 +162,10 @@ export function PortfolioAboutSection() {
             </motion.div>
 
             <motion.div
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
-              whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.28 }}
-              transition={{ duration: 0.62, ease: "easeOut", delay: prefersReducedMotion ? 0 : 0.06 }}
+              initial={shouldAnimateEntrance ? { opacity: 0, y: 28 } : false}
+              whileInView={shouldAnimateEntrance ? { opacity: 1, y: 0 } : undefined}
+              viewport={shouldAnimateEntrance ? { once: true, amount: 0.28 } : undefined}
+              transition={{ duration: 0.62, ease: "easeOut", delay: shouldAnimateEntrance ? 0.06 : 0 }}
               className="lg:pt-1"
             >
               <div className="max-w-[40rem]">
@@ -206,10 +212,10 @@ export function PortfolioAboutSection() {
           </div>
 
           <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-            whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.22 }}
-            transition={{ duration: 0.58, ease: "easeOut", delay: prefersReducedMotion ? 0 : 0.08 }}
+            initial={shouldAnimateEntrance ? { opacity: 0, y: 20 } : false}
+            whileInView={shouldAnimateEntrance ? { opacity: 1, y: 0 } : undefined}
+            viewport={shouldAnimateEntrance ? { once: true, amount: 0.22 } : undefined}
+            transition={{ duration: 0.58, ease: "easeOut", delay: shouldAnimateEntrance ? 0.08 : 0 }}
             className="relative pt-2"
           >
             <div aria-hidden="true" className="cinematic-divider absolute inset-x-0 top-0 h-px" />

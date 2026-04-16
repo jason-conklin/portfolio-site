@@ -13,6 +13,7 @@ import { PortfolioWorksSection } from "@/components/PortfolioWorksSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { hero, liveProjects, projects, site } from "@/data/profile";
+import { useMobileViewport } from "@/lib/use-mobile-viewport";
 
 const heroLead = "Full-stack engineer building and deploying production-grade web systems.";
 const heroSupporting =
@@ -25,6 +26,8 @@ type HomeSectionId = (typeof sectionIds)[number];
 function HomePage() {
   const location = useLocation();
   const prefersReducedMotion = useReducedMotion() ?? false;
+  const isMobileViewport = useMobileViewport();
+  const shouldDelayHeroEntrance = !prefersReducedMotion && !isMobileViewport;
   const [activeSection, setActiveSection] = useState<HomeSectionId>("home");
   const openedProjectRef = useRef<string | null>(null);
 
@@ -179,8 +182,8 @@ function HomePage() {
               data-section-anchor="home"
             >
               <motion.div
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-                animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                initial={shouldDelayHeroEntrance ? { opacity: 0, y: 24 } : false}
+                animate={shouldDelayHeroEntrance ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: 0.72, ease: "easeOut" }}
                 className="pt-4 sm:pt-6 lg:pt-0"
               >
@@ -194,18 +197,18 @@ function HomePage() {
                 </div>
 
                 <motion.h1
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
-                  animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.06, ease: "easeOut" }}
+                  initial={shouldDelayHeroEntrance ? { opacity: 0, y: 28 } : false}
+                  animate={shouldDelayHeroEntrance ? { opacity: 1, y: 0 } : undefined}
+                  transition={{ duration: 0.8, delay: shouldDelayHeroEntrance ? 0.06 : 0, ease: "easeOut" }}
                   className="mt-4 text-[clamp(3.05rem,7.7vw,6.1rem)] font-[300] uppercase leading-[0.9] tracking-[0.09em] cinematic-text-primary sm:tracking-[0.12em] lg:whitespace-nowrap"
                 >
                   {hero.name}
                 </motion.h1>
 
                 <motion.div
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-                  animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                  transition={{ duration: 0.68, delay: 0.16, ease: "easeOut" }}
+                  initial={shouldDelayHeroEntrance ? { opacity: 0, y: 20 } : false}
+                  animate={shouldDelayHeroEntrance ? { opacity: 1, y: 0 } : undefined}
+                  transition={{ duration: 0.68, delay: shouldDelayHeroEntrance ? 0.16 : 0, ease: "easeOut" }}
                   className="mt-4"
                 >
                   <p className="text-[0.95rem] font-normal uppercase tracking-[0.08em] cinematic-text-secondary sm:text-[1rem] lg:whitespace-nowrap">
@@ -217,9 +220,9 @@ function HomePage() {
                 </motion.div>
 
                 <motion.div
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
-                  animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.24, ease: "easeOut" }}
+                  initial={shouldDelayHeroEntrance ? { opacity: 0, y: 16 } : false}
+                  animate={shouldDelayHeroEntrance ? { opacity: 1, y: 0 } : undefined}
+                  transition={{ duration: 0.6, delay: shouldDelayHeroEntrance ? 0.24 : 0, ease: "easeOut" }}
                   className="mt-4 flex flex-wrap items-center gap-2"
                 >
                   <Button

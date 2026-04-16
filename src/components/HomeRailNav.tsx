@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Instagram, Linkedin, Mail } from "lucide-react";
 
 import { site } from "@/data/profile";
 import { cn } from "@/lib/utils";
@@ -104,6 +104,16 @@ export function HomeRailNav({ activeSection, onNavigate }: HomeRailNavProps) {
                 aria-label="Open GitHub"
               >
                 <Github className="h-5 w-5" aria-hidden="true" />
+              </a>
+              <a
+                href={site.links.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor-interactive="true"
+                className="inline-flex h-7 w-7 items-center justify-center cinematic-text-tertiary transition duration-200 hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
+                aria-label="Open Instagram"
+              >
+                <Instagram className="h-5 w-5" aria-hidden="true" />
               </a>
               <a
                 href={`mailto:${site.links.email}`}

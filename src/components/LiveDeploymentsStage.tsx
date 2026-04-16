@@ -3,6 +3,7 @@ import { ExternalLink, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
+import { useMobileViewport } from "@/lib/use-mobile-viewport";
 
 type LiveProject = {
   name: string;
@@ -101,12 +102,15 @@ export function LiveDeploymentsStage({
   onOpenProject,
   prefersReducedMotion,
 }: LiveDeploymentsStageProps) {
+  const isMobileViewport = useMobileViewport();
+  const shouldAnimateEntrance = !prefersReducedMotion && !isMobileViewport;
+
   return (
     <motion.section
       id="deployments"
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 26 }}
-      whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.28 }}
+      initial={shouldAnimateEntrance ? { opacity: 0, y: 26 } : false}
+      whileInView={shouldAnimateEntrance ? { opacity: 1, y: 0 } : undefined}
+      viewport={shouldAnimateEntrance ? { once: true, amount: 0.28 } : undefined}
       transition={{ duration: 0.65, ease: "easeOut" }}
       className="relative isolate"
       aria-labelledby="deployments-title"
@@ -165,13 +169,13 @@ export function LiveDeploymentsStage({
             return (
               <motion.article
                 key={project.slug}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
-                whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
+                initial={shouldAnimateEntrance ? { opacity: 0, y: 18 } : false}
+                whileInView={shouldAnimateEntrance ? { opacity: 1, y: 0 } : undefined}
+                viewport={shouldAnimateEntrance ? { once: true, amount: 0.35 } : undefined}
                 transition={{
                   duration: 0.45,
                   ease: "easeOut",
-                  delay: prefersReducedMotion ? 0 : index * 0.07,
+                  delay: shouldAnimateEntrance ? index * 0.07 : 0,
                 }}
                 role="link"
                 tabIndex={0}
@@ -241,7 +245,7 @@ export function LiveDeploymentsStage({
                             src={project.icon}
                             alt={`${project.name} logo`}
                             className="h-full w-full object-contain"
-                            loading="lazy"
+                            loading="eager"
                           />
                         ) : null}
                       </div>

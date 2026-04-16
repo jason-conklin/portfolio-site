@@ -80,6 +80,7 @@ export const site = {
   links: {
     github: "https://github.com/jason-conklin",
     linkedin: "https://www.linkedin.com/in/jasonconklin-dev",
+    instagram: "https://www.instagram.com/jayconklin",
     email: "jasonconklin.dev@gmail.com",
     resume: resumePagePath,
   },
