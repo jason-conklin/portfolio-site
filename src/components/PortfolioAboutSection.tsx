@@ -222,18 +222,33 @@ export function PortfolioAboutSection() {
 
                   <div className="mt-4 rounded-[1.25rem] border border-[color:var(--cinematic-border)] bg-white/[0.025] px-4 py-3.5">
                     <div className="flex items-start gap-3.5">
-                      <div className="cinematic-chip-strong flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] p-2 shadow-[0_12px_28px_-18px_rgba(255,170,84,0.78)]">
+                      <a
+                        href={education.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        data-cursor-interactive="true"
+                        aria-label="Visit New Jersey Institute of Technology"
+                        className="cinematic-chip-strong flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] p-2 shadow-[0_12px_28px_-18px_rgba(255,170,84,0.78)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-px hover:[border-color:var(--cinematic-border-strong)] hover:shadow-[0_16px_34px_-20px_rgba(255,170,84,0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
+                      >
                         <img
                           src={njitLogo}
                           alt="NJIT logo"
                           className="h-full w-full object-contain"
                           loading="lazy"
                         />
-                      </div>
+                      </a>
                       <div className="min-w-0 flex-1 pt-0.5">
-                        <p className="text-sm font-medium leading-5.5 cinematic-text-primary">
-                          {education.school}
-                        </p>
+                        <a
+                          href={education.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          data-cursor-interactive="true"
+                          className="inline-flex max-w-full transition-opacity duration-300 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
+                        >
+                          <p className="text-sm font-medium leading-5.5 cinematic-text-primary">
+                            {education.school}
+                          </p>
+                        </a>
                         <div className="mt-1.5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-sm leading-5.5">
                           <p className="cinematic-text-secondary">{education.degree}</p>
                           <p className="shrink-0 text-right cinematic-text-tertiary">
