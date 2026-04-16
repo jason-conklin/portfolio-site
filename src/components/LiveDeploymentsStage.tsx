@@ -75,6 +75,14 @@ function resetCardCursorHighlight(event: ReactPointerEvent<HTMLElement>) {
   event.currentTarget.style.setProperty("--cursor-y", "50%");
 }
 
+function openLiveDeployment(url: string) {
+  const nextWindow = window.open(url, "_blank", "noopener,noreferrer");
+
+  if (!nextWindow) {
+    window.location.assign(url);
+  }
+}
+
 export function LiveDeploymentsStage({
   projects,
   onOpenProject,
@@ -144,14 +152,14 @@ export function LiveDeploymentsStage({
                   ease: "easeOut",
                   delay: prefersReducedMotion ? 0 : index * 0.07,
                 }}
-                role="button"
+                role="link"
                 tabIndex={0}
-                aria-label={`View details for ${project.name}`}
+                aria-label={`Open ${project.name} live site`}
                 data-cursor-interactive="true"
                 onClick={(event) => {
                   const target = event.target as HTMLElement;
                   if (target.closest("a,button")) return;
-                  onOpenProject(project.slug);
+                  openLiveDeployment(project.liveUrl);
                 }}
                 onPointerMove={updateCardCursorHighlight}
                 onPointerEnter={primeCardCursorHighlight}
@@ -161,7 +169,7 @@ export function LiveDeploymentsStage({
                   if (target.closest("a,button")) return;
                   if (event.key !== "Enter" && event.key !== " ") return;
                   event.preventDefault();
-                  onOpenProject(project.slug);
+                  openLiveDeployment(project.liveUrl);
                 }}
                 style={cardStyle}
                 className="deployment-card group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[1.35rem] border p-3 text-left backdrop-blur-xl transition duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
