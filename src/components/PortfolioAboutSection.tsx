@@ -147,7 +147,7 @@ export function PortfolioAboutSection() {
                     </div>
                     <div className="px-1.5 pb-0.5 pt-3">
                       <p className="inline-flex items-center rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1 text-[0.6rem] font-medium uppercase tracking-[0.19em] cinematic-text-quaternary">
-                        Early curiosity
+                        Where it started
                       </p>
                     </div>
                   </motion.div>

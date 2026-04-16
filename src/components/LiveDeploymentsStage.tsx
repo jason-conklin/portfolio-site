@@ -18,7 +18,10 @@ type LiveDeploymentsStageProps = {
   prefersReducedMotion: boolean;
 };
 
-const accentStyles: Record<string, { rgb: string; railClass: string }> = {
+const accentStyles: Record<
+  string,
+  { rgb: string; railClass: string; iconShellStyle?: CSSProperties }
+> = {
   "giftperch-recipient-profiles": {
     rgb: "245 158 11",
     railClass: "bg-amber-400/85",
@@ -26,10 +29,20 @@ const accentStyles: Record<string, { rgb: string; railClass: string }> = {
   applictus: {
     rgb: "249 115 22",
     railClass: "bg-orange-400/85",
+    iconShellStyle: {
+      background: "rgba(255, 255, 255, 0.96)",
+      borderColor: "rgba(255, 255, 255, 0.72)",
+      boxShadow: "0 8px 22px -18px rgba(255, 255, 255, 0.44)",
+    },
   },
   "statestats-data-explorer": {
     rgb: "56 189 248",
     railClass: "bg-sky-400/80",
+    iconShellStyle: {
+      background: "rgba(255, 255, 255, 0.96)",
+      borderColor: "rgba(255, 255, 255, 0.72)",
+      boxShadow: "0 8px 22px -18px rgba(255, 255, 255, 0.44)",
+    },
   },
 };
 
@@ -219,7 +232,10 @@ export function LiveDeploymentsStage({
                 <div className="relative flex h-full flex-col gap-2.5 pl-1">
                   <div className="cinematic-subpanel rounded-[1.05rem] p-2.5">
                     <div className="flex items-start gap-3">
-                      <div className="cinematic-chip-strong flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[0.9rem] p-1.5">
+                      <div
+                        className="cinematic-chip-strong flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[0.9rem] p-1.5"
+                        style={accent.iconShellStyle}
+                      >
                         {project.icon ? (
                           <img
                             src={project.icon}
