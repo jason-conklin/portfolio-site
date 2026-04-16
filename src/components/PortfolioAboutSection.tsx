@@ -16,18 +16,24 @@ const aboutParagraphs = [
   "I work across the stack, but interface and product experience are where I feel most at home. I care about the systems underneath the UI too, from APIs and auth to data flow and application structure, because good product work depends on both.",
 ] as const;
 
-const compactStrengths = [
+const workStyleSignals = [
   {
-    title: "Interface craft",
-    description: "Layout, hierarchy, motion restraint, and the details that make a product feel intentional.",
+    label: "01",
+    title: "Product-minded execution",
+    description:
+      "I tend to work from the user experience backward, focusing effort where the product gets clearer, faster, and easier to trust.",
   },
   {
-    title: "Full-stack context",
-    description: "UI decisions backed by a real understanding of APIs, auth, data flow, and application structure.",
+    label: "02",
+    title: "Structured implementation",
+    description:
+      "I like clean boundaries, readable code, and delivery that stays maintainable after the initial build instead of collapsing under the next round of changes.",
   },
   {
-    title: "Applied AI",
-    description: "Model features integrated in practical ways that stay measurable, explainable, and grounded in product use.",
+    label: "03",
+    title: "Grounded AI judgment",
+    description:
+      "When AI is involved, I care less about novelty and more about whether it improves the product in a way that is measurable, practical, and understandable.",
   },
 ] as const;
 
@@ -333,15 +339,29 @@ export function PortfolioAboutSection() {
 
               <div className="cinematic-subpanel h-full rounded-[1.55rem] p-5 sm:p-5.5">
                 <p className="text-[0.66rem] font-medium uppercase tracking-[0.2em] cinematic-text-quaternary">
-                  Core Strengths
+                  How I Work
                 </p>
-                <div className="mt-4 space-y-3">
-                  {compactStrengths.map((strength) => (
-                    <div key={strength.title} className="cinematic-chip rounded-[1.1rem] px-4 py-3">
-                      <p className="text-sm font-medium cinematic-text-primary">{strength.title}</p>
-                      <p className="mt-1 text-sm leading-5.5 cinematic-text-tertiary">
-                        {strength.description}
-                      </p>
+                <p className="mt-3 max-w-[29rem] text-sm leading-5.5 cinematic-text-tertiary">
+                  The working style I bring to product teams: clear execution, maintainable decisions, and attention to the user-facing details that shape quality.
+                </p>
+
+                <div className="mt-4 space-y-3.5">
+                  {workStyleSignals.map((signal) => (
+                    <div
+                      key={signal.title}
+                      className="rounded-[1.15rem] border border-[color:var(--cinematic-border)] bg-white/[0.025] px-4 py-3.5"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/8 bg-white/[0.03] text-[0.62rem] font-medium uppercase tracking-[0.16em] cinematic-text-quaternary">
+                          {signal.label}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium cinematic-text-primary">{signal.title}</p>
+                          <p className="mt-1.5 text-[0.9rem] leading-5.5 cinematic-text-tertiary">
+                            {signal.description}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
