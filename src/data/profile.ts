@@ -166,14 +166,6 @@ export const homeContent = {
 
 export const liveProjects = [
   {
-    name: "GiftPerch",
-    blurb: "AI gifting workspace with user-made recipient profiles, tailored gift suggestions, PerchPal AI chat, and more.",
-    description: "AI-powered gifting workspace with recipient profiles, PerchPal chat, and live occasion tracking.",
-    liveUrl: "https://giftperch.com",
-    slug: "giftperch-recipient-profiles",
-    icon: giftperchIcon,
-  },
-  {
     name: "Applictus",
     blurb: "Gmail-connected application tracker that organizes confirmations, rejections, and status updates.",
     description:
@@ -181,6 +173,14 @@ export const liveProjects = [
     liveUrl: "https://applictus.com",
     slug: "applictus",
     icon: applictusLogo,
+  },
+  {
+    name: "GiftPerch",
+    blurb: "AI gifting workspace with user-made recipient profiles, tailored gift suggestions, PerchPal AI chat, and more.",
+    description: "AI-powered gifting workspace with recipient profiles, PerchPal chat, and live occasion tracking.",
+    liveUrl: "https://giftperch.com",
+    slug: "giftperch-recipient-profiles",
+    icon: giftperchIcon,
   },
   {
     name: "StateStats",
