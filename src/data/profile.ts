@@ -298,6 +298,11 @@ export const about = {
       description:
         "APIs, auth, data modeling, and deployment decisions that keep a product maintainable as it grows beyond the first version.",
     },
+    {
+      title: "Data-Driven Product Features",
+      description:
+        "Structured data, ingestion pipelines, and user-driven signals that help products become more useful as they accumulate context over time.",
+    },
   ],
   resumeUrl: resumePdf,
   resumeViewPath: resumePagePath,
