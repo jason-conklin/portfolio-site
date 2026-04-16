@@ -16,67 +16,13 @@ const aboutParagraphs = [
   "I work across the stack, but interface and product experience are where I feel most at home. I care about the systems underneath the UI too, from APIs and auth to data flow and application structure, because good product work depends on both.",
 ] as const;
 
-const workStyleSignals = [
-  {
-    label: "01",
-    title: "Product-minded execution",
-    description:
-      "I tend to work from the user experience backward, focusing effort where the product gets clearer, faster, and easier to trust.",
-  },
-  {
-    label: "02",
-    title: "Structured implementation",
-    description:
-      "I like clean boundaries, readable code, and delivery that stays maintainable after the initial build instead of collapsing under the next round of changes.",
-  },
-  {
-    label: "03",
-    title: "Grounded AI judgment",
-    description:
-      "When AI is involved, I care less about novelty and more about whether it improves the product in a way that is measurable, practical, and understandable.",
-  },
-] as const;
-
-const relevantExperience = [
-  {
-    title: "Volunteer Tutor",
-    organization: "NJIT Coding & Tech Tutoring",
-    term: "Spring 2023",
-    description:
-      "Tutored students in Python, Java, and C++, with an emphasis on debugging, algorithms, and software design fundamentals.",
-  },
-  {
-    title: "Member",
-    organization: "NJIT Information & Cybersecurity Club",
-    term: "2022-2023",
-    description:
-      "Completed applied security labs and CTF challenges focused on network defense and vulnerability testing.",
-  },
-] as const;
-
-const focusAreaHighlights = [
-  {
-    title: "Full-Stack Architecture",
-    description: "Designing product systems where the UI, API boundaries, and deployment choices stay coherent as the app grows.",
-  },
-  {
-    title: "Applied AI & Evaluation",
-    description: "Building model-driven features with practical evaluation loops so outputs stay useful, measurable, and explainable.",
-  },
-  {
-    title: "Secure Auth & RBAC",
-    description: "Shaping access flows, permissions, and session boundaries so user-facing products stay safe without feeling heavy.",
-  },
-  {
-    title: "Data Systems & Analytics",
-    description: "Working on schemas, ingestion paths, and reporting layers that make product data easier to trust and use.",
-  },
-] as const;
-
 export function PortfolioAboutSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = useReducedMotion() ?? false;
   const education = about.education[0];
+  const educationActivities = education.activities;
+  const focusAreaHighlights = about.focusAreas;
+  const relevantExperience = about.relevantExperience;
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
@@ -283,7 +229,7 @@ export function PortfolioAboutSection() {
                         Relevant Experience
                       </p>
                       <div className="mt-3 space-y-3.5">
-                        {relevantExperience.map((item, index) => (
+                        {educationActivities.map((item, index) => (
                           <div key={item.title} className="space-y-1.5">
                             <div className="flex items-start justify-between gap-3 text-[0.8rem] leading-5">
                               <div className="min-w-0">
@@ -316,7 +262,7 @@ export function PortfolioAboutSection() {
                     Focus Areas
                   </p>
                   <p className="mt-3 max-w-[30rem] text-sm leading-5.5 cinematic-text-tertiary">
-                    The parts of engineering work I naturally keep gravitating toward when a product needs both clarity and technical depth.
+                    The types of work I keep returning to when a product needs both technical depth and a strong user-facing experience.
                   </p>
 
                   <div className="mt-4 space-y-3.5">
@@ -339,28 +285,55 @@ export function PortfolioAboutSection() {
 
               <div className="cinematic-subpanel h-full rounded-[1.55rem] p-5 sm:p-5.5">
                 <p className="text-[0.66rem] font-medium uppercase tracking-[0.2em] cinematic-text-quaternary">
-                  How I Work
+                  Relevant Experience
                 </p>
                 <p className="mt-3 max-w-[29rem] text-sm leading-5.5 cinematic-text-tertiary">
-                  The working style I bring to product teams: clear execution, maintainable decisions, and attention to the user-facing details that shape quality.
+                  Recent work that shows how those interests translate into shipped product work, collaboration, and real delivery constraints.
                 </p>
 
                 <div className="mt-4 space-y-3.5">
-                  {workStyleSignals.map((signal) => (
+                  {relevantExperience.map((experience) => (
                     <div
-                      key={signal.title}
+                      key={`${experience.company}-${experience.role}`}
                       className="rounded-[1.15rem] border border-[color:var(--cinematic-border)] bg-white/[0.025] px-4 py-3.5"
                     >
-                      <div className="flex items-start gap-3">
-                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/8 bg-white/[0.03] text-[0.62rem] font-medium uppercase tracking-[0.16em] cinematic-text-quaternary">
-                          {signal.label}
-                        </span>
+                      <div className="flex items-start justify-between gap-4">
                         <div className="min-w-0">
-                          <p className="text-sm font-medium cinematic-text-primary">{signal.title}</p>
-                          <p className="mt-1.5 text-[0.9rem] leading-5.5 cinematic-text-tertiary">
-                            {signal.description}
+                          <p className="text-sm font-medium cinematic-text-primary">
+                            {experience.role}
+                            <span className="cinematic-text-tertiary">
+                              {" "}
+                              - {experience.company}
+                              {experience.project ? ` · ${experience.project}` : ""}
+                            </span>
                           </p>
                         </div>
+                        <p className="shrink-0 text-right text-[0.72rem] uppercase tracking-[0.14em] cinematic-text-quaternary">
+                          {experience.dateRange}
+                        </p>
+                      </div>
+
+                      <div className="mt-3 space-y-2.5">
+                        {experience.bullets.map((bullet) => (
+                          <div key={bullet} className="flex items-start gap-2 text-[0.88rem] leading-5.5 cinematic-text-tertiary">
+                            <span
+                              className="mt-[0.42rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--cinematic-accent)]/85"
+                              aria-hidden="true"
+                            />
+                            <p>{bullet}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-3.5 flex flex-wrap gap-2">
+                        {experience.stack.map((item) => (
+                          <span
+                            key={item}
+                            className="inline-flex items-center rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary"
+                          >
+                            {item}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   ))}

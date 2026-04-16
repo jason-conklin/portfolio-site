@@ -234,6 +234,22 @@ export const about = {
       degree: "B.S. Computer Science",
       graduation: "Spring 2025",
       url: "https://www.njit.edu",
+      activities: [
+        {
+          title: "Volunteer Tutor",
+          organization: "NJIT Coding & Tech Tutoring",
+          term: "Spring 2023",
+          description:
+            "Tutored students in Python, Java, and C++, with an emphasis on debugging, algorithms, and software design fundamentals.",
+        },
+        {
+          title: "Member",
+          organization: "NJIT Information & Cybersecurity Club",
+          term: "2022-2023",
+          description:
+            "Completed applied security labs and CTF challenges focused on network defense and vulnerability testing.",
+        },
+      ],
       focusAreas: [
         {
           title: "Full-Stack Web Architecture",
@@ -256,6 +272,49 @@ export const about = {
           description: "OS/networking fundamentals, performance awareness",
         },
       ],
+    },
+  ],
+  focusAreas: [
+    {
+      title: "Frontend Systems & Product UX",
+      description:
+        "Interface architecture, responsive systems, and interaction details that make complex products feel clear and easy to use.",
+    },
+    {
+      title: "Applied AI Product Workflows",
+      description:
+        "Model-powered features and evaluation loops used where they improve a real product flow instead of adding novelty for its own sake.",
+    },
+    {
+      title: "Full-Stack Foundations",
+      description:
+        "APIs, auth, data modeling, and deployment decisions that keep a product maintainable as it grows beyond the first version.",
+    },
+  ],
+  relevantExperience: [
+    {
+      role: "Frontend Lead",
+      company: "MicoByte Software",
+      project: "Kanji Gator",
+      dateRange: "2024-2025",
+      bullets: [
+        "Led the frontend for a Japanese learning platform, building the core practice flow, responsive layouts, and motion across the study experience.",
+        "Worked in React, Tailwind, TypeScript, and Flask-connected APIs to integrate practice sessions, study-set management, and handwriting-related workflows.",
+        "Coordinated with backend and ML teammates so UI behavior, API contracts, and product heuristics stayed aligned across a larger team build.",
+      ],
+      stack: ["React", "Tailwind", "TypeScript", "Flask"],
+    },
+    {
+      role: "Web Developer",
+      company: "Good Tidings Plumbing Heating Cooling",
+      project: "",
+      dateRange: "2024",
+      bullets: [
+        "Built and refined a customer-facing website for a local service business, with an emphasis on service clarity, trust signals, and mobile usability.",
+        "Implemented frontend updates in HTML, CSS, and JavaScript to make navigation, content hierarchy, and lead-oriented contact flows easier to use.",
+        "Worked against real business needs and feedback, balancing polish with practical improvements that supported day-to-day client communication.",
+      ],
+      stack: ["HTML/CSS", "JavaScript", "Responsive UI"],
     },
   ],
   resumeUrl: resumePdf,
