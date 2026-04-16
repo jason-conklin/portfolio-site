@@ -125,7 +125,7 @@ export function LiveDeploymentsStage({
               Live Deployments
             </h2>
             <p className="mt-1 max-w-xl text-[0.88rem] leading-5.5 cinematic-text-tertiary sm:text-[0.92rem] sm:leading-6">
-              Real-world systems deployed and publicly accessible.
+              Real-world systems I’ve built and deployed, publicly accessible.
             </p>
           </div>
           <div className="flex flex-wrap gap-1.5 pt-0.5">
