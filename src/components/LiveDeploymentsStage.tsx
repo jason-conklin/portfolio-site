@@ -76,11 +76,11 @@ function resetCardCursorHighlight(event: ReactPointerEvent<HTMLElement>) {
 }
 
 function openLiveDeployment(url: string) {
-  const nextWindow = window.open(url, "_blank", "noopener,noreferrer");
-
-  if (!nextWindow) {
-    window.location.assign(url);
-  }
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.click();
 }
 
 export function LiveDeploymentsStage({
