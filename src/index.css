@@ -377,7 +377,7 @@ html {
   html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-dark *,
   html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-dark *::before,
   html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-dark *::after {
-    cursor: url("./assets/cursor-circle-dark-hover.svg") 18 18, auto !important;
+    cursor: url("./assets/cursor-circle-dark-hover.svg") 22 22, auto !important;
   }
 
   html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light,
@@ -385,7 +385,7 @@ html {
   html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light *,
   html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light *::before,
   html.has-native-circle-cursor.has-native-circle-cursor-hover.has-native-circle-cursor-light *::after {
-    cursor: url("./assets/cursor-circle-light-hover.svg") 18 18, auto !important;
+    cursor: url("./assets/cursor-circle-light-hover.svg") 22 22, auto !important;
   }
 
   #app-root {
