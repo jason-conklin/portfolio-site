@@ -58,6 +58,10 @@ html {
   --bg-gradient-mid: #f4f8ff;
   --bg-radial-start: rgba(59, 130, 246, 0.2);
   --bg-radial-mid: rgba(59, 130, 246, 0.08);
+  --viewport-shell-bg: #eef3f9;
+  --viewport-shell-image:
+    radial-gradient(circle at 74% 16%, rgba(137, 194, 255, 0.24) 0%, transparent 26%),
+    linear-gradient(180deg, #e8eff8 0%, #eef3f9 58%, #e8eef7 100%);
 
   --btn-radius: 999px;
   --btn-shadow:
@@ -218,11 +222,15 @@ html {
     0 18px 42px rgba(2, 8, 23, 0.6),
     0 6px 14px rgba(2, 8, 23, 0.5);
   --btn-ring: 0 0 0 4px hsl(var(--ring) / 0.32);
-  --bg-base: #0f172a;
-  --bg-gradient-top: #0b1a33;
-  --bg-gradient-mid: #0f1f3d;
-  --bg-radial-start: rgba(96, 165, 250, 0.24);
-  --bg-radial-mid: rgba(96, 165, 250, 0.1);
+  --bg-base: #060607;
+  --bg-gradient-top: #080609;
+  --bg-gradient-mid: #060607;
+  --bg-radial-start: rgba(255, 188, 92, 0.14);
+  --bg-radial-mid: rgba(255, 114, 28, 0.06);
+  --viewport-shell-bg: #060607;
+  --viewport-shell-image:
+    radial-gradient(circle at 76% 15%, rgba(255, 188, 92, 0.14) 0%, rgba(255, 114, 28, 0.06) 24%, transparent 42%),
+    linear-gradient(180deg, #080609 0%, #060607 58%, #040405 100%);
 
   --cinematic-page-bg: #060607;
   --cinematic-page-bg-deep: #050507;
@@ -327,10 +335,17 @@ html {
   }
   html {
     scroll-padding-top: var(--section-scroll-offset);
+    background-color: var(--viewport-shell-bg);
+    background-image: var(--viewport-shell-image);
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   body {
     @apply font-sans text-foreground antialiased;
-    background-color: var(--bg-base);
+    background-color: var(--viewport-shell-bg);
+    background-image: var(--viewport-shell-image);
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   html.has-native-circle-cursor,
@@ -374,20 +389,10 @@ html {
   }
 
   #app-root {
-    background-color: var(--bg-base);
-    background-image: linear-gradient(
-        to bottom,
-        var(--bg-gradient-top) 0%,
-        var(--bg-gradient-mid) 35%,
-        var(--bg-base) 70%
-      ),
-      radial-gradient(
-        circle at 20% 10%,
-        var(--bg-radial-start) 0%,
-        var(--bg-radial-mid) 32%,
-        transparent 62%
-      );
+    background-color: var(--viewport-shell-bg);
+    background-image: var(--viewport-shell-image);
     background-repeat: no-repeat;
+    background-size: cover;
   }
 
   #app-root[data-home="true"] {
