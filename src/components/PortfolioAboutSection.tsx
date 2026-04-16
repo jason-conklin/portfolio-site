@@ -221,8 +221,8 @@ export function PortfolioAboutSection() {
                   </p>
 
                   <div className="mt-4 rounded-[1.25rem] border border-[color:var(--cinematic-border)] bg-white/[0.025] px-4 py-3.5">
-                    <div className="flex items-center gap-3">
-                      <div className="cinematic-chip-strong flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1.5 shadow-[0_10px_24px_-18px_rgba(255,170,84,0.7)]">
+                    <div className="flex items-start gap-3.5">
+                      <div className="cinematic-chip-strong flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] p-2 shadow-[0_12px_28px_-18px_rgba(255,170,84,0.78)]">
                         <img
                           src={njitLogo}
                           alt="NJIT logo"
@@ -230,16 +230,17 @@ export function PortfolioAboutSection() {
                           loading="lazy"
                         />
                       </div>
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1 pt-0.5">
                         <p className="text-sm font-medium leading-5.5 cinematic-text-primary">
                           {education.school}
                         </p>
+                        <div className="mt-1.5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-sm leading-5.5">
+                          <p className="cinematic-text-secondary">{education.degree}</p>
+                          <p className="shrink-0 text-right cinematic-text-tertiary">
+                            {education.graduation}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="mt-3 flex items-start justify-between gap-4 text-sm leading-5.5">
-                      <p className="cinematic-text-secondary">{education.degree}</p>
-                      <p className="shrink-0 text-right cinematic-text-tertiary">{education.graduation}</p>
                     </div>
 
                     <div aria-hidden="true" className="mt-4 h-px bg-white/8" />
