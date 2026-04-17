@@ -88,7 +88,7 @@ export const site = {
 
 export const navigation = [
   { name: "Home", href: "/#home" },
-  { name: "Works", href: "/#works" },
+  { name: "Projects", href: "/#works" },
   { name: "About", href: "/#about" },
   { name: "Contact", href: "/#contact" },
 ] as const;
@@ -98,7 +98,7 @@ export const hero = {
   statement: "Full-stack engineer building production-grade web systems and applied AI tools.",
   location: "New Jersey, USA · Open to Remote (US)",
   cta: {
-    primary: { label: "View Works", href: "/#works" },
+    primary: { label: "View All Projects", href: "/#works" },
     secondary: { label: "Get in Touch", href: "/#contact" },
     tertiary: {
       label: "GitHub",

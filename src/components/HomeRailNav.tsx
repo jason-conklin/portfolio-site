@@ -48,7 +48,7 @@ export function HomeRailNav({ activeSection, onNavigate }: HomeRailNavProps) {
                     : null,
                 )}
               >
-                Works
+                Projects
               </a>
               <a
                 href="#about"
@@ -160,7 +160,7 @@ export function HomeRailNav({ activeSection, onNavigate }: HomeRailNavProps) {
                 : "cinematic-text-tertiary",
             )}
           >
-            Works
+            Projects
           </a>
           <a
             href="#about"

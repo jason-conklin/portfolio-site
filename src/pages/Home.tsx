@@ -238,7 +238,7 @@ function HomePage() {
                       }}
                     >
                       <LayoutGrid className="h-4 w-4" aria-hidden="true" />
-                      View Works
+                      View All Projects
                     </a>
                   </Button>
 
