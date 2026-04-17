@@ -249,7 +249,7 @@ export function PortfolioAboutSection() {
                           target="_blank"
                           rel="noopener noreferrer"
                           data-cursor-interactive="true"
-                          className="inline-flex max-w-full transition-opacity duration-300 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
+                          className="inline-flex max-w-full underline-offset-4 decoration-[color:var(--cinematic-text-secondary)] transition-[opacity,text-decoration-color] duration-300 hover:opacity-90 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2 focus-visible:underline"
                         >
                           <p className="text-sm font-medium leading-5.5 cinematic-text-primary">
                             {education.school}
