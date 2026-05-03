@@ -274,9 +274,8 @@ export function LiveDeploymentsStage({
                   <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-0.5">
                     <Button
                       asChild
-                      variant="ghost"
                       size="sm"
-                      className="cinematic-btn-ghost h-8 rounded-full px-3 text-[0.74rem] font-medium"
+                      className="cinematic-btn-primary h-8 rounded-full px-3 text-[0.74rem] font-medium hover:-translate-y-px"
                     >
                       <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
