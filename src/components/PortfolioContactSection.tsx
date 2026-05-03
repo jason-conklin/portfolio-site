@@ -121,9 +121,9 @@ export function PortfolioContactSection() {
               />
 
               <div className="relative z-10 flex h-full flex-col">
-                <div className="cinematic-chip-strong rounded-[1.4rem] px-4 py-4 sm:px-4.5">
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-4.5">
-                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[1.55rem] border border-[color:var(--cinematic-border-strong)] bg-white/[0.04] shadow-[0_18px_38px_-22px_rgba(255,170,84,0.54)] sm:h-28 sm:w-28">
+                <div className="cinematic-chip-strong rounded-[1.4rem] px-4 py-3.5 sm:px-4.5 sm:py-4">
+                  <div className="flex flex-col gap-3.5 sm:flex-row sm:items-center sm:gap-5">
+                    <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-[1.75rem] border border-[color:var(--cinematic-border-strong)] bg-white/[0.04] shadow-[0_20px_42px_-22px_rgba(255,170,84,0.56)] sm:h-32 sm:w-32">
                       <div
                         aria-hidden="true"
                         className="pointer-events-none absolute inset-0"
@@ -141,8 +141,8 @@ export function PortfolioContactSection() {
                       />
                     </div>
 
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[1.02rem] font-medium tracking-[0.01em] cinematic-text-primary">
+                    <div className="min-w-0 flex-1 sm:py-1">
+                      <p className="text-[1.04rem] font-medium tracking-[0.01em] cinematic-text-primary">
                         {hero.name}
                       </p>
                       <p className="mt-1 text-sm cinematic-text-secondary">
@@ -154,15 +154,15 @@ export function PortfolioContactSection() {
 
                       <div
                         aria-hidden="true"
-                        className="mt-3 h-px bg-white/8"
+                        className="mt-2.5 h-px bg-white/8"
                       />
 
-                      <div className="mt-3">
+                      <div className="mt-2.5">
                         <p className="text-[0.64rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
                           Direct
                         </p>
-                        <div className="mt-2 flex items-start gap-3">
-                          <p className="min-w-0 flex-1 break-all text-[1.08rem] font-medium tracking-[0.01em] cinematic-text-primary sm:text-[1.16rem]">
+                        <div className="mt-1.5 flex items-start gap-3">
+                          <p className="min-w-0 flex-1 break-all text-[1.08rem] font-medium tracking-[0.01em] cinematic-text-primary sm:text-[1.14rem]">
                             {emailAddress}
                           </p>
                           <button
@@ -180,9 +180,6 @@ export function PortfolioContactSection() {
                             )}
                           </button>
                         </div>
-                        <p className="mt-2 text-sm leading-5.5 cinematic-text-tertiary">
-                          Fastest path for serious roles, consulting, and product conversations.
-                        </p>
                       </div>
                     </div>
                   </div>
