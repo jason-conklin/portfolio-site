@@ -13,7 +13,7 @@ const aboutHeadline = "A long-running interest in computers turned into work I c
 const aboutSummary =
   "Today I build full-stack products, with the strongest pull toward frontend work and the craft of making software feel clear, polished, and easy to use.";
 const aboutParagraphs = [
-  "Computers have held my attention for as long as I can remember. What started as curiosity eventually became a serious commitment to building software, and that early interest still shapes how I approach the work.",
+  "My interest in computers started early and grew into a long-term focus on building real systems. What started as curiosity eventually became a serious commitment to building software, and that early interest still shapes how I approach the work.",
   "I work across the stack, but interface and product experience are where I feel most at home. I care about the systems underneath the UI too, from APIs and auth to data flow and application structure, because good product work depends on both.",
 ] as const;
 
