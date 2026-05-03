@@ -34,18 +34,14 @@ export function PortfolioWorksSection({
             <header>
               <p className="inline-flex items-center gap-2 text-[0.68rem] font-medium uppercase tracking-[0.28em] cinematic-text-quaternary">
                 <BriefcaseBusiness className="h-3.5 w-3.5 cinematic-text-tertiary" aria-hidden="true" />
-                Works
+                Projects
               </p>
               <h2
                 id="works-title"
                 className="mt-5 text-[clamp(2.1rem,4vw,3.6rem)] font-light tracking-[0.01em] cinematic-text-primary"
               >
-                Full project index across infrastructure, product engineering, and applied AI.
+                Additional builds beyond the live deployments.
               </h2>
-              <p className="mt-4 text-[1rem] leading-7 cinematic-text-tertiary">
-                The live deployment band now sits in the hero. This section stays compact and scan-friendly
-                while preserving deeper detail in the project modal.
-              </p>
             </header>
 
             <div className="mt-10 border-t pt-10" style={{ borderColor: "var(--cinematic-border)" }}>
