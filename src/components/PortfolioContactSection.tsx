@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, Clock3, Copy, Github, Linkedin, Mail, RadioTower } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { contact } from "@/data/profile";
+import jasonHeadshot from "@/assets/jason.png";
+import { about, contact, hero } from "@/data/profile";
 
 const emailAddress = contact.email.replace(/^mailto:/, "");
+const contactLocation = about.location.replace(", USA", "").replace(" · ", " · ");
 
 export function PortfolioContactSection() {
   const [copied, setCopied] = useState(false);
@@ -119,6 +121,40 @@ export function PortfolioContactSection() {
               />
 
               <div className="relative z-10 flex h-full flex-col">
+                <div className="mt-4 cinematic-chip-strong rounded-[1.4rem] px-4 py-4">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[1.35rem] border border-[color:var(--cinematic-border-strong)] bg-white/[0.04] shadow-[0_16px_34px_-22px_rgba(255,170,84,0.48)]">
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          background:
+                            "radial-gradient(circle at 28% 22%, rgba(255,255,255,0.1) 0%, transparent 44%), radial-gradient(circle at 82% 82%, rgba(255,184,88,0.14) 0%, transparent 40%)",
+                        }}
+                      />
+                      <img
+                        src={jasonHeadshot}
+                        alt="Jason Conklin headshot"
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="text-[1rem] font-medium tracking-[0.01em] cinematic-text-primary">
+                        {hero.name}
+                      </p>
+                      <p className="mt-1 text-sm cinematic-text-secondary">
+                        Full-stack developer
+                      </p>
+                      <p className="mt-1 text-[0.78rem] uppercase tracking-[0.18em] cinematic-text-quaternary">
+                        {contactLocation}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="cinematic-chip-strong rounded-[1.4rem] px-4 py-4">
                   <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
                     Direct
