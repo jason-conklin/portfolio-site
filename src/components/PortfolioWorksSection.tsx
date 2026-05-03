@@ -51,7 +51,7 @@ export function PortfolioWorksSection({
                     Full Index
                   </p>
                   <h3 className="mt-3 text-[1.6rem] font-light tracking-[0.01em] cinematic-text-primary">
-                    Additional builds across infrastructure, evaluation, and product engineering.
+                    Work spanning infrastructure, evaluation, and product engineering.
                   </h3>
                 </div>
                 <div className="flex flex-wrap gap-2 text-[0.68rem] uppercase tracking-[0.16em]">
