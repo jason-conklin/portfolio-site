@@ -121,9 +121,9 @@ export function PortfolioContactSection() {
               />
 
               <div className="relative z-10 flex h-full flex-col">
-                <div className="mt-4 cinematic-chip-strong rounded-[1.4rem] px-4 py-4">
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[1.35rem] border border-[color:var(--cinematic-border-strong)] bg-white/[0.04] shadow-[0_16px_34px_-22px_rgba(255,170,84,0.48)]">
+                <div className="mt-4 cinematic-chip-strong rounded-[1.4rem] px-4 py-4 sm:px-4.5">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4.5">
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[1.55rem] border border-[color:var(--cinematic-border-strong)] bg-white/[0.04] shadow-[0_18px_38px_-22px_rgba(255,170,84,0.54)] sm:h-28 sm:w-28">
                       <div
                         aria-hidden="true"
                         className="pointer-events-none absolute inset-0"
@@ -142,20 +142,20 @@ export function PortfolioContactSection() {
                     </div>
 
                     <div className="min-w-0">
-                      <p className="text-[1rem] font-medium tracking-[0.01em] cinematic-text-primary">
+                      <p className="text-[1.02rem] font-medium tracking-[0.01em] cinematic-text-primary">
                         {hero.name}
                       </p>
                       <p className="mt-1 text-sm cinematic-text-secondary">
                         Full-stack developer
                       </p>
-                      <p className="mt-1 text-[0.78rem] uppercase tracking-[0.18em] cinematic-text-quaternary">
+                      <p className="mt-1 text-[0.76rem] uppercase tracking-[0.17em] cinematic-text-quaternary">
                         {contactLocation}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="cinematic-chip-strong rounded-[1.4rem] px-4 py-4">
+                <div className="cinematic-chip-strong rounded-[1.4rem] px-4 py-4 sm:px-4.5">
                   <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
                     Direct
                   </p>
@@ -179,7 +179,7 @@ export function PortfolioContactSection() {
                     </button>
                   </div>
                   <p className="mt-2 text-sm leading-6 cinematic-text-tertiary">
-                    Email is the fastest path for serious opportunities, consulting, and deeper product conversations.
+                    Fastest path for serious roles, consulting, and product conversations.
                   </p>
                 </div>
 
@@ -237,7 +237,7 @@ export function PortfolioContactSection() {
                       Demo access
                     </p>
                     <p className="mt-2 text-sm leading-6 cinematic-text-tertiary">
-                      Private repositories and deeper walkthroughs are available on request.
+                      Private repos and walkthroughs available on request.
                     </p>
                   </div>
                 </div>
