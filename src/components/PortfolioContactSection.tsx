@@ -70,19 +70,19 @@ export function PortfolioContactSection() {
             className="cinematic-divider pointer-events-none absolute inset-x-0 top-0 h-px"
           />
 
-          <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1.02fr)_minmax(23rem,0.98fr)] lg:items-stretch lg:gap-10">
-            <div className="flex flex-col justify-between">
+          <div className="relative z-10 grid gap-7 lg:grid-cols-[minmax(0,1.02fr)_minmax(23rem,0.98fr)] lg:items-stretch lg:gap-10">
+            <div className="flex flex-col">
               <div>
                 <p className="inline-flex items-center gap-2 text-[0.68rem] font-medium uppercase tracking-[0.26em] cinematic-text-quaternary">
                   <RadioTower className="h-3.5 w-3.5 cinematic-text-tertiary" aria-hidden="true" />
                   Closing Note
                 </p>
-                <p className="mt-4 text-[0.72rem] font-medium uppercase tracking-[0.22em] cinematic-text-tertiary">
+                <p className="mt-3 text-[0.72rem] font-medium uppercase tracking-[0.22em] cinematic-text-tertiary">
                   Contact
                 </p>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-4">
                 <h2
                   id="contact-title"
                   className="max-w-[21ch] text-[clamp(1.55rem,2.7vw,2.45rem)] font-light tracking-[0.01em] cinematic-text-primary"
@@ -104,7 +104,7 @@ export function PortfolioContactSection() {
                 </div>
               </div>
 
-              <p className="mt-8 max-w-xl text-sm leading-6 cinematic-text-quaternary">
+              <p className="mt-5 max-w-xl text-sm leading-6 cinematic-text-quaternary">
                 Best fit: production product teams, technically ambitious early-stage companies,
                 and organizations that need strong execution across full-stack systems and applied AI.
               </p>
@@ -121,8 +121,8 @@ export function PortfolioContactSection() {
               />
 
               <div className="relative z-10 flex h-full flex-col">
-                <div className="mt-4 cinematic-chip-strong rounded-[1.4rem] px-4 py-4 sm:px-4.5">
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4.5">
+                <div className="cinematic-chip-strong rounded-[1.4rem] px-4 py-4 sm:px-4.5">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-4.5">
                     <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[1.55rem] border border-[color:var(--cinematic-border-strong)] bg-white/[0.04] shadow-[0_18px_38px_-22px_rgba(255,170,84,0.54)] sm:h-28 sm:w-28">
                       <div
                         aria-hidden="true"
@@ -141,7 +141,7 @@ export function PortfolioContactSection() {
                       />
                     </div>
 
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="text-[1.02rem] font-medium tracking-[0.01em] cinematic-text-primary">
                         {hero.name}
                       </p>
@@ -151,39 +151,44 @@ export function PortfolioContactSection() {
                       <p className="mt-1 text-[0.76rem] uppercase tracking-[0.17em] cinematic-text-quaternary">
                         {contactLocation}
                       </p>
+
+                      <div
+                        aria-hidden="true"
+                        className="mt-3 h-px bg-white/8"
+                      />
+
+                      <div className="mt-3">
+                        <p className="text-[0.64rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
+                          Direct
+                        </p>
+                        <div className="mt-2 flex items-start gap-3">
+                          <p className="min-w-0 flex-1 break-all text-[1.08rem] font-medium tracking-[0.01em] cinematic-text-primary sm:text-[1.16rem]">
+                            {emailAddress}
+                          </p>
+                          <button
+                            type="button"
+                            data-cursor-interactive="true"
+                            onClick={handleCopyEmail}
+                            aria-label={copied ? "Email copied" : "Copy email address"}
+                            title={copied ? "Copied" : "Copy email"}
+                            className="cinematic-chip inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
+                          >
+                            {copied ? (
+                              <Check className="h-4.5 w-4.5 cinematic-text-primary" aria-hidden="true" />
+                            ) : (
+                              <Copy className="h-4.5 w-4.5 cinematic-text-tertiary" aria-hidden="true" />
+                            )}
+                          </button>
+                        </div>
+                        <p className="mt-2 text-sm leading-5.5 cinematic-text-tertiary">
+                          Fastest path for serious roles, consulting, and product conversations.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="cinematic-chip-strong rounded-[1.4rem] px-4 py-4 sm:px-4.5">
-                  <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
-                    Direct
-                  </p>
-                  <div className="mt-3 flex items-start gap-3">
-                    <p className="min-w-0 flex-1 break-all text-[1.12rem] font-medium tracking-[0.01em] cinematic-text-primary sm:text-[1.2rem]">
-                      {emailAddress}
-                    </p>
-                    <button
-                      type="button"
-                      data-cursor-interactive="true"
-                      onClick={handleCopyEmail}
-                      aria-label={copied ? "Email copied" : "Copy email address"}
-                      title={copied ? "Copied" : "Copy email"}
-                      className="cinematic-chip inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)]"
-                    >
-                      {copied ? (
-                        <Check className="h-4.5 w-4.5 cinematic-text-primary" aria-hidden="true" />
-                      ) : (
-                        <Copy className="h-4.5 w-4.5 cinematic-text-tertiary" aria-hidden="true" />
-                      )}
-                    </button>
-                  </div>
-                  <p className="mt-2 text-sm leading-6 cinematic-text-tertiary">
-                    Fastest path for serious roles, consulting, and product conversations.
-                  </p>
-                </div>
-
-                <div className="mt-5">
+                <div className="mt-4">
                   <p className="text-[0.66rem] font-medium uppercase tracking-[0.18em] cinematic-text-quaternary">
                     Reach Out
                   </p>
@@ -222,27 +227,27 @@ export function PortfolioContactSection() {
                   </div>
                 </div>
 
-                <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  <div className="cinematic-chip rounded-[1.3rem] px-4 py-3.5">
+                <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
+                  <div className="cinematic-chip rounded-[1.15rem] px-3.5 py-3">
                     <p className="inline-flex items-center gap-2 text-[0.66rem] font-medium uppercase tracking-[0.16em] cinematic-text-quaternary">
                       <Clock3 className="h-3.5 w-3.5" aria-hidden="true" />
                       Response
                     </p>
-                    <p className="mt-2 text-sm leading-6 cinematic-text-tertiary">
-                      {contact.responseTimeNote}
+                    <p className="mt-1.5 text-[0.92rem] leading-5.5 cinematic-text-tertiary">
+                      Replies within 1–2 days
                     </p>
                   </div>
-                  <div className="cinematic-chip rounded-[1.3rem] px-4 py-3.5">
+                  <div className="cinematic-chip rounded-[1.15rem] px-3.5 py-3">
                     <p className="text-[0.66rem] font-medium uppercase tracking-[0.16em] cinematic-text-quaternary">
                       Demo access
                     </p>
-                    <p className="mt-2 text-sm leading-6 cinematic-text-tertiary">
-                      Private repos and walkthroughs available on request.
+                    <p className="mt-1.5 text-[0.92rem] leading-5.5 cinematic-text-tertiary">
+                      Private repos and walkthroughs on request
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-auto pt-6">
+                <div className="mt-auto pt-5">
                   <a
                     href={contact.email}
                     className="inline-flex items-center gap-2 text-sm cinematic-text-secondary transition hover:[color:var(--cinematic-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cinematic-focus-ring)] focus-visible:ring-offset-2"
