@@ -259,7 +259,7 @@ export function LiveDeploymentsStage({
                             Live
                           </span>
                           <span aria-hidden="true">·</span>
-                          <span className="truncate underline-offset-4 decoration-[color:var(--cinematic-text-secondary)] transition-[color,text-decoration-color] duration-300 group-hover:[color:var(--cinematic-text-secondary)] group-hover:underline group-focus-within:[color:var(--cinematic-text-secondary)] group-focus-within:underline">
+                          <span className="truncate no-underline underline-offset-4 decoration-1 decoration-[color:var(--cinematic-text-secondary)] transition-[color,text-decoration-color] duration-300 group-hover:[color:var(--cinematic-text-secondary)] group-hover:[text-decoration-line:underline] group-focus-within:[color:var(--cinematic-text-secondary)] group-focus-within:[text-decoration-line:underline]">
                             {getProjectDomain(project.liveUrl)}
                           </span>
                           <span aria-hidden="true">·</span>
